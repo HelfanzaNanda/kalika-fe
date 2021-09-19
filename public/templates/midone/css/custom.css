@@ -1,0 +1,985 @@
+/*===========================================================================
+| Template Name: AWS Amazon Textract - Extracts Text and Data
+| Theme URL: https://codecanyon.net/user/berkinedesign
+| Author: BerkineDesign
+| Author URL: https://codecanyon.net/user/berkinedesign
+| Version: 1.0
+| File name: styles.css
+| Date Created: 25.04.2020
+| Website: www.berkinedesign.com/textract
+============================================================================= */
+
+
+/* -------------------------------------------- */
+/*             TABLE OF CONTENTS
+/* -------------------------------------------- */
+/*   00 - PRELOAD STYLES			            */
+/*   01 - GLOBAL STYLES				            */
+/*   02 - NAVIGATION MENU STYLES	            */
+/*   03 - DOCUMENT VIEWER LAYOUT                */
+/*   04 - TEXTRACT RESULTS LAYOUT  	  	        */
+/*   05 - INSTRUCTIONS LAYOUT                   */
+/*   06 - ACTION BUTTONS LAYOUT 	            */
+/*   07 - PURCHASE BUTTON LAYOUT                */
+/*   08 - COPYRIGHT		    			        */
+/*   09 - RESPONSIVE STYLES   			        */
+
+
+
+/* ==========================================================================           
+ *
+ *    00 - PRELOAD STYLES
+ *
+ * ========================================================================== */
+
+@import url("https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css");
+
+.no-js #loader { display: none;  }
+
+.js #loader { display: block; position: absolute; left: 100px; top: 0; }
+
+.se-pre-con {
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			width: 100%;
+			height: 100%;
+			z-index: 9999;
+			background: url(../img/preload.gif) center no-repeat #fff;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    01 - GLOBAL STYLES
+ *
+ * ========================================================================== */
+
+body {
+	font-family: 'Poppins', sans-serif;
+	font-size: 14px;
+	font-weight: 600;
+	color: #212932;
+}
+
+section {
+	background: #FFF;
+	padding-bottom: 64px;
+}
+
+section #box {
+	padding-left: 8rem;
+	padding-right: 8rem;
+}
+
+h5 {
+	color: #FFF;
+	background: #212932;
+	padding: 1.5rem 2rem;
+	font-weight: 700;
+	font-size: 14px;
+	margin-bottom: 0;
+}
+
+h5 span {
+	color: #2F7CE5;
+}
+
+h5 span#highlight {
+	color: #d13212;
+}
+
+h5 i {
+	font-size: 12px;
+	margin-left: 0.5rem;
+	margin-right: 0.5rem;
+}
+
+h6 {
+	font-size: 13px;
+	color: #212932;
+	font-weight: 700;
+	text-transform: uppercase;
+}
+
+section {
+ background: top left url('../img/background.png') no-repeat fixed;
+ background-size: cover;
+}
+
+section #outer-wrapper {
+	background: #FFF;
+	box-shadow: 0 3px 6px rgba(57,73,76,.5);
+	width: 100%;
+	position: relative;
+	padding-bottom: 5rem;
+}
+
+section #inner-wrapper {
+	padding: 3rem;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    02 - NAVIGATION MENU STYLES
+ *
+ * ========================================================================== */
+
+#top-nav {
+	background: #212932;
+	box-shadow: 0 3px 6px rgba(20,20,20,.4);
+	margin-bottom: 3rem;
+}
+
+#top-nav .container {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.navbar {
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	line-height: 50px;
+	font-weight: 700;
+	z-index: 100;
+	-webkit-transition: all ease-in 0.2s;
+	transition: all ease-in 0.2s;
+}
+
+.navbar-nav {
+  	width: 100%;
+  	display: flex;
+  	font-size: 12px;
+  	justify-content: flex-end;
+}
+
+.navbar-nav li.nav-item a.nav-link {
+  	text-transform: uppercase;
+  	padding: 0px 15px;
+  	letter-spacing: 1px;
+  	color: #FFF;
+}
+
+.navbar-nav li.nav-item a.nav-link:hover {
+	color: #2f7ce5;
+}
+
+.navbar-brand {
+  	color: #FFF;
+  	font-size: 14px;
+  	text-transform: uppercase;
+  	font-weight: 800;
+  	text-shadow: 0 1px 3px rgba(20,20,20,.4);
+}
+
+.navbar-brand span {
+  	color: #2F7CE5;
+}
+
+.navbar-brand:hover {
+	color: #FFF;
+}
+
+.dropdown-menu {
+	padding: 0;
+	margin-top: 5px;
+	font-size: 12px;
+	border-radius: 0;
+	background: #212932;
+	box-shadow: 0px 4px 7px 1px rgba(20,20,20,.4);
+}
+
+.dropdown-item {
+	color: #FFF;
+	text-transform: uppercase;
+	font-weight: 700;
+	border-bottom: 1px solid #1c1c1a;
+}
+
+.dropdown-item:last-child {
+	border-bottom: none;
+}
+
+.dropdown-item:hover {
+	color: #FFF;
+	background-color: #2F7CE5;
+	transition: all .1s ease;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    03 - DOCUMENT VIEWER LAYOUT
+ *
+ * ========================================================================== */
+
+#document-box {
+ 	border: 1px solid rgba(61, 154, 255, 0.6);
+ 	margin-bottom: 1rem;
+}
+
+#document-title {
+	padding: 1rem 2rem;
+	background-color: #F1FAFF;
+	border-bottom: 1px solid rgba(61, 154, 255, 0.6);
+}
+
+#document-title h6 {
+	margin-bottom: 0rem;
+}
+
+#document {
+ 	min-height: 400px;
+}
+
+#document-utils h6 {
+	font-size: 12px;
+	margin-bottom: 1rem;
+}
+
+#document-utils p {
+	font-size: 10px;
+	margin-bottom: 0;
+}
+
+#document-utils p span {
+	color: #2F7CE5;
+}
+
+/*------------------------------------------*/
+/*    Main Document Box
+/*------------------------------------------*/
+
+ #document {
+ 	background: #FFF;
+ 	align-content: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    text-align: center;
+ }
+
+#document-inner {
+	width: 100%;
+ 	height: 100%;
+ 	/* min-height: 400px; */
+ 	overflow: hidden;
+ 	position: relative;
+ }
+
+#document-inner img {
+	display: block;
+	max-width:100%!important; 
+	z-index: 0;
+	position: relative;
+}
+
+#document-inner canvas {
+	position: absolute;
+	z-index: 10;
+	top: 0;
+	left: 0;
+}
+
+#document-inner #pdf-container {
+	width: 100%;
+	height: 100%;
+}
+
+#document-inner #pdf-container .pdfobject-container {
+	z-index: 10;
+}
+
+#pdf-textract #canvas,
+#maximum-textract #canvas {
+	display: none;
+}
+
+/* -------------------------------------------- */
+/* 		Maximum Textract Layout
+/* -------------------------------------------- */
+
+#maximum-textract #document-utils {
+	margin-left: 0px;
+}
+
+#maximum-textract #enable-form-parser {
+	margin-bottom: 1rem;
+}
+
+#maximum-textract #enable-form-parser .radio-control {
+	margin-bottom: 1rem;
+}
+
+#maximum-textract #upload-document {
+	padding: 2rem 3rem;
+}
+
+#maximum-textract .upload {
+	background-color: #2F7CE5;
+	padding: 1rem 5.5rem;
+	margin-bottom: 0.5rem;
+}
+
+#maximum-textract .col-md-5 {
+	margin-bottom: 4rem;
+}
+
+/* -------------------------------------------- */
+/* 		Maximum Textract Email Box
+/* -------------------------------------------- */
+
+#email {
+	margin-bottom: 2rem;
+}
+
+#email .form-control {
+	border-radius: 0px;
+	padding: 1.3rem 1.3rem;
+	font-size: 12px;
+	border-color: rgba(61, 154, 255, 0.6);
+}
+
+#email label {
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+#email .small {
+	color: #888;
+	opacity: 0.8;
+	font-size: 10px;
+	text-transform: none;
+}
+
+.google-check {
+	margin-bottom: 1.9rem;
+	
+}
+
+/* -------------------------------------------- */
+/* 		Demo Images
+/* -------------------------------------------- */
+
+#sample-documents a.active img {
+	border: 2px solid #2F7CE5;
+}
+
+#sample-documents img {
+	width: 100px;
+	overflow: hidden;
+	height: 100px;
+	border: 2px solid #212932;
+	margin-right: 1rem;
+}
+
+/*------------------------------------------*/
+/*    Upload Status Messages
+/*------------------------------------------*/
+ 
+ #status-message {
+ 	margin-top: 1rem;
+ 	padding: 15px;
+    text-align: center;
+    display: none;
+    font-size: 10px;
+	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.14);
+}
+
+#status-message i {
+	margin-right: 0.5rem;
+}
+
+.success {
+  color:#FFF;
+  background: #008c00;
+}
+
+.error {
+  color: #FFF;
+  background: #D13212;
+}
+
+.is-blocked {
+	cursor: not-allowed!important;
+}
+
+.google-check {
+	display: none;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    04 - TEXTRACT RESULTS LAYOUT
+ *
+ * ========================================================================== */
+
+#results-box {
+ 	border: 1px solid rgba(61, 154, 255, 0.6);
+ 	margin-bottom: 1rem;
+ 	position: relative;
+}
+
+#results-heading {
+	/*padding: 0.6rem 2rem;*/
+	background-color: #F1FAFF;
+	border-bottom: 1px solid rgba(61, 154, 255, 0.6);
+}
+
+#results-heading .mb-3 {
+	margin-bottom: 0rem!important;
+}
+
+#results-heading .nav .nav-link {
+	color: #212932;
+	text-transform: uppercase;
+	font-size: 13px;
+	border-radius: 0;
+	padding: 0.2rem 1rem;
+	font-weight: 700;
+}
+
+#results-heading .nav .nav-link.active {
+	color: #2f7ce5; 
+	background: none;
+}
+
+#results-heading .nav .nav-link:hover {
+	color: #2f7ce5;
+}
+
+#results-heading .nav .nav-item .middle {
+	border-left: 1px solid rgba(57,73,76,.3);
+	border-right: 1px solid rgba(57,73,76,.3);
+}
+
+#results-content {
+	padding: 2rem;
+	min-height: 400px;
+}
+
+.text {
+	font-size: 12px;
+	font-weight: 400;
+	background: #F1FAFF;
+	padding: 0.5rem;
+	margin-bottom: 0.5rem;
+	color: #000;
+}
+
+.text:hover {
+	color: #FFF;
+	background: #2f7ce5;
+}
+
+.inline-text {
+	margin-right: 0.5rem;
+	display:inline-block;
+}
+#forms-content {
+	font-size: 12px;
+}
+
+#dynamic-table {
+	font-size: 12px;
+}
+
+#dynamic-table tr:nth-child(1) {
+    background-color: #343a40;
+    color: #FFF;
+}
+
+#dynamic-table tr:nth-child(even) {
+	background-color: rgba(0,0,0,.05);
+}
+
+#dynamic-table td {
+	border-top: 1px solid #dee2e6;
+	padding: 0.5rem;
+}
+
+#results-content .no-analysis {
+	text-align: center;
+	font-size: 12px;
+	font-weight: 400;
+}
+
+.read-only-mode {
+	background: none;
+	padding: 0;
+	margin-bottom: 0;
+	font-size: 12px;
+	font-weight: 400;
+	color: #000;
+}
+
+.read-only-mode:hover {
+	background: none;
+	color: #2f7ce5;
+}
+
+/* -------------------------------------------- */
+/* 	Result Download Button
+/* -------------------------------------------- */
+
+#download-button {
+	text-align: right;
+	margin-top: 0.5rem;
+}
+
+/* -------------------------------------------- */
+/*  Checkbox to Enable Form & Table Analyzer
+/* -------------------------------------------- */
+
+.radio-control:hover > .label-control {
+  	color: #2f7ce5;
+  	cursor: pointer;
+}
+
+.label-control::before {
+  	font-size: 14px;
+  	cursor: pointer;
+  	color: #2f7ce5;
+}
+
+.input-control {
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: inline-block;
+     position: relative;
+     color: #2f7ce5;
+     top: 5px;
+     height: 20px;
+     width: 20px;
+     border: 0;
+     cursor: pointer;     
+     outline: none;
+     transition: all 0.2s;
+     border: 1px solid rgba(61, 154, 255, 0.6);
+}
+
+.input-control:checked::before {
+     position: absolute;
+     font: 12px/1 'Open Sans', sans-serif;
+     left: 6px;
+     top: 2px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+
+.input-control:hover {
+     background-color: #FFF;
+     webkit-box-shadow: 0px 0px 3px 1px rgba(0,102,184,.4);
+	-moz-box-shadow: 0px 0px 3px 1px rgba(0,102,184,.4);
+	box-shadow: 0px 0px 3px 1px rgba(0,102,184,.4);
+	transition: all 0.2s;
+	margin-right: 1.3rem;
+}
+
+.input-control:checked {
+     background-color: #2f7ce5;
+     color: #FFF;
+     transition: all 0.2s;
+     -webkit-box-shadow: 0px 0px 3px 1px rgba(0,102,184,.4);
+	-moz-box-shadow: 0px 0px 3px 1px rgba(0,102,184,.4);
+	box-shadow: 0px 0px 3px 1px rgba(0,102,184,.4);
+}
+
+.input-control:checked + .label-control {
+	color: #2f7ce5;
+}
+
+.label-control {
+	text-transform: uppercase;
+	margin-left: 5px;
+	font-size: 12px;
+	font-weight: 700;
+	margin-bottom: 0;
+}
+
+.label-control:hover {
+	color: #2f7ce5;
+}
+
+/* -------------------------------------------- */
+/* 	Loading Animation
+/* -------------------------------------------- */
+
+#processing {
+	position: absolute;
+	top: 45%;
+	left: 45%;
+	opacity: 0.8;
+}
+
+.deactivated {
+	display: none;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    05 - INSTRUCTIONS LAYOUT
+ *
+ * ========================================================================== */
+
+#instructions {
+	margin-left: 2rem;
+	background-color: #F1FAFF;
+	border: 1px solid rgba(61, 154, 255, 0.6);
+	padding: 2rem;
+}
+
+#instructions h6 {
+	margin-bottom: 1rem;
+}
+
+#instructions i {
+	margin-right: 0.5rem;
+	font-size: 12px;
+	color: #2F7CE5;
+}
+
+#instructions ul {
+	margin-bottom: 0;
+}
+
+#instructions ul li {
+	font-size: 12px;
+}
+
+#instructions span {
+	color: #2F7CE5;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    06 - ACTION BUTTON LAYOUT
+ *
+ * ========================================================================== */
+
+.action-button {
+	margin-bottom: 0.5rem;
+}
+
+.action-button button {
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	font-size: 12px;
+	color:#fff;
+	border: none;
+	outline: none;
+	text-decoration: none;
+	padding: 1rem 3rem;
+}
+
+.action-button button i {
+	font-size: 14px;
+	margin-right: 7px;
+}
+
+.action-button .ripple {
+  	position:relative;
+  	overflow:hidden;
+  	-webkit-transition: all 0.2s ease;
+  	-moz-transition: all 0.2s ease;
+  	-o-transition: all 0.2s ease;
+  	transition: all 0.2s ease;
+  	-webkit-box-shadow: 0px 4px 7px -2px rgba(20,20,20,.5);
+	-moz-box-shadow: 0px 4px 7px -2px rgba(20,20,20,.5);
+	box-shadow: 0px 4px 7px -2px rgba(20,20,20,.5);
+}
+
+.action-button .ripple:hover {
+	cursor: pointer;
+}
+
+.action-button .ink {
+  	display: block;
+  	position: absolute;
+  	background:rgba(255, 255, 255, 0.3);
+  	border-radius: 100%;
+  	-webkit-transform:scale(0);
+     -moz-transform:scale(0);
+       -o-transform:scale(0);
+          transform:scale(0);
+}
+
+.action-button .animate {
+	-webkit-animation:ripple 0.65s linear;
+   	-moz-animation:ripple 0.65s linear;
+    -ms-animation:ripple 0.65s linear;
+     -o-animation:ripple 0.65s linear;
+        animation:ripple 0.65s linear;
+}
+
+@-webkit-keyframes ripple {
+    100% {opacity: 0; -webkit-transform: scale(2.5);}
+}
+@-moz-keyframes ripple {
+    100% {opacity: 0; -moz-transform: scale(2.5);}
+}
+@-o-keyframes ripple {
+    100% {opacity: 0; -o-transform: scale(2.5);}
+}
+@keyframes ripple {
+    100% {opacity: 0; transform: scale(2.5);}
+}
+
+.action-button .download {
+  background: #2F7CE5;
+}
+
+.action-button .download:hover {
+	background-color: #212932;
+}
+
+.tooltip {
+	border-bottom: none!important;
+}
+
+/*------------------------------------------*/
+/*    Upload File Upload Button
+/*------------------------------------------*/
+
+#upload-document #file {
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+	width: 1px;
+	height: 1px;
+}
+
+#upload-document #file + label {
+	padding: 1rem 3rem;
+	background-color: #2F7CE5;
+	color: #FFF;
+	cursor: pointer;
+	font-weight: 600;
+	font-size: 12px;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-bottom: 0;
+}
+
+#upload-document #file + label:hover {
+	background: #212932;
+	transition: all 0.2s ease;
+}
+
+
+/*------------------------------------------*/
+/*    Select File Upload Button
+/*------------------------------------------*/
+
+.select-file {
+	margin-bottom: 0.5rem;
+	font-size: 12px;
+	overflow: hidden;
+}
+
+.select-file i {
+	font-size: 16px;
+	margin-right: 0.4rem;
+}
+
+.select-file #file-selector {
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+	width: 1px;
+	height: 1px;
+}
+
+.select-file #file-selector + label {
+	padding: 1rem 5rem;
+	background-color: #FFC300;
+	color: #0E2E40;
+	cursor: pointer;
+	display: inline-block;
+	overflow: hidden;
+	white-space: nowrap;
+	box-shadow: 0 1px 3px 0 rgba(50, 50, 50, 0.2), 0 2px 1px -1px rgba(50, 50, 50, 0.12), 0 1px 1px 0 rgba(50, 50, 50, 0.14);
+}
+
+.select-file #file-selector:focus + label,
+.select-file #file-selector.has-focus + label,
+.select-file #file-selector + label:hover {
+    background-color: #DD2C00;
+    color: #FFF;
+    transition: all 0.2s ease;
+}
+
+/* -------------------------------------------- */
+/* 		AWS Logo
+/* -------------------------------------------- */
+
+#logo {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	margin-left: 35px;
+	margin-bottom: 20px;
+}
+
+#logo p {
+	font-family: 'Poppins', sans-serif;
+	margin-bottom: 0;
+	text-transform: uppercase;
+	font-size: 12px;
+	font-weight: 600;
+	padding-left: 13px;
+}
+
+#logo img {
+	width: 100px;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    07 - PURCHASE BUTTON LAYOUT
+ *
+ * ========================================================================== */
+
+#purchase-button {
+	margin-left: 2rem;
+}
+
+#purchase-button a {
+	background: #d13212;
+	border: 1px solid #d13212;
+	padding: 15px 60px;
+	text-transform: uppercase;
+	color: #FFF;
+	outline: none;
+  	text-decoration: none;
+}
+
+#purchase-button a:hover {
+	background: #212932;
+	border: 1px solid #d13212;
+	color: #d13212;
+	transition: all 0.2s ease;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    08 - COPYRIGHT
+ *
+ * ========================================================================== */
+
+#copyright {
+	margin-top: 1rem;
+}
+
+#copyright p {
+	color: #FFF;
+	margin-bottom: 0;
+	font-size: 11px;
+	font-weight: 600;
+}
+
+#copyright p span a {
+	color: #53CCFF;
+	outline: none;
+	text-decoration: none;
+}
+
+
+
+/* ==========================================================================           
+ *
+ *    09 - RESPONSIVE STYLES
+ *
+ * ========================================================================== */
+
+@media only screen and ( max-width: 660px ) 
+{
+	section #box {
+		padding-left: 0;
+		padding-right: 0;		
+	}
+
+	section #outer-wrapper {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	section #inner-wrapper {
+		padding: 1rem;
+	}
+
+	h5,
+	h6 {
+		font-size: 10px;
+	}
+	
+	#upload-document {
+		margin-bottom: 2rem;
+	}
+
+	#sample-documents {
+		margin-bottom: 2rem;
+	}
+
+	#sample-documents img {
+		margin-right: 0.5rem;
+	}
+
+	#results-content {
+		padding: 1rem;
+	}
+
+	#download-button {
+		text-align: center;
+		margin-top: 2rem;
+	}
+
+	#purchase-button {
+		text-align: center;
+		margin-left: 0;
+		margin-bottom: 1rem;
+		margin-top: 1rem;
+	}
+
+	#logo {
+		margin-left: 0;
+		left: 35%;
+	}
+
+	#copyright p {
+		font-size: 8px;
+	}
+
+}
+
+@media only screen and ( max-width: 320px ) 
+{
+	#buttons-box button {
+		width: 250px;
+	}
+
+	#logo {
+		left: 35%;
+	}
+}
+
