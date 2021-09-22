@@ -31,7 +31,7 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/cake_types');
 	Route::get('/stores');
 	Route::get('/cake_variants');
-	Route::get('/divisions');
+	Route::get('/divisions', 'Master\DivisionController@index');
 });
 
 Route::group(['prefix' => 'sales'], function() {

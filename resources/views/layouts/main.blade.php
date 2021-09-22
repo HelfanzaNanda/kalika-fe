@@ -9,6 +9,7 @@
       <meta name="author" content="SEDATA">
       <!-- BEGIN: CSS Assets-->
       <link rel="stylesheet" href="{{ asset('templates/midone/css/app.css') }}" />
+      <link rel="stylesheet" href="{{ asset('templates/midone/vendor/sweetalert/sweetalert2.min.css') }}" />
       
       <meta name="csrf-token" content="{{ csrf_token() }}">
       <title>@yield('title')</title>
@@ -18,6 +19,7 @@
     <script type="text/javascript">
       var API_URL = '{{ env('API_URL') }}';
       var BASE_URL = '{{ url('/') }}';
+      var TOKEN = '';
       
       let loggedUser = localStorage.getItem('_r');
       let userPermissions = localStorage.getItem('_p');
@@ -25,6 +27,8 @@
       if (loggedUser == null && userPermissions == null) {
         window.location.replace(BASE_URL+'/login');
       }
+
+      TOKEN = JSON.parse(loggedUser)['token'];
     </script>
     <body class="app">
       <!-- BEGIN: Mobile Menu -->
@@ -60,9 +64,15 @@
       
       <script src="{{ asset('templates/midone/js/app.js') }}"></script>
       <script src="{{ asset('templates/midone/js/custom.js') }}"></script>
+      <script src="{{ asset('templates/midone/vendor/sweetalert/sweetalert2.min.js') }}"></script>
       @yield('additionalFileJS')
       <script type="text/javascript">
         buildMenu(userPermissions);
+        
+        $(document).on("click",".modal-close",function() {
+            let id = $(this).data('id');
+            $('#'+id).modal('hide');
+        });
       </script>
       @yield('additionalScriptJS')
   </body>
