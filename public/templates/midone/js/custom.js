@@ -567,7 +567,9 @@ function buildMenu(permissions) {
 function resetAllInputOnForm(formId) {
 	$(formId).find('input, textarea').val('');
 	$(formId).find('select').each(function () {
-		$(this).select2('destroy').val("").select2({width: '100%'});
+		if($(this).data('select2')){
+			$(this).select2('destroy').val("").select2({width: '100%'});
+		}
 	});
 	//$(formId).find('input, textarea, select').css('border', '1px solid #ced4da')
 }
