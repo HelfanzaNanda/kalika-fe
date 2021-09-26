@@ -21,7 +21,8 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Active</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Symbol</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Is Base Unit</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -37,11 +38,22 @@
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-                <input type="hidden" name="id" id="input-id"> 
+                <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Nama</label> 
-                    <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
+                    <label>Name</label> 
+					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
                 </div>
+				<div class="col-span-12 sm:col-span-6"> 
+					<label>Symbol</label> 
+					<input type="text" name="symbol" class="input w-full border mt-2 flex-1" id="input-symbol"> 
+				</div>
+				<div class="col-span-12 sm:col-span-6"> 
+					<label>Is Base Unit</label> 
+					<select name="is_base_unit" class="input w-full border mt-2 flex-1" id="input-is-base-unit">
+						<option value="true">Ya</option>
+						<option value="false">Tidak</option>
+					</select> 
+				</div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
@@ -58,7 +70,7 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
-    drawDatatable();
+    drawDatatable()
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
@@ -67,19 +79,19 @@
     });
 
     $(document).on("click", "button#edit-data",function(e) {
-		e.preventDefault();
-		resetAllInputOnForm('#main-form')
+      e.preventDefault();
+	  resetAllInputOnForm('#main-form')
       let id = $(this).data('id');
       $.ajax({
-        url: API_URL+"/api/divisions/"+id,
+        url: API_URL+"/api/units/"+id,
         type: 'GET',
-        headers: {
-          'Authorization': 'Bearer '+TOKEN
-        },
+        headers: { 'Authorization': 'Bearer '+TOKEN },
         dataType: 'JSON',
         success: function(res, textStatus, jqXHR){
-          $('#input-id').val(res.data.id);
-          $('#input-name').val(res.data.name);
+          $('#input-id').val(res.data.id)
+          $('#input-name').val(res.data.name)
+          $('#input-symbol').val(res.data.symbol)
+          $('#input-is-base-unit').val(res.data.is_base_unit ? "true" : "false").trigger('change')
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -91,22 +103,27 @@
 
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
-        var form_data   = new FormData( this );
+        var form_data  =  new FormData(this)
+		let data = {}
+		for (var pair of form_data.entries()) {
+			if (['id', 'is_base_unit'].includes(pair[0])) {
+				data[pair[0]] = parseInt(pair[1])
+			}else{	
+				data[pair[0]] = pair[1]
+			}
+		}
         $.ajax({
-            type: 'post',
-            url: API_URL+"/api/divisions",
-            headers: {
-              'Authorization': 'Bearer '+TOKEN
-            },
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
+            type: 'POST',
+            url: API_URL+"/api/units",
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            data: JSON.stringify(data),
+			contentType: 'application/json',
+			dataType: 'JSON',
             beforeSend: function() {
                 $('.loading-area').show();
             },
             success: function(res) {
+				console.log(res);
                 Swal.fire({
                   icon: 'success',
                   title: 'Sukses',
@@ -116,10 +133,13 @@
                     $('#main-modal').modal('hide');
                     $('#main-table').DataTable().ajax.reload( function ( json ) {
                         feather.replace();
-                    } );
+                    });
                   }
                 });
-            }
+            },
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR.responseJSON);
+			},
         })
     });
 
@@ -130,10 +150,8 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/division_datatables",
-                "headers": {
-                  'Authorization': 'Bearer '+TOKEN
-                },
+                "url": API_URL+"/api/unit_datatables",
+                "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
@@ -141,17 +159,18 @@
                 },
             },
             "columns": [
-                {data: 'id', name: 'id', width: '5%', "visible": false},
+                {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'name', name: 'name', className: 'text-center border-b'},
+                {data: 'symbol', name: 'symbol', className: 'text-center border-b'},
                 {
-                    data: 'active', 
-                    name: 'active', 
+                    data: 'is_base_unit', 
+                    name: 'is_base_unit', 
                     className: 'text-center border-b',
                     render: function ( data, type, row ) {
                         if (data) {
-                            return '<div class="flex items-center sm:justify-center text-theme-9">Aktif</div>';
+                            return '<div class="flex items-center sm:justify-center text-theme-9">Yes</div>';
                         } else {
-                            return '<div class="flex items-center sm:justify-center text-theme-6">Tidak Aktif</div>';
+                            return '<div class="flex items-center sm:justify-center text-theme-6">No</div>';
                         }
                     }
                 },
@@ -180,7 +199,7 @@
           if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+"/api/divisions/"+id,
+                url: API_URL+"/api/units/"+id,
                 headers: {
                   'Authorization': 'Bearer '+TOKEN
                 },

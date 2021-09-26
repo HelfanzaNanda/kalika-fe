@@ -19,19 +19,20 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', 'Dashboard\DashboardController@index');
 
 Route::group(['prefix' => 'master'], function() {
-	Route::get('/payment_methods');
-	Route::get('/raw_materials');
-	Route::get('/customers');
-	Route::get('/categories');
-	Route::get('/store_consignments');
-	Route::get('/products');
-	Route::get('/suppliers');
-	Route::get('/sellers');
-	Route::get('/cash_registers');
-	Route::get('/cake_types');
-	Route::get('/stores');
-	Route::get('/cake_variants');
+	Route::get('/payment_methods', 'Master\paymentMethodController@index');
+	Route::get('/raw_materials', 'Master\RawMaterialController@index');
+	Route::get('/customers', 'Master\CustomerController@index');
+	Route::get('/categories', 'Master\CategoryController@index');
+	Route::get('/store_consignments', 'Master\StoreConsignmentController@index');
+	Route::get('/products', 'Master\ProductController@index');
+	Route::get('/suppliers', 'Master\SupplierController@index');
+	Route::get('/sellers', 'Master\SellerController@index');
+	Route::get('/cash_registers', 'Master\CashRegisterController@index');
+	Route::get('/cake_types', 'Master\CakeTypeController@index');
+	Route::get('/stores', 'Master\StoreController@index');
+	Route::get('/cake_variants', 'Master\CakeVariantController@index');
 	Route::get('/divisions', 'Master\DivisionController@index');
+	Route::get('/units', 'Master\UnitController@index');
 });
 
 Route::group(['prefix' => 'sales'], function() {

@@ -184,6 +184,10 @@ function buildMenu(permissions) {
       'name': 'Divisi',
       'url': '/divisions'
     },
+    'units': {
+      'name': 'Unit',
+      'url': '/units'
+    },
     'categories': {
       'name': 'Kategori',
       'url': '/categories'
@@ -334,7 +338,7 @@ function buildMenu(permissions) {
     },
   };
 
-  let _master = ['divisions', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'costs', 'raw_materials', 'cash_registers']
+  let _master = ['divisions', 'units', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'costs', 'raw_materials', 'cash_registers']
   let _inventory = ['beginning_stocks', 'stock_opnames'];
   let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
@@ -558,4 +562,12 @@ function buildMenu(permissions) {
       }
     }
   });
+}
+
+function resetAllInputOnForm(formId) {
+	$(formId).find('input, textarea').val('');
+	$(formId).find('select').each(function () {
+		$(this).select2('destroy').val("").select2({width: '100%'});
+	});
+	//$(formId).find('input, textarea, select').css('border', '1px solid #ced4da')
 }

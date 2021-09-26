@@ -20,8 +20,14 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Active</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Store Name </th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Store Phone</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Pic Name</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Pic Phone</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Discount</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Day Of Rules</th>
+                {{-- <th class="border-b-2 text-center whitespace-no-wrap">Location</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Description</th> --}}
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -37,10 +43,38 @@
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-                <input type="hidden" name="id" id="input-id"> 
+                <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Nama</label> 
-                    <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
+                    <label>Store Name</label> 
+					<input type="text" name="store_name" class="input w-full border mt-2 flex-1" id="input-store-name"> 
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Store Phone</label> 
+					<input type="text" name="store_phone" class="input w-full border mt-2 flex-1" id="input-store-phone"> 
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>PIC Name</label> 
+					<input type="text" name="pic_name" class="input w-full border mt-2 flex-1" id="input-pic-name"> 
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>PIC Phone</label> 
+					<input type="text" name="pic_phone" class="input w-full border mt-2 flex-1" id="input-pic-phone"> 
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Discount</label> 
+                    <input type="number" name="discount" class="input w-full border mt-2 flex-1" id="input-discount"> 
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Day Of Rules</label> 
+                    <input type="number" name="day_of_rules" class="input w-full border mt-2 flex-1" id="input-day-of-rules"> 
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Location</label> 
+                    <textarea name="location" id="input-location" cols="30" rows="3" class="input w-full border mt-2 flex-1"></textarea>
+                </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Description</label> 
+                    <textarea name="description" id="input-description" cols="30" rows="3" class="input w-full border mt-2 flex-1"></textarea>
                 </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -58,7 +92,7 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
-    drawDatatable();
+    drawDatatable()
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
@@ -71,15 +105,20 @@
 		resetAllInputOnForm('#main-form')
       let id = $(this).data('id');
       $.ajax({
-        url: API_URL+"/api/divisions/"+id,
+        url: API_URL+"/api/store_consignments/"+id,
         type: 'GET',
-        headers: {
-          'Authorization': 'Bearer '+TOKEN
-        },
+        headers: { 'Authorization': 'Bearer '+TOKEN },
         dataType: 'JSON',
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id);
-          $('#input-name').val(res.data.name);
+          $('#input-store-name').val(res.data.store_name)
+          $('#input-store-phone').val(res.data.store_phone)
+          $('#input-pic-name').val(res.data.pic_name)
+          $('#input-pic-phone').val(res.data.pic_phone)
+          $('#input-discount').val(res.data.discount)
+          $('#input-day-of-rules').val(res.data.day_of_rules)
+          $('#input-location').val(res.data.location)
+          $('#input-description').val(res.data.description)
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -91,22 +130,29 @@
 
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
-        var form_data   = new FormData( this );
+        var form_data  =  new FormData(this)
+		let data = {}
+		for (var pair of form_data.entries()) {
+			if (['id', 'discount', 'day_of_rules'].includes(pair[0])) {
+				data[pair[0]] = parseInt(pair[1])
+			}else{	
+				data[pair[0]] = pair[1]
+			}
+		}
         $.ajax({
-            type: 'post',
-            url: API_URL+"/api/divisions",
-            headers: {
-              'Authorization': 'Bearer '+TOKEN
-            },
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
+            type: 'POST',
+            url: API_URL+"/api/store_consignments",
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            data: JSON.stringify(data),
+            // cache: false,
+			contentType: 'application/json',
+            // processData: false,
+			dataType: 'JSON',
             beforeSend: function() {
                 $('.loading-area').show();
             },
             success: function(res) {
+				console.log(res);
                 Swal.fire({
                   icon: 'success',
                   title: 'Sukses',
@@ -116,10 +162,13 @@
                     $('#main-modal').modal('hide');
                     $('#main-table').DataTable().ajax.reload( function ( json ) {
                         feather.replace();
-                    } );
+                    });
                   }
                 });
-            }
+            },
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR.responseJSON);
+			},
         })
     });
 
@@ -130,10 +179,8 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/division_datatables",
-                "headers": {
-                  'Authorization': 'Bearer '+TOKEN
-                },
+                "url": API_URL+"/api/store_consignment_datatables",
+                "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
@@ -141,20 +188,13 @@
                 },
             },
             "columns": [
-                {data: 'id', name: 'id', width: '5%', "visible": false},
-                {data: 'name', name: 'name', className: 'text-center border-b'},
-                {
-                    data: 'active', 
-                    name: 'active', 
-                    className: 'text-center border-b',
-                    render: function ( data, type, row ) {
-                        if (data) {
-                            return '<div class="flex items-center sm:justify-center text-theme-9">Aktif</div>';
-                        } else {
-                            return '<div class="flex items-center sm:justify-center text-theme-6">Tidak Aktif</div>';
-                        }
-                    }
-                },
+                {data: 'id', name: 'id', width: '5%', "visible": false },
+                {data: 'store_name', name: 'store_name', className: 'text-center border-b'},
+                {data: 'store_phone', name: 'store_phone', className: 'text-center border-b'},
+                {data: 'pic_name', name: 'pic_name', className: 'text-center border-b'},
+                {data: 'pic_phone', name: 'pic_phone', className: 'text-center border-b'},
+                {data: 'discount', name: 'discount', className: 'text-center border-b'},
+                {data: 'day_of_rules', name: 'day_of_rules', className: 'text-center border-b'},	
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],
@@ -180,7 +220,7 @@
           if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+"/api/divisions/"+id,
+                url: API_URL+"/api/store_consignments/"+id,
                 headers: {
                   'Authorization': 'Bearer '+TOKEN
                 },

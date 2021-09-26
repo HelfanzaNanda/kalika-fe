@@ -21,7 +21,10 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Active</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Address</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Phone</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Last Order</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Status</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -41,6 +44,14 @@
                 <div class="col-span-12 sm:col-span-6"> 
                     <label>Nama</label> 
                     <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
+                </div>
+				<div class="col-span-12 sm:col-span-6"> 
+                    <label>No Hp</label> 
+                    <input type="number" name="phone" class="input w-full border mt-2 flex-1" id="input-phone"> 
+                </div>
+				<div class="col-span-12 sm:col-span-6"> 
+                    <label>Alamat</label>
+					<textarea name="address" class="input w-full border mt-2 flex-1" id="input-address"></textarea>
                 </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -67,11 +78,11 @@
     });
 
     $(document).on("click", "button#edit-data",function(e) {
-		e.preventDefault();
-		resetAllInputOnForm('#main-form')
+      e.preventDefault();
+	  resetAllInputOnForm('#main-form')
       let id = $(this).data('id');
       $.ajax({
-        url: API_URL+"/api/divisions/"+id,
+        url: API_URL+"/api/customers/"+id,
         type: 'GET',
         headers: {
           'Authorization': 'Bearer '+TOKEN
@@ -80,6 +91,8 @@
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id);
           $('#input-name').val(res.data.name);
+          $('#input-address').val(res.data.address);
+          $('#input-phone').val(res.data.phone);
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -94,7 +107,7 @@
         var form_data   = new FormData( this );
         $.ajax({
             type: 'post',
-            url: API_URL+"/api/divisions",
+            url: API_URL+"/api/customers",
             headers: {
               'Authorization': 'Bearer '+TOKEN
             },
@@ -116,7 +129,7 @@
                     $('#main-modal').modal('hide');
                     $('#main-table').DataTable().ajax.reload( function ( json ) {
                         feather.replace();
-                    } );
+                    });
                   }
                 });
             }
@@ -130,10 +143,8 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/division_datatables",
-                "headers": {
-                  'Authorization': 'Bearer '+TOKEN
-                },
+                "url": API_URL+"/api/customer_datatables",
+                "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
@@ -141,11 +152,19 @@
                 },
             },
             "columns": [
-                {data: 'id', name: 'id', width: '5%', "visible": false},
+                {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'name', name: 'name', className: 'text-center border-b'},
+                {data: 'address', name: 'address', className: 'text-center border-b'},
+                {data: 'phone', name: 'phone', className: 'text-center border-b'},
                 {
-                    data: 'active', 
-                    name: 'active', 
+					data: 'last_order', 
+					name: 'last_order', 
+					className: 'text-center border-b',
+					render: data => moment(data || '').format('DD MMMM YYYY')
+				},
+                {
+                    data: 'status', 
+                    name: 'status', 
                     className: 'text-center border-b',
                     render: function ( data, type, row ) {
                         if (data) {
@@ -180,7 +199,7 @@
           if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+"/api/divisions/"+id,
+                url: API_URL+"/api/customers/"+id,
                 headers: {
                   'Authorization': 'Bearer '+TOKEN
                 },

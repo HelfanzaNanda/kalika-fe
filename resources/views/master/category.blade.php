@@ -20,8 +20,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Division</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Active</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Status</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -37,7 +38,11 @@
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-                <input type="hidden" name="id" id="input-id"> 
+                <input type="hidden" name="id" id="input-id" value="0"> 
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Division</label> 
+					<select name="division_id" id="input-division-id" class="single-select input w-full border mt-2 flex-1"></select>
+                </div>
                 <div class="col-span-12 sm:col-span-6"> 
                     <label>Nama</label> 
                     <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
@@ -59,19 +64,31 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
     drawDatatable();
+	$(document).ready(function() {
+		initSelect2()
+	})
+
+	function initSelect2(){
+		$(".single-select").select2({
+			placeholder: "Select a state",
+			allowClear: true
+		});
+	}
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
+		getDivisions()
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
 
     $(document).on("click", "button#edit-data",function(e) {
-		e.preventDefault();
-		resetAllInputOnForm('#main-form')
+      e.preventDefault();
+	  resetAllInputOnForm('#main-form')
+	  getDivisions()
       let id = $(this).data('id');
       $.ajax({
-        url: API_URL+"/api/divisions/"+id,
+        url: API_URL+"/api/categories/"+id,
         type: 'GET',
         headers: {
           'Authorization': 'Bearer '+TOKEN
@@ -79,6 +96,7 @@
         dataType: 'JSON',
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id);
+          $('#input-division-id').val(res.data.division_id).trigger('change');
           $('#input-name').val(res.data.name);
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
@@ -91,22 +109,27 @@
 
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
-        var form_data   = new FormData( this );
+        var form_data  =  new FormData(this)
+		let data = {}
+		for (var pair of form_data.entries()) {
+			if (['id', 'division_id'].includes(pair[0])) {
+				data[pair[0]] = parseInt(pair[1])
+			}else{	
+				data[pair[0]] = pair[1]
+			}
+		}
         $.ajax({
             type: 'post',
-            url: API_URL+"/api/divisions",
-            headers: {
-              'Authorization': 'Bearer '+TOKEN
-            },
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
+            url: API_URL+"/api/categories",
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+			data: JSON.stringify(data),
+			contentType: 'application/json',
+			dataType: 'JSON',
             beforeSend: function() {
                 $('.loading-area').show();
             },
             success: function(res) {
+				console.log(res);
                 Swal.fire({
                   icon: 'success',
                   title: 'Sukses',
@@ -116,10 +139,13 @@
                     $('#main-modal').modal('hide');
                     $('#main-table').DataTable().ajax.reload( function ( json ) {
                         feather.replace();
-                    } );
+                    });
                   }
                 });
-            }
+            },
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR.responseJSON);
+			},
         })
     });
 
@@ -130,10 +156,8 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/division_datatables",
-                "headers": {
-                  'Authorization': 'Bearer '+TOKEN
-                },
+                "url": API_URL+"/api/category_datatables",
+                "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
@@ -141,11 +165,12 @@
                 },
             },
             "columns": [
-                {data: 'id', name: 'id', width: '5%', "visible": false},
+                {data: 'id', name: 'id', width: '5%', "visible": false },
+                {data: 'division_name', name: 'division_name', className: 'text-center border-b'},
                 {data: 'name', name: 'name', className: 'text-center border-b'},
                 {
-                    data: 'active', 
-                    name: 'active', 
+                    data: 'status', 
+                    name: 'status', 
                     className: 'text-center border-b',
                     render: function ( data, type, row ) {
                         if (data) {
@@ -180,7 +205,7 @@
           if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+"/api/divisions/"+id,
+                url: API_URL+"/api/categories/"+id,
                 headers: {
                   'Authorization': 'Bearer '+TOKEN
                 },
@@ -205,5 +230,24 @@
           }
         })
     });
+
+	function getDivisions(){
+		$.ajax({
+			url: API_URL+"/api/divisions",
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			success: function(res, textStatus, jqXHR){
+				let opt = ''
+				$.each(res.data, function(index, item){
+					opt += '<option value="'+item.id+'">'+item.name+'</option>'
+				})
+				$('#input-division-id').html(opt)
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+
+			},
+      });
+	}
 </script>
 @endsection
