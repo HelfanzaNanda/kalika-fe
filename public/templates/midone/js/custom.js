@@ -178,8 +178,20 @@ function slugify(content) {
     return content.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
 }
 
-function buildMenu(permissions) {
+function buildMenu(permissions, url) {
+  let extractUrl = url.split("/");
+  let segmentOne = extractUrl[3];
+  let segmentTwo = extractUrl[4];
+
   let _menu = {
+    'unit_conversions': {
+      'name': 'Konversi Satuan',
+      'url': '/unit_conversions'
+    },
+    'expense_categories': {
+      'name': 'Kategori Biaya',
+      'url': '/expense_categories'
+    },
     'divisions': {
       'name': 'Divisi',
       'url': '/divisions'
@@ -284,6 +296,10 @@ function buildMenu(permissions) {
       'name': 'Piutang',
       'url': '/receivables'
     },
+    'payments.report': {
+      'name': 'Laporan Pembayaran',
+      'url': '/payments'
+    },
     'purchase_invoices.report': {
       'name': 'Laporan Pembelian',
       'url': '/purchase'
@@ -338,12 +354,14 @@ function buildMenu(permissions) {
     },
   };
 
-  let _master = ['divisions', 'units', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'costs', 'raw_materials', 'cash_registers']
+// purchase_order_deliveries
+
+  let _master = ['expense_categories', 'divisions', 'units', 'unit_conversions', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials', 'cash_registers']
   let _inventory = ['beginning_stocks', 'stock_opnames'];
   let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
   let _dR = ['debts', 'receivables'];
-  let _reports = ['sales.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report'];
+  let _reports = ['payments.report', 'sales.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report'];
   let _settings = ['users', 'permissions', 'roles'];
 
   let _p = JSON.parse(permissions);
@@ -361,7 +379,7 @@ function buildMenu(permissions) {
     if (value.permission_name.toString().toLowerCase().indexOf(".") === -1) {
       if (_master.includes(value.permission_name)) {
         masterMenu += '        <li>';
-        masterMenu += '            <a href="'+BASE_URL+'/master'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        masterMenu += '            <a href="'+BASE_URL+'/master'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         masterMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         masterMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         masterMenu += '            </a>';
@@ -370,7 +388,7 @@ function buildMenu(permissions) {
 
       if (_inventory.includes(value.permission_name)) {
         inventoryMenu += '        <li>';
-        inventoryMenu += '            <a href="'+BASE_URL+'/inventory'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        inventoryMenu += '            <a href="'+BASE_URL+'/inventory'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         inventoryMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         inventoryMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         inventoryMenu += '            </a>';
@@ -379,7 +397,7 @@ function buildMenu(permissions) {
 
       if (_sales.includes(value.permission_name)) {
         salesMenu += '        <li>';
-        salesMenu += '            <a href="'+BASE_URL+'/sales'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        salesMenu += '            <a href="'+BASE_URL+'/sales'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         salesMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         salesMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         salesMenu += '            </a>';
@@ -388,7 +406,7 @@ function buildMenu(permissions) {
 
       if (_purchase.includes(value.permission_name)) {
         purchaseMenu += '        <li>';
-        purchaseMenu += '            <a href="'+BASE_URL+'/purchase'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        purchaseMenu += '            <a href="'+BASE_URL+'/purchase'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         purchaseMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         purchaseMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         purchaseMenu += '            </a>';
@@ -397,7 +415,7 @@ function buildMenu(permissions) {
 
       if (_dR.includes(value.permission_name)) {
         drMenu += '        <li>';
-        drMenu += '            <a href="'+BASE_URL+'/debt_receivable'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        drMenu += '            <a href="'+BASE_URL+'/debt_receivable'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         drMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         drMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         drMenu += '            </a>';
@@ -406,7 +424,7 @@ function buildMenu(permissions) {
 
       if (_settings.includes(value.permission_name)) {
         settingMenu += '        <li>';
-        settingMenu += '            <a href="'+BASE_URL+'/setting'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        settingMenu += '            <a href="'+BASE_URL+'/setting'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         settingMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         settingMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         settingMenu += '            </a>';
@@ -415,7 +433,7 @@ function buildMenu(permissions) {
 
       if (value.permission_name == 'expenses') {
         costMenu += '<li>';
-        costMenu += '    <a href="'+BASE_URL+'/expense" class="side-menu">    ';
+        costMenu += '    <a href="'+BASE_URL+'/expense" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         costMenu += '        <div class="side-menu__icon"> <i data-feather="dollar-sign"></i></div>';
         costMenu += '        <div class="side-menu__title">Biaya</div>';
         costMenu += '    </a>';
@@ -424,7 +442,7 @@ function buildMenu(permissions) {
 
       if (value.permission_name == 'productions') {
         productionMenu += '<li>';
-        productionMenu += '    <a href="'+BASE_URL+'/production" class="side-menu">    ';
+        productionMenu += '    <a href="'+BASE_URL+'/production" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         productionMenu += '        <div class="side-menu__icon"> <i data-feather="settings"></i></div>';
         productionMenu += '        <div class="side-menu__title">Produksi</div>';
         productionMenu += '    </a>';
@@ -433,7 +451,7 @@ function buildMenu(permissions) {
     } else if (value.permission_name.toString().toLowerCase().indexOf(".report") !== -1) {
       if (_reports.includes(value.permission_name)) {
         reportMenu += '        <li>';
-        reportMenu += '            <a href="'+BASE_URL+'/report'+_menu[value.permission_name]['url']+'" class="side-menu">';
+        reportMenu += '            <a href="'+BASE_URL+'/report'+_menu[value.permission_name]['url']+'" class="side-menu '+(segmentTwo == value.permission_name ? "side-menu--active" : "")+'">';
         reportMenu += '                <div class="side-menu__icon"> <i data-feather="activity"></i></div>';
         reportMenu += '                <div class="side-menu__title">'+_menu[value.permission_name]['name']+'</div>';
         reportMenu += '            </a>';
@@ -445,7 +463,7 @@ function buildMenu(permissions) {
   let html = '';
 
   html += '<li>';
-  html += '    <a href="'+BASE_URL+'" class="side-menu side-menu--active">';
+  html += '    <a href="'+BASE_URL+'" class="side-menu '+(segmentOne == "" ? "side-menu--active" : "")+'">';
   html += '        <div class="side-menu__icon"> <i data-feather="home"></i></div>';
   html += '            <div class="side-menu__title">Dashboard</div>';
   html += '    </a>';
@@ -453,11 +471,11 @@ function buildMenu(permissions) {
   
   if (masterMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "master" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="archive"></i></div>';
     html += '        <div class="side-menu__title">Data Master <i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "master" ? "side-menu__sub-open" : "")+'">';
     html += masterMenu;
     html += '    </ul>';
     html += '</li>';
@@ -465,11 +483,11 @@ function buildMenu(permissions) {
   
   if (inventoryMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "inventory" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="box"></i></div>';
     html += '        <div class="side-menu__title">Inventory<i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "inventory" ? "side-menu__sub-open" : "")+'">';
     html += inventoryMenu;
     html += '    </ul>';
     html += '</li>';
@@ -477,11 +495,11 @@ function buildMenu(permissions) {
   
   if (salesMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "sales" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="corner-right-up"></i></div>';
     html += '        <div class="side-menu__title">Penjualan <i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "sales" ? "side-menu__sub-open" : "")+'">';
     html += salesMenu;
     html += '    </ul>';
     html += '</li>';
@@ -489,11 +507,11 @@ function buildMenu(permissions) {
   
   if (purchaseMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "purchase" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="corner-right-down"></i></div>';
     html += '        <div class="side-menu__title">Pembelian <i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "purchase" ? "side-menu__sub-open" : "")+'">';
     html += purchaseMenu;
     html += '    </ul>';
     html += '</li>';
@@ -501,11 +519,11 @@ function buildMenu(permissions) {
   
   if (drMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "debt_receivable" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="repeat"></i></div>';
     html += '        <div class="side-menu__title">Hutang Piutang <i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "debt_receivable" ? "side-menu__sub-open" : "")+'">';
     html += drMenu;
     html += '    </ul>';
     html += '</li>';
@@ -516,11 +534,11 @@ function buildMenu(permissions) {
   
   if (reportMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "report" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="file-text"></i></div>';
     html += '        <div class="side-menu__title">Laporan <i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "report" ? "side-menu__sub-open" : "")+'">';
     html += reportMenu;
     html += '    </ul>';
     html += '</li>';
@@ -528,11 +546,11 @@ function buildMenu(permissions) {
   
   if (settingMenu != '') {
     html += '<li>';
-    html += '    <a href="javascript:;" class="side-menu">';
+    html += '    <a href="javascript:;" class="side-menu '+(segmentOne == "setting" ? "side-menu--active" : "")+'">';
     html += '        <div class="side-menu__icon"> <i data-feather="tool"></i></div>';
     html += '        <div class="side-menu__title">Pengaturan <i data-feather="chevron-down" class="side-menu__sub-icon"></i></div>';
     html += '    </a>';
-    html += '    <ul>';
+    html += '    <ul class="'+(segmentOne == "setting" ? "side-menu__sub-open" : "")+'">';
     html += settingMenu;
     html += '    </ul>';
     html += '</li>';
@@ -571,5 +589,15 @@ function resetAllInputOnForm(formId) {
 			$(this).select2('destroy').val("").select2({width: '100%'});
 		}
 	});
-	//$(formId).find('input, textarea, select').css('border', '1px solid #ced4da')
+}
+
+function makeTitle(slug, separator = '_') {
+  var words = slug.split(separator);
+
+  for (var i = 0; i < words.length; i++) {
+    var word = words[i];
+    words[i] = word.charAt(0).toUpperCase() + word.slice(1);
+  }
+
+  return words.join(' ');
 }

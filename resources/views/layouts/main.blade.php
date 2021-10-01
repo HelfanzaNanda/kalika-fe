@@ -29,7 +29,8 @@
       if (loggedUser == null && userPermissions == null) {
         window.location.replace(BASE_URL+'/login');
       }
-
+      
+      var ROLE_ID = JSON.parse(loggedUser)['role_id'];
       TOKEN = JSON.parse(loggedUser)['token'];
     </script>
     <body class="app">
@@ -75,7 +76,9 @@
 
       @yield('additionalFileJS')
       <script type="text/javascript">
-        buildMenu(userPermissions);
+        let getUrl = $(location).attr('href');
+
+        buildMenu(userPermissions, getUrl);
         
         $(document).on("click",".modal-close",function() {
             let id = $(this).data('id');

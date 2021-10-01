@@ -66,7 +66,7 @@ Route::group(['prefix' => 'report'], function() {
 });
 
 Route::group(['prefix' => 'setting'], function() {
-	Route::get('/users');
-	Route::get('/permissions');
-	Route::get('/roles');
+	Route::get('/users', 'Setting\UserController@index');
+	Route::get('/permissions', 'Setting\PermissionController@index');
+	Route::get('/roles', 'Setting\RoleController@index');
 });

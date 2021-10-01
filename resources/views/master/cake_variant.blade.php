@@ -93,7 +93,7 @@
 		for (var pair of form_data.entries()) {
 			if (['id'].includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
-			}else{	
+			} else {	
 				data[pair[0]] = pair[1]
 			}
 		}

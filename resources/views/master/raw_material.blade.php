@@ -93,9 +93,9 @@
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
-		getSuppliers()
-		getUnits()
-		getStores()
+		getSuppliers();
+		getUnits();
+		getStores();
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
