@@ -41,11 +41,11 @@
                 <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
                     <label>Division</label> 
-					<select name="division_id" id="input-division-id" class="single-select input w-full border mt-2 flex-1"></select>
+					<select name="division_id" id="input-division-id" class="select2 w-full border"></select>
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
                     <label>Nama</label> 
-                    <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
+                    <input type="text" name="name" class="input w-full border flex-1" id="input-name"> 
                 </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -64,16 +64,6 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
     drawDatatable();
-	$(document).ready(function() {
-		initSelect2()
-	})
-
-	function initSelect2(){
-		$(".single-select").select2({
-			placeholder: "Select a state",
-			allowClear: true
-		});
-	}
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')

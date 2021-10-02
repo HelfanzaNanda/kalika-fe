@@ -12,7 +12,7 @@
         Data {{$title}}
     </h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a href="{{ route('sales.create') }}" class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</a>
+        <a href="{{ route('sales.pos') }}" class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</a>
     </div>
 </div>
 <div class="intro-y datatable-wrapper box p-5 mt-5">

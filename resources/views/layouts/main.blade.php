@@ -10,7 +10,7 @@
       <!-- BEGIN: CSS Assets-->
       <link rel="stylesheet" href="{{ asset('templates/midone/css/app.css') }}" />
       <link rel="stylesheet" href="{{ asset('templates/midone/vendor/sweetalert/sweetalert2.min.css') }}" />
-      <link rel="stylesheet" href="{{ asset('templates/midone/vendor/select2/css/select2.min.css') }}" />
+      {{-- <link rel="stylesheet" href="{{ asset('templates/midone/vendor/select2/css/select2.min.css') }}" /> --}}
 
       
       <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -40,15 +40,18 @@
       </div>
       
       <div class="flex">
-        {{-- <nav class="side-nav side-nav--simple"> --}}
+        @if (Request::is('sales/pos'))
+          <nav class="side-nav side-nav--simple">
+            <a href="#" class="intro-x flex items-center pl-5 pt-4">
+                <img alt="Kalika" class="w-6" src="{{ asset('templates/midone/images/logo.svg') }}">
+            </a>
+        @else
           <nav class="side-nav">
             <a href="#" class="intro-x flex items-center pl-5 pt-4">
                 <img alt="Kalika" class="w-6" src="{{ asset('templates/midone/images/logo.svg') }}">
                 <span class="hidden xl:block text-white text-lg ml-3"> Ka<span class="font-medium">lika</span> </span>
             </a>
-            {{-- <a href="#" class="intro-x flex items-center pl-5 pt-4">
-                <img alt="Kalika" class="w-6" src="{{ asset('templates/midone/images/logo.svg') }}">
-            </a> --}}
+        @endif
             <div class="side-nav__devider my-6"></div>
             @include('layouts.menu.web')
           </nav>
@@ -71,7 +74,7 @@
       <script src="{{ asset('templates/midone/vendor/sweetalert/sweetalert2.min.js') }}"></script>
       <script src="{{ asset('templates/midone/vendor/moment/moment.min.js') }}"></script>
       <script src="{{ asset('templates/midone/vendor/moment/moment-with-locales.min.js') }}"></script>
-      <script src="{{ asset('templates/midone/vendor/select2/js/select2.min.js') }}"></script>
+      {{-- <script src="{{ asset('templates/midone/vendor/select2/js/select2.min.js') }}"></script> --}}
 	  
 
       @yield('additionalFileJS')
