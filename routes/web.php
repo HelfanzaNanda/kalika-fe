@@ -38,8 +38,18 @@ Route::group(['prefix' => 'master'], function() {
 Route::group(['prefix' => 'sales'], function() {
 	Route::get('/sales_consignments');
 	Route::get('/sales_returns');
-	Route::get('/sales');
-	Route::get('/custom_orders');
+
+	Route::prefix('sales')->group(function(){
+		Route::get('/', 'Sales\SaleController@index')->name('sales.index');
+		Route::get('/create', 'Sales\SaleController@create')->name('sales.create');
+		Route::get('/edit/{id}', 'Sales\SaleController@edit')->name('sales.edit');
+	});
+
+	Route::prefix('custom_orders')->group(function(){
+		Route::get('/', 'Sales\CustomOrderController@index')->name('custom.order.index');
+		Route::get('/create', 'Sales\CustomOrderController@create')->name('custom.order.create');
+		Route::get('/edit/{id}', 'Sales\CustomOrderController@edit')->name('custom.order.edit');
+	});
 });
 
 Route::group(['prefix' => 'purchase'], function() {

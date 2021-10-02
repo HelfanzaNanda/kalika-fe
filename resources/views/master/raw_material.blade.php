@@ -90,6 +90,14 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
 	drawDatatable();
+	initSelect2()
+
+	function initSelect2(){
+		$(".single-select").select2({
+			placeholder: "Choose One",
+			allowClear: true
+		});
+	}
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
