@@ -38,7 +38,9 @@ Route::group(['prefix' => 'master'], function() {
 Route::group(['prefix' => 'sales'], function() {
 	Route::get('/sales_consignments');
 	Route::get('/sales_returns');
-
+	
+	Route::get('/pos', 'Sales\SaleController@pos')->name('sales.pos');
+	
 	Route::prefix('sales')->group(function(){
 		Route::get('/', 'Sales\SaleController@index')->name('sales.index');
 		Route::get('/create', 'Sales\SaleController@create')->name('sales.create');

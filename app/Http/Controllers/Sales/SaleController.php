@@ -20,6 +20,13 @@ class SaleController extends Controller
 			'title' => ' Tambah Penjualan'
 		]);
 	}
+
+	public function pos()
+	{
+		return view('sales.sale.pos', [
+			'title' => ' Kasir'
+		]);
+	}
 	
 	public function edit($id)
 	{
