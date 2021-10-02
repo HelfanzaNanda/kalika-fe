@@ -63,7 +63,12 @@ Route::group(['prefix' => 'debt_receivable'], function() {
 	Route::get('/debts');
 });
 
-Route::get('expense');
+Route::prefix('expense')->group(function(){
+	Route::get('/', 'Expense\ExpenseController@index')->name('expense.index');
+	Route::get('/create', 'Expense\ExpenseController@create')->name('expense.create');
+	Route::get('/edit/{id}', 'Expense\ExpenseController@edit')->name('expense.edit');
+});
+
 Route::get('production');
 
 Route::group(['prefix' => 'report'], function() {
