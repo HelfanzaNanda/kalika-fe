@@ -33,6 +33,7 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/cake_variants', 'Master\CakeVariantController@index');
 	Route::get('/divisions', 'Master\DivisionController@index');
 	Route::get('/units', 'Master\UnitController@index');
+	Route::get('/expense_categories', 'Master\ExpenseCategoryController@index');
 });
 
 Route::group(['prefix' => 'sales'], function() {

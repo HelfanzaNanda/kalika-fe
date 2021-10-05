@@ -20,11 +20,10 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Produk</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Harga</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Biaya Pengiriman</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Number</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Date</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Created By</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -50,7 +49,7 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(`/sales/custom_orders/edit/${id}`)
+	  window.location.replace(`/expense/edit/${id}`)
     });
 
     function drawDatatable() {
@@ -60,7 +59,7 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/custom_order_datatables",
+                "url": API_URL+"/api/expense_datatables",
                 "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
@@ -70,11 +69,24 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
-                {data: 'store_name', name: 'store_name', className: 'text-center border-b'},
-                {data: 'product_name', name: 'product_name', className: 'text-center border-b'},
-                {data: 'price', name: 'price', className: 'text-center border-b'},
-                {data: 'discount', name: 'discount', className: 'text-center border-b'},
-                {data: 'delivery_cost', name: 'delivery_cost', className: 'text-center border-b'},
+                {data: 'number', name: 'number', className: 'text-center border-b'},
+                {
+					data: 'date', 
+					name: 'date', 
+					className: 'text-center border-b', 
+					render : (data) => {
+						return moment(data).format('DD MMMM YYYY')
+					}
+				},
+                {
+					data: 'total', 
+					name: 'total', 
+					className: 'text-center border-b',
+					render : (data) => {
+						return formatRupiah(data.toString(), 'Rp ')
+					}
+				},
+                {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],
@@ -100,7 +112,7 @@
           if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+"/api/custom_orders/"+id,
+                url: API_URL+"/api/expenses/"+id,
                 headers: {
                   'Authorization': 'Bearer '+TOKEN
                 },

@@ -3,7 +3,11 @@
 @section('title', $title)
 
 @section('additionalFileCSS')
-
+	<style>
+		.select2.select2-container{
+			width: 100% !important
+		}
+	</style>
 @endsection
 
 @section('content')
@@ -35,12 +39,12 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
+					<tr class="item-0">
 						<td>
-							<select name="expense_category_id[]" id="input-expense-category-id-0" class="single-select input w-full border mt-2 flex-1"></select>
+							<select name="expense_category_id[]" id="input-expense-category-id-0" class="input w-full border mt-2 flex-1"></select>
 						</td>
 						<td>
-							<input type="number" name="amount[]" id="input-amount-0" class="input w-full border mt-2 flex-1"/>
+							<input type="number" name="amount[]" id="input-amount-0" class="amount input w-full border mt-2 flex-1"/>
 						</td>
 						<td>
 							<textarea name="description[]" id="input-description-0" class="input w-full border mt-2 flex-1" rows="2"></textarea>
@@ -54,8 +58,12 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="flex justify-center mb-2">
+		<div class="flex px-5 justify-between mb-2">
 			<button type="button" class="button btn-add-item w-20 bg-theme-1 text-white">Add Row</button> 
+			<div class="text-right">
+				<label for="">Total</label>
+				<h4><strong class="total">Rp 0</strong></h4>
+			</div>
 		</div>
 		<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
 			<a href="{{ route('expense.index') }}" type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Kembali</a> 
@@ -71,14 +79,13 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
+	let index = 0
 	setNameCurrentUser()
     getExpenseCategories()
 	initSelect2()
 
-	let index = 0
-
 	function initSelect2(){
-		$(".single-select").select2({
+		$("#input-expense-category-id-"+index).select2({
 			placeholder: "Choose One",
 			allowClear: true
 		});
@@ -104,7 +111,8 @@
                 $.each(res.data, function (index, item) {  
                     opt += '<option value="'+item.id+'">'+item.name+'</option>'
                 })
-                $('#input-expense-category-id-0').html(opt)
+				//console.log('id', '#input-expense-category-id-'+index);
+                $('#input-expense-category-id-'+index).html(opt)
             },
             error: function(jqXHR, textStatus, errorThrown){
 
@@ -115,35 +123,74 @@
 
 	$(document).on('click', '.btn-add-item', function (e) {  
 		e.preventDefault()
-		const newTr = $('#details-table tbody').children().eq(0).clone().appendTo('#details-table tbody')
-		$(newTr).find('input').val('')
-		$(newTr).find('textarea').val('').change();
-		$(newTr).find('select').val('').trigger('change')
-		$(newTr).find('button').css('display', '')
+		index++
+		$('#details-table tbody').append(setHtmlItem())
+		initSelect2()
+		getExpenseCategories()
 	})
 
 	$(document).on('click', '.btn-remove-item', function (e) {  
 		e.preventDefault()
-		const rowIndex = $(this).closest("tr").index();
-		$(`#details-table tbody tr:eq(${rowIndex})`).remove()
+		const key = $(this).data('key')
+		$('.item-'+key).remove()
 	})
+
+	function setHtmlItem() {  
+		let html = ''
+		html += '<tr class="item-'+index+'">'
+		html += '	<td>'
+		html += '		<select name="expense_category_id[]" id="input-expense-category-id-'+index+'" class="input w-full border mt-2 flex-1"></select>'
+		html += '	</td>'
+		html += '	<td>'
+		html += '		<input type="number" name="amount[]" id="input-amount-'+index+'" class="amount input w-full border mt-2 flex-1"/>'
+		html += '	</td>'
+		html += '	<td>'
+		html += '		<textarea name="description[]" id="input-description-'+index+'" class="input w-full border mt-2 flex-1" rows="2"></textarea>'
+		html += '	</td>'
+		html += '	<td>'
+		html += '		<button data-key="'+index+'" type="button" class="w-6 h-6 rounded flex text-white font-semibold justify-center items-center btn-remove-item bg-theme-6 text-white">'
+		html += '			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x mx-auto"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
+		html += '		</button>'
+		html += '	</td>'
+		html += '</tr>'
+		return html
+	}
+
+	$(document).on('keyup', '.amount', function (e) {  
+		e.preventDefault()
+		countAmount()
+	})
+
+	function countAmount() {  
+		let total = 0
+		$('.amount').each(function (index, element) {  
+			total += parseInt($(this).val())
+		})
+		if (isNaN(total)) {
+			total = 0
+		}
+		$('.total').html(formatRupiah(total.toString(), 'Rp '))
+	}
 
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
-        var form_data  =  new FormData(this)
-		let data = {}
-		for (var pair of form_data.entries()) {
-			const arrInt = ['store_id', 'product_id', 'cake_size', 
-			'price', 'additional_price', 'discount', 'delivery_cost']
-			if (arrInt.includes(pair[0])) {
-				data[pair[0]] = parseInt(pair[1])
-			} else {	
-				data[pair[0]] = pair[1]
-			}
+		const data = {
+			"expense_details" : []
 		}
+		
+		$('#details-table tbody > tr').each(function (index, element) {  
+			let item = {
+				'expense_category_id' : parseInt($(this).find('select').val()),
+				'amount' : parseInt($(this).find('.amount').val()),
+				'description' : $(this).find('textarea').val(),
+			}
+			data.expense_details.push(item)
+		})
+
+		console.log(JSON.stringify(data));
         $.ajax({
             type: 'POST',
-            url: API_URL+"/api/custom_orders",
+            url: API_URL+"/api/expenses",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(data),
 			contentType: 'application/json',
@@ -152,14 +199,13 @@
                 $('.loading-area').show();
             },
             success: function(res) {
-				console.log(res);
                 Swal.fire({
                   icon: 'success',
                   title: 'Sukses',
                   text: res.message
                 }).then((result) => {
                   if (result.isConfirmed) {
-					  window.location.href = "{{ route('custom.order.index') }}"
+					  window.location.href = "{{ route('expense.index') }}"
                   }
                 });
             },
