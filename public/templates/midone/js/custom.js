@@ -589,6 +589,7 @@ function resetAllInputOnForm(formId) {
 			$(this).select2('destroy').val("").select2({width: '100%'});
 		}
 	});
+	$(formId).find('input[type=checkbox]').prop("checked", false);
 }
 
 function makeTitle(slug, separator = '_') {

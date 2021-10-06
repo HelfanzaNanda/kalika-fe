@@ -47,6 +47,12 @@
                     <label>Nama</label> 
                     <input type="text" name="name" class="input w-full border flex-1" id="input-name"> 
                 </div>
+				<div class="col-span-12 sm:col-span-6"> 
+                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
+						<input type="checkbox" name="active" id="input-active" class="input border mr-2">
+						<label class="cursor-pointer select-none" for="input-active">Aktif</label>
+					</div>
+                </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
@@ -88,6 +94,7 @@
           $('#input-id').val(res.data.id);
           $('#input-division-id').val(res.data.division_id).trigger('change');
           $('#input-name').val(res.data.name);
+		  $("#input-active").prop("checked",  res.data.active ? true : false);
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -108,6 +115,7 @@
 				data[pair[0]] = pair[1]
 			}
 		}
+		data['active'] = $('#input-active').is(':checked') ? true : false
         $.ajax({
             type: 'post',
             url: API_URL+"/api/categories",
@@ -159,8 +167,8 @@
                 {data: 'division_name', name: 'division_name', className: 'text-center border-b'},
                 {data: 'name', name: 'name', className: 'text-center border-b'},
                 {
-                    data: 'status', 
-                    name: 'status', 
+                    data: 'active', 
+                    name: 'active', 
                     className: 'text-center border-b',
                     render: function ( data, type, row ) {
                         if (data) {

@@ -72,6 +72,24 @@
 					<label>Cake Variant</label>
 					<select name="cake_variant_id" id="input-cake-variant-id" class="single-select input w-full border mt-2 flex-1"></select>
 				</div>
+				<div class="col-span-12 sm:col-span-6"> 
+                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
+						<input type="checkbox" name="active" id="input-active" class="input border mr-2">
+						<label class="cursor-pointer select-none" for="input-active">Aktif</label>
+					</div>
+                </div>
+				<div class="col-span-12 sm:col-span-6"> 
+                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
+						<input type="checkbox" name="is_custom_price" id="input-is-custom-price" class="input border mr-2">
+						<label class="cursor-pointer select-none" for="input-is-custom-price">Is Custom Price</label>
+					</div>
+                </div>
+				<div class="col-span-12 sm:col-span-6"> 
+                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
+						<input type="checkbox" name="is_custom_product" id="input-is-custom-product" class="input border mr-2">
+						<label class="cursor-pointer select-none" for="input-is-custom-product">Is Custom Product</label>
+					</div>
+                </div>
 			</div>
 			<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
 				<button type="button"
@@ -130,6 +148,9 @@
 			$('#input-category-id').val(res.data.category_id).trigger('change')
 			$('#input-cake-type-id').val(res.data.cake_type_id).trigger('change')
 			$('#input-cake-variant-id').val(res.data.cake_variant_id).trigger('change')
+			$("#input-active").prop("checked",  res.data.active ? true : false);
+			$("#input-is-custom-price").prop("checked",  res.data.is_custom_price ? true : false);
+			$("#input-is-custom-product").prop("checked",  res.data.is_custom_product ? true : false);
 			$('#modal-title').text('Edit {{$title}}');
 			$('#main-modal').modal('show');
 			},
@@ -152,6 +173,9 @@
 				data[pair[0]] = pair[1]
 			}
 		}
+		data['active'] = $('#input-active').is(':checked') ? true : false
+		data['is_custom_price'] = $('#input-is-custom-price').is(':checked') ? true : false
+		data['is_custom_product'] = $('#input-is-custom-product').is(':checked') ? true : false
         $.ajax({
             type: 'POST',
             url: API_URL+"/api/products",

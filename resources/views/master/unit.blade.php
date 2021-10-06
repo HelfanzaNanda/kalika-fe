@@ -48,12 +48,11 @@
 					<input type="text" name="symbol" class="input w-full border mt-2 flex-1" id="input-symbol"> 
 				</div>
 				<div class="col-span-12 sm:col-span-6"> 
-					<label>Is Base Unit</label> 
-					<select name="is_base_unit" class="input w-full border mt-2 flex-1" id="input-is-base-unit">
-						<option value="true">Ya</option>
-						<option value="false">Tidak</option>
-					</select> 
-				</div>
+                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
+						<input type="checkbox" name="is_base_unit" id="input-is-base-unit" class="input border mr-2">
+						<label class="cursor-pointer select-none" for="input-is-base-unit">Is Base Unit</label>
+					</div>
+                </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
@@ -91,7 +90,7 @@
           $('#input-id').val(res.data.id)
           $('#input-name').val(res.data.name)
           $('#input-symbol').val(res.data.symbol)
-          $('#input-is-base-unit').val(res.data.is_base_unit ? "true" : "false").trigger('change')
+          $('#input-is-base-unit').prop("checked",  res.data.is_base_unit ? true : false);
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -112,6 +111,7 @@
 				data[pair[0]] = pair[1]
 			}
 		}
+		data['is_base_unit'] = $('#input-is-base-unit').is(':checked') ? true : false
         $.ajax({
             type: 'POST',
             url: API_URL+"/api/units",

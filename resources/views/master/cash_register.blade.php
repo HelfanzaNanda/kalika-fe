@@ -47,6 +47,7 @@
                     <label>Cash In Hand</label> 
 					<input type="text" name="cash_in_hand" class="input w-full border mt-2 flex-1" id="input-cash-in-hand"> 
                 </div>
+				
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
