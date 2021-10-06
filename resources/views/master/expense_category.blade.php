@@ -21,8 +21,7 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Symbol</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Is Base Unit</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Description</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -43,15 +42,9 @@
                     <label>Name</label> 
 					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
                 </div>
-				<div class="col-span-12 sm:col-span-6"> 
-					<label>Symbol</label> 
-					<input type="text" name="symbol" class="input w-full border mt-2 flex-1" id="input-symbol"> 
-				</div>
-				<div class="col-span-12 sm:col-span-6"> 
-                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
-						<input type="checkbox" name="is_base_unit" id="input-is-base-unit" class="input border mr-2">
-						<label class="cursor-pointer select-none" for="input-is-base-unit">Is Base Unit</label>
-					</div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Description</label> 
+					<textarea name="description" id="input-description" class="input w-full border mt-2 flex-1" rows="3"></textarea>
                 </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -82,15 +75,14 @@
 	  resetAllInputOnForm('#main-form')
       let id = $(this).data('id');
       $.ajax({
-        url: API_URL+"/api/units/"+id,
+        url: API_URL+"/api/expense_categories/"+id,
         type: 'GET',
         headers: { 'Authorization': 'Bearer '+TOKEN },
         dataType: 'JSON',
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id)
           $('#input-name').val(res.data.name)
-          $('#input-symbol').val(res.data.symbol)
-          $('#input-is-base-unit').prop("checked",  res.data.is_base_unit ? true : false);
+          $('#input-description').val(res.data.description)
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -105,16 +97,15 @@
         var form_data  =  new FormData(this)
 		let data = {}
 		for (var pair of form_data.entries()) {
-			if (['id', 'is_base_unit'].includes(pair[0])) {
+			if (['id'].includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
-			}else{	
+			} else {	
 				data[pair[0]] = pair[1]
 			}
 		}
-		data['is_base_unit'] = $('#input-is-base-unit').is(':checked') ? true : false
         $.ajax({
             type: 'POST',
-            url: API_URL+"/api/units",
+            url: API_URL+"/api/expense_categories",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(data),
 			contentType: 'application/json',
@@ -150,7 +141,7 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/unit_datatables",
+                "url": API_URL+"/api/expense_category_datatables",
                 "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
@@ -161,19 +152,7 @@
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'name', name: 'name', className: 'text-center border-b'},
-                {data: 'symbol', name: 'symbol', className: 'text-center border-b'},
-                {
-                    data: 'is_base_unit', 
-                    name: 'is_base_unit', 
-                    className: 'text-center border-b',
-                    render: function ( data, type, row ) {
-                        if (data) {
-                            return '<div class="flex items-center sm:justify-center text-theme-9">Yes</div>';
-                        } else {
-                            return '<div class="flex items-center sm:justify-center text-theme-6">No</div>';
-                        }
-                    }
-                },
+                {data: 'description', name: 'description', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],
@@ -199,7 +178,7 @@
           if (result.isConfirmed) {
             $.ajax({
                 type: 'DELETE',
-                url: API_URL+"/api/units/"+id,
+                url: API_URL+"/api/expense_categories/"+id,
                 headers: {
                   'Authorization': 'Bearer '+TOKEN
                 },

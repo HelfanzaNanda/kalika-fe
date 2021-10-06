@@ -33,6 +33,7 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/cake_variants', 'Master\CakeVariantController@index');
 	Route::get('/divisions', 'Master\DivisionController@index');
 	Route::get('/units', 'Master\UnitController@index');
+	Route::get('/expense_categories', 'Master\ExpenseCategoryController@index');
 });
 
 Route::group(['prefix' => 'sales'], function() {
@@ -73,12 +74,16 @@ Route::group(['prefix' => 'debt_receivable'], function() {
 	Route::get('/debts');
 });
 
-Route::get('expense');
-
 Route::group(['prefix' => 'production'], function() {
 	Route::get('', 'Production\ProductionController@index')->name('production.index');
 	Route::get('/create', 'Production\ProductionController@create')->name('production.create');
 	Route::get('/edit/{id}', 'Production\ProductionController@edit')->name('production.edit');
+});
+
+Route::prefix('expense')->group(function(){
+	Route::get('/', 'Expense\ExpenseController@index')->name('expense.index');
+	Route::get('/create', 'Expense\ExpenseController@create')->name('expense.create');
+	Route::get('/edit/{id}', 'Expense\ExpenseController@edit')->name('expense.edit');
 });
 
 Route::group(['prefix' => 'report'], function() {

@@ -42,6 +42,12 @@
                     <label>Nama</label> 
                     <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
                 </div>
+                <div class="col-span-12 sm:col-span-6"> 
+                    <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
+						<input type="checkbox" name="active" id="input-active" class="input border mr-2">
+						<label class="cursor-pointer select-none" for="input-active">Aktif</label>
+					</div>
+                </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
@@ -69,7 +75,7 @@
     $(document).on("click", "button#edit-data",function(e) {
 		e.preventDefault();
 		resetAllInputOnForm('#main-form')
-      let id = $(this).data('id');
+      	let id = $(this).data('id');
       $.ajax({
         url: API_URL+"/api/divisions/"+id,
         type: 'GET',
@@ -80,6 +86,7 @@
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id);
           $('#input-name').val(res.data.name);
+		  $("#input-active").prop("checked",  res.data.active ? true : false);
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -92,17 +99,22 @@
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
         var form_data   = new FormData( this );
+		let data = {}
+		for (var pair of form_data.entries()) {
+			if (['id'].includes(pair[0])) {
+				data[pair[0]] = parseInt(pair[1])
+			}else{
+				data[pair[0]] = pair[1]
+			}
+		}
+		data['active'] = $('#input-active').is(':checked') ? true : false
         $.ajax({
             type: 'post',
             url: API_URL+"/api/divisions",
-            headers: {
-              'Authorization': 'Bearer '+TOKEN
-            },
-            data: form_data,
-            cache: false,
-            contentType: false,
-            processData: false,
-            dataType: 'json',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            data: JSON.stringify(data),
+			contentType: 'application/json',
+			dataType: 'JSON',
             beforeSend: function() {
                 $('.loading-area').show();
             },
