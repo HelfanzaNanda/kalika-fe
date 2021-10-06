@@ -9,7 +9,7 @@
 @section('content')
 <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
     <h2 class="text-lg font-medium mr-auto">
-        Penjualan
+        {{$title}}
     </h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         {{-- <a href="javascript:;" data-toggle="modal" data-target="#new-order-modal" class="button text-white bg-theme-1 shadow-md mr-2">New Order</a>  --}}
@@ -18,10 +18,8 @@
                 <span class="w-5 h-5 flex items-center justify-center"> <i class="w-4 h-4" data-feather="chevron-down"></i> </span>
             </button>
             <div class="pos-dropdown__dropdown-box dropdown-box mt-10 absolute top-0 right-0 z-20">
-                <div class="dropdown-box__content box dark:bg-dark-1 p-2">
-                    <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="activity" class="w-4 h-4 mr-2"></i> <span class="truncate">INV-0206020 - Will Smith</span> </a>
-                    <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="activity" class="w-4 h-4 mr-2"></i> <span class="truncate">INV-0206022 - Denzel Washington</span> </a>
-                    <a href="#" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md"> <i data-feather="activity" class="w-4 h-4 mr-2"></i> <span class="truncate">INV-0206021 - Al Pacino</span> </a>
+                <div class="dropdown-box__content box dark:bg-dark-1 p-2" id="latest-invoice-list">
+                    
                 </div>
             </div>
         </div>
@@ -163,12 +161,12 @@
 
             <div class="col-span-12">
                 <label>Kembalian :</label>
-                <h1 class="text-4xl font-medium leading-none text-center text-theme-6" id="charge">0</h1>
+                <h1 class="text-4xl font-medium leading-none text-center text-theme-6" id="change">0</h1>
             </div>
         </div>
         <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
             <button type="button" data-dismiss="modal" class="button w-32 border dark:border-dark-5 text-gray-700 dark:text-gray-300 mr-1">Cancel</button>
-            <button type="button" class="button w-32 bg-theme-1 text-white">Selesai</button>
+            <button type="button" class="button w-32 bg-theme-1 text-white" id="finish-payment-btn">Selesai</button>
         </div>
     </div>
 </div>
@@ -226,11 +224,39 @@
 	let discount = 0;
 	let subtotal = 0;
 	let total = 0;
+	let currentSalesId = 0;
+	let currentPaymentId = 0;
+	let currentCustomerId = 0;
 
 	getCategories();
 	getProducts();
 	buildCart();
 	getPaymentMethods();
+	getSales();
+
+    function getSales() {
+        $.ajax({
+            url: API_URL+"/api/sales",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            async: false,
+            success: function(res, textStatus, jqXHR){
+                let html = ''
+				
+                $.each(res.data, function (index, item) {
+					html += '<a href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md" id="latest-invoice" data-id="'+item.id+'"> <i data-feather="activity" class="w-4 h-4 mr-2"></i> <span class="truncate">'+item.number+'</span> </a>'
+                });
+
+                $('#latest-invoice-list').html(html);
+
+                feather.replace();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
 
     function getCategories() {
         $.ajax({
@@ -254,7 +280,7 @@
             error: function(jqXHR, textStatus, errorThrown){
 
             },
-        })
+        });
     }
 
     function getPaymentMethods() {
@@ -412,17 +438,17 @@
     	$('#cart-product-detail-qty').val(parseFloat(qty) + 1);
     });
 
-    $(document).on("click", "button#pay", function() {
-		$('#pay-sales-total').text(total);
-		$('#pay-modal').modal('show');
-    });
-
     $(document).on("click","button#cart-product-detail-minus",function() {
     	let qty = $('#cart-product-detail-qty').val();
     	if (qty < 1) {
     		return;
     	}
     	$('#cart-product-detail-qty').val(parseFloat(qty) - 1);
+    });
+
+    $(document).on("click", "button#pay", function() {
+        $('#pay-sales-total').text(total);
+        $('#pay-modal').modal('show');
     });
 
 	// Show choose category modal
@@ -454,7 +480,6 @@
 		$('#category-modal').modal('hide');
     });
 
-	// Show choose category modal
     $(document).on("keyup","input#discount",function() {
         discount = parseFloat($(this).val());
 		
@@ -465,19 +490,164 @@
         let amount = $(this).data('amount');
 		
 		$('#input-pay-amount').val(amount);
-		calculateCharge();
+		calculateChange();
     });
 
     $(document).on("keyup", "#input-pay-amount",function() {
-		calculateCharge();
+		calculateChange();
     });
 
-    function calculateCharge() {
+    function calculateChange() {
 		let customerPayAmount = $('#input-pay-amount').val();
 		
 		let result = customerPayAmount - total;
 
-		$('#charge').text(result);
+		$('#change').text(result);
+    }
+	
+	$(document).on("click", "a#latest-invoice",function() {
+		let salesId = $(this).data('id');
+
+        $.ajax({
+            url: API_URL+"/api/sales/"+salesId,
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            async: false,
+            beforeSend: function() {
+				clearAll()
+            },
+            success: function(res, textStatus, jqXHR){
+				$.each(res.data.sales_details, function (index, item) {
+			    	cart[item.product_id] = {
+			    		"id": item.product_id,
+			    		"name": item.product.name,
+			    		"quantity": item.qty,
+			    		"unit_price": item.unit_price
+			    	};
+					
+					item.product["id"] = item.product_id;
+			    	tempProduct[item.product_id] = item.product;
+
+			    	subtotal += parseFloat(item.unit_price) * parseFloat(item.qty);
+				});
+
+				discount = res.data.discount_value;
+
+				total = subtotal - discount;
+
+				$('#input-pay-amount').val(res.data.customer_pay);
+				$('#change').text(res.data.customer_change);
+				$('#pay-sales-total').text(res.data.total);
+				$('#discount').val(res.data.discount_value);
+				$('#input-payment-method').val(res.data.payment.payment_method_id).trigger('change');
+				$('#input-payment-method-note').val(res.data.payment.payment_note);
+				$('#input-customer-name').val(res.data.customer.name);
+				$('#input-customer-phone').val(res.data.customer.phone);
+
+				currentSalesId = res.data.id;
+				currentPaymentId = res.data.payment.id;
+				currentCustomerId = res.data.customer.id
+
+				buildCart();
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        });
+	});
+
+    $(document).on("click", "button#finish-payment-btn",function() {
+		let salesBodyReq = {
+			"id": currentSalesId,
+		    "customer_pay": parseFloat($('#input-pay-amount').val()),
+		    "customer_change": parseFloat($('#change').text()),
+		    "total": parseFloat($('#pay-sales-total').text()),
+		    "discount_value": parseFloat($('#discount').val()),
+		    "discount_percentage": 0,
+		    "payment": {
+		    	"id": currentPaymentId,
+		        "payment_method_id": parseInt($('#input-payment-method').find(':selected').val()),
+		        "total": parseFloat($('#pay-sales-total').text()),
+		        "change": parseFloat($('#change').text()),
+		        "payment_note": $('#input-payment-method-note').val()
+		    },
+		    "customer": {
+		    	"id": currentCustomerId,
+		        "name": $('#input-customer-name').val(),
+		        "address": "",
+		        "phone": $('#input-customer-phone').val()
+		    }
+		}
+
+		let salesDetailBodyReq = [];
+		
+		$.each(cart, function (index, item) {
+			if (item != null) {
+				salesDetailBodyReq.push({
+					'product_id': index,
+					'qty': parseFloat(item.quantity),
+					'discount_percentage': 0,
+					'discount_value': 0,
+					'unit_price': parseFloat(item.unit_price)
+				});
+			}
+		});
+
+		salesBodyReq['sales_details'] = salesDetailBodyReq;
+
+        $.ajax({
+            type: 'POST',
+            url: API_URL+"/api/sales",
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            data: JSON.stringify(salesBodyReq),
+			contentType: 'application/json',
+			dataType: 'JSON',
+            beforeSend: function() {
+                
+            },
+            success: function(res) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Sukses',
+                  text: res.message
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    //TODO CLEAR ALL
+					clearAll();
+
+					$('#pay-modal').modal('hide');
+                  }
+                });
+            },
+			error: function(jqXHR, textStatus, errorThrown){
+				console.log(jqXHR.responseJSON);
+			},
+        });
+    });
+
+    function clearAll() {
+		cart = [];
+		discount = 0;
+		subtotal = 0;
+		total = 0;
+
+		$('#input-pay-amount').val(0);
+		$('#change').text(0);
+		$('#pay-sales-total').text(0);
+		$('#discount').val(0);
+		$('#input-payment-method').val('').trigger('change');
+		$('#pay-sales-total').text(0);
+		$('#change').text(0);
+		$('#input-payment-method-note').val('');
+		$('#input-customer-name').val('');
+		$('#input-customer-phone').val('');
+
+		currentSalesId = 0;
+		currentPaymentId = 0;
+		currentCustomerId = 0;
+
+		buildCart();
     }
 </script>
 @endsection

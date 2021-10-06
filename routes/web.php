@@ -36,7 +36,11 @@ Route::group(['prefix' => 'master'], function() {
 });
 
 Route::group(['prefix' => 'sales'], function() {
-	Route::get('/sales_consignments');
+	Route::prefix('sales_consignments')->group(function() {
+		Route::get('/', 'Sales\SalesConsignmentController@index')->name('sales.consignment.index');
+		Route::get('/create', 'Sales\SalesConsignmentController@create')->name('sales.consignment.create');
+		Route::get('/edit/{id}', 'Sales\SalesConsignmentController@edit')->name('sales.consignment.edit');
+	});
 	Route::get('/sales_returns');
 	
 	Route::get('/pos', 'Sales\SaleController@pos')->name('sales.pos');
@@ -56,7 +60,11 @@ Route::group(['prefix' => 'sales'], function() {
 
 Route::group(['prefix' => 'purchase'], function() {
 	Route::get('/purchase_returns');
-	Route::get('/purchase_orders');
+	Route::prefix('purchase_orders')->group(function(){
+		Route::get('', 'Purchase\PurchaseOrderController@index')->name('purchase_order.index');
+		Route::get('/create', 'Purchase\PurchaseOrderController@create')->name('purchase_order.create');
+		Route::get('/edit/{id}', 'Purchase\PurchaseOrderController@edit')->name('purchase_order.edit');
+	});
 	Route::get('/purchase_invoices');
 });
 
@@ -66,7 +74,12 @@ Route::group(['prefix' => 'debt_receivable'], function() {
 });
 
 Route::get('expense');
-Route::get('production');
+
+Route::group(['prefix' => 'production'], function() {
+	Route::get('', 'Production\ProductionController@index')->name('production.index');
+	Route::get('/create', 'Production\ProductionController@create')->name('production.create');
+	Route::get('/edit/{id}', 'Production\ProductionController@edit')->name('production.edit');
+});
 
 Route::group(['prefix' => 'report'], function() {
 	Route::get('/receivables');
