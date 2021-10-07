@@ -24,7 +24,11 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/customers', 'Master\CustomerController@index');
 	Route::get('/categories', 'Master\CategoryController@index');
 	Route::get('/store_consignments', 'Master\StoreConsignmentController@index');
-	Route::get('/products', 'Master\ProductController@index');
+	Route::prefix('products')->group(function(){
+		Route::get('/', 'Master\ProductController@index')->name('product.index');
+		Route::get('/create', 'Master\ProductController@create')->name('product.create');
+		Route::get('/edit/{id}', 'Master\ProductController@edit')->name('product.edit');
+	});
 	Route::get('/suppliers', 'Master\SupplierController@index');
 	Route::get('/sellers', 'Master\SellerController@index');
 	Route::get('/cash_registers', 'Master\CashRegisterController@index');
