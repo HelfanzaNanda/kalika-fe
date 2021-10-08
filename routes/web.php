@@ -40,8 +40,14 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/expense_categories', 'Master\ExpenseCategoryController@index');
 });
 
+
+
 Route::group(['prefix' => 'sales'], function() {
-	Route::get('/sales_consignments');
+	Route::prefix('sales_consignments')->group(function() {
+		Route::get('/', 'Sales\SalesConsignmentController@index')->name('sales.consignment.index');
+		Route::get('/create', 'Sales\SalesConsignmentController@create')->name('sales.consignment.create');
+		Route::get('/edit/{id}', 'Sales\SalesConsignmentController@edit')->name('sales.consignment.edit');
+	});
 	Route::get('/sales_returns');
 	
 	Route::get('/pos', 'Sales\SaleController@pos')->name('sales.pos');
@@ -61,8 +67,20 @@ Route::group(['prefix' => 'sales'], function() {
 
 Route::group(['prefix' => 'purchase'], function() {
 	Route::get('/purchase_returns');
-	Route::get('/purchase_orders');
+	Route::prefix('purchase_orders')->group(function(){
+		Route::get('', 'Purchase\PurchaseOrderController@index')->name('purchase_order.index');
+		Route::get('/create', 'Purchase\PurchaseOrderController@create')->name('purchase_order.create');
+		Route::get('/edit/{id}', 'Purchase\PurchaseOrderController@edit')->name('purchase_order.edit');
+	});
 	Route::get('/purchase_invoices');
+});
+
+Route::group(['prefix' => 'inventory'], function() {
+	Route::prefix('stock_opnames')->group(function(){
+		Route::get('', 'Inventory\StockOpnameController@index')->name('stock_opname.index');
+		Route::get('/create', 'Inventory\StockOpnameController@create')->name('stock_opname.create');
+		Route::get('/edit/{id}', 'Inventory\StockOpnameController@edit')->name('stock_opname.edit');
+	});
 });
 
 Route::group(['prefix' => 'debt_receivable'], function() {
@@ -70,13 +88,17 @@ Route::group(['prefix' => 'debt_receivable'], function() {
 	Route::get('/debts');
 });
 
+Route::group(['prefix' => 'production'], function() {
+	Route::get('', 'Production\ProductionController@index')->name('production.index');
+	Route::get('/create', 'Production\ProductionController@create')->name('production.create');
+	Route::get('/edit/{id}', 'Production\ProductionController@edit')->name('production.edit');
+});
+
 Route::prefix('expense')->group(function(){
 	Route::get('/', 'Expense\ExpenseController@index')->name('expense.index');
 	Route::get('/create', 'Expense\ExpenseController@create')->name('expense.create');
 	Route::get('/edit/{id}', 'Expense\ExpenseController@edit')->name('expense.edit');
 });
-
-Route::get('production');
 
 Route::group(['prefix' => 'report'], function() {
 	Route::get('/receivables');
