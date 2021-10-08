@@ -36,6 +36,8 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/expense_categories', 'Master\ExpenseCategoryController@index');
 });
 
+
+
 Route::group(['prefix' => 'sales'], function() {
 	Route::prefix('sales_consignments')->group(function() {
 		Route::get('/', 'Sales\SalesConsignmentController@index')->name('sales.consignment.index');
@@ -67,6 +69,14 @@ Route::group(['prefix' => 'purchase'], function() {
 		Route::get('/edit/{id}', 'Purchase\PurchaseOrderController@edit')->name('purchase_order.edit');
 	});
 	Route::get('/purchase_invoices');
+});
+
+Route::group(['prefix' => 'inventory'], function() {
+	Route::prefix('stock_opnames')->group(function(){
+		Route::get('', 'Inventory\StockOpnameController@index')->name('stock_opname.index');
+		Route::get('/create', 'Inventory\StockOpnameController@create')->name('stock_opname.create');
+		Route::get('/edit/{id}', 'Inventory\StockOpnameController@edit')->name('stock_opname.edit');
+	});
 });
 
 Route::group(['prefix' => 'debt_receivable'], function() {
