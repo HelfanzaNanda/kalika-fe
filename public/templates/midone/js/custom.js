@@ -1,10 +1,10 @@
 if ($("#datepicker-popup").length) {
-  $('#datepicker-popup').datepicker({
-    enableOnReadonly: true,
-    todayHighlight: true,
-    autoclose: true,
-    format: 'yyyy-mm-dd'
-  });
+	$('#datepicker-popup').datepicker({
+		enableOnReadonly: true,
+		todayHighlight: true,
+		autoclose: true,
+		format: 'yyyy-mm-dd'
+	});
 }
 
 function addSeparator(nStr, inD = '.', outD = '.', sep = '.') {
