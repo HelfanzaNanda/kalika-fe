@@ -68,21 +68,52 @@
 				</div>
 			</div>
 		</div>
-		<div class="px-5">
-			<table class="table table-report table-report--bordered display w-full" id="details-table">
-				<thead>
-					<tr>
-						<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Name</th>
-						<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Amount</th>
-						<th class="border-b-2 text-center whitespace-no-wrap">Aksi</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
-		</div>
-		<div class="flex px-5 justify-between mb-2">
-			<button type="button" class="button btn-add-item w-20 bg-theme-1 text-white">Add Row</button> 
-		</div>
+</div>
+<div class="intro-y box mt-5">
+    <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5">
+        <h2 class="font-medium text-base mr-auto">
+            Tipe Harga
+        </h2>
+    </div>
+	<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+		<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6" id="details-table">
+			<thead>
+				<tr>
+					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Name</th>
+					<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Amount</th>
+					<th class="border-b-2 text-center whitespace-no-wrap">Aksi</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
+	<div class="flex px-5 justify-between pb-5">
+		<button type="button" class="button btn-add-item w-30 bg-theme-1 text-white">Tambah Tipe Harga</button> 
+	</div>
+</div>
+
+<div class="intro-y box mt-5">
+    <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5">
+        <h2 class="font-medium text-base mr-auto">
+            Stok
+        </h2>
+    </div>
+	<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+		<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6">
+			<thead>
+				<tr>
+					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Toko</th>
+					<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Quantity</th>
+				</tr>
+			</thead>
+			<tbody id="product-location-list">
+
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<div class="intro-y box mt-5">
 		<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
 			<a href="{{ route('product.index') }}" type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Kembali</a> 
 			<button type="submit" class="button w-20 bg-theme-1 text-white">Submit</button> 
@@ -99,6 +130,7 @@
 <script type="text/javascript">
 	let id = "{{ $id }}"
 	let index = 0
+	let productLocation = [];
 	getDivisions()
 	getCategories()
 	getCakeTypes()
@@ -107,11 +139,11 @@
 	setTimeout(() => {
 		getProduct()
 	}, 500);
+	getStores();
 
 	function initSelect2(){
 		$(".single-select").select2({
-			placeholder: "Choose One",
-			allowClear: true
+			placeholder: "Choose One"
 		});
 	}
     
@@ -132,7 +164,8 @@
         e.preventDefault();
 		var form_data  =  new FormData(this)
 		const data = {
-			"product_prices" : []
+			"product_prices" : [],
+			"product_locations": []
 		}
 		for (var pair of form_data.entries()) {
 			const arrInt = ['id', 'stock_minimum', 'production_minimum', 
@@ -151,12 +184,17 @@
 			}
 			data.product_prices.push(item)
 		})
+		$('#product-location-list > tr').each(function (index, element) {
+			let item = {
+				'store_id' : parseInt($(this).find('.product_location_store_id').val()),
+				'quantity' : parseInt($(this).find('.product_location_quantity').val()),
+			}
+			data.product_locations.push(item)
+		});
 		data['active'] = $('#input-active').is(':checked') ? true : false
 		data['is_custom_price'] = $('#input-is-custom-price').is(':checked') ? true : false
 		data['is_custom_product'] = $('#input-is-custom-product').is(':checked') ? true : false
-		console.log(data);
-		//console.log(JSON.stringify(data));
-		//return
+
         $.ajax({
             type: 'PUT',
             url: API_URL+"/api/products/"+id,
@@ -183,6 +221,50 @@
 			},
         })
     });
+
+	function getStores() {
+		$.ajax({
+			url: API_URL+"/api/stores",
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			success: function(res, textStatus, jqXHR){
+				let opt = ''
+				getProductLocation();
+				$.each(res.data, function (index, item) { 
+					opt += '<tr class="item-0">';
+					opt += '	<td class="text-center"> <input type="hidden" name="product_location[store_id][]" class="product_location_store_id" value="'+item.id+'"/> <label>'+item.name+'</label> </td>';
+					opt += '	<td> ';
+					opt += '		<input type="number" name="product_location[quantity][]" id="input-amount-0" class="product_location_quantity input w-full border mt-2 flex-1" value="'+productLocation[item.id]+'"/> ';
+					opt += '	</td>';
+					opt += '</tr>';
+				})
+				$('#product-location-list').html(opt)
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+
+			},
+		})
+	}
+
+	function getProductLocation() {
+		$.ajax({
+			url: API_URL+"/api/product_locations?product_id="+id,
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			async: false,
+			success: function(res, textStatus, jqXHR){
+				$.each(res.data, function (index, item) {  
+					productLocation[item.store_id] = item.quantity;
+				})
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+
+			},
+		})
+	}
+
 
 	function setHtmlItem() {  
 		let html = ''

@@ -10,6 +10,7 @@
       <!-- BEGIN: CSS Assets-->
       <link rel="stylesheet" href="{{ asset('templates/midone/css/app.css') }}" />
       <link rel="stylesheet" href="{{ asset('templates/midone/vendor/sweetalert/sweetalert2.min.css') }}" />
+      {{-- <link rel="stylesheet" href="{{ asset('templates/midone/vendor/datepicker/bootstrap-datepicker.min.css') }}" /> --}}
       {{-- <link rel="stylesheet" href="{{ asset('templates/midone/vendor/select2/css/select2.min.css') }}" /> --}}
 
       
@@ -74,6 +75,7 @@
       <script src="{{ asset('templates/midone/vendor/sweetalert/sweetalert2.min.js') }}"></script>
       <script src="{{ asset('templates/midone/vendor/moment/moment.min.js') }}"></script>
       <script src="{{ asset('templates/midone/vendor/moment/moment-with-locales.min.js') }}"></script>
+      {{-- <script src="{{ asset('templates/midone/vendor/datepicker/bootstrap-datepicker.min.js') }}"></script> --}}
       {{-- <script src="{{ asset('templates/midone/vendor/select2/js/select2.min.js') }}"></script> --}}
 	  
 

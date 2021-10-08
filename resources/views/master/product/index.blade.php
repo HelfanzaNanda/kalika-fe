@@ -114,34 +114,6 @@
 		e.preventDefault();
 		let id = $(this).data('id');
 	  	window.location.replace(`/master/products/edit/${id}`)
-		// getDivisions()
-		// getCategories()
-		// getCakeTypes()
-		// getCakeVariants()
-		// $.ajax({
-		// 	url: API_URL+"/api/products/"+id,
-		// 	type: 'GET',
-		// 	headers: { 'Authorization': 'Bearer '+TOKEN },
-		// 	dataType: 'JSON',
-		// 	success: function(res, textStatus, jqXHR){
-		// 	$('#input-id').val(res.data.id)
-		// 	$('#input-name').val(res.data.name)
-		// 	$('#input-stock-minimum').val(res.data.stock_minimum)
-		// 	$('#input-production-minimum').val(res.data.production_minimum)
-		// 	$('#input-division-id').val(res.data.division_id).trigger('change')
-		// 	$('#input-category-id').val(res.data.category_id).trigger('change')
-		// 	$('#input-cake-type-id').val(res.data.cake_type_id).trigger('change')
-		// 	$('#input-cake-variant-id').val(res.data.cake_variant_id).trigger('change')
-		// 	$("#input-active").prop("checked",  res.data.active ? true : false);
-		// 	$("#input-is-custom-price").prop("checked",  res.data.is_custom_price ? true : false);
-		// 	$("#input-is-custom-product").prop("checked",  res.data.is_custom_product ? true : false);
-		// 	$('#modal-title').text('Edit {{$title}}');
-		// 	$('#main-modal').modal('show');
-		// 	},
-		// 	error: function(jqXHR, textStatus, errorThrown){
-
-		// 	},
-		// });
     });
 
     function drawDatatable() {

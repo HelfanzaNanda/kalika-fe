@@ -84,8 +84,8 @@ Route::group(['prefix' => 'inventory'], function() {
 });
 
 Route::group(['prefix' => 'debt_receivable'], function() {
-	Route::get('/receivables');
-	Route::get('/debts');
+	Route::get('/receivables', 'DebtReceivable\ReceivableController@index');
+	Route::get('/debts', 'DebtReceivable\DebtController@index');
 });
 
 Route::group(['prefix' => 'production'], function() {
