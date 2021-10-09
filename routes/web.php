@@ -101,12 +101,13 @@ Route::prefix('expense')->group(function(){
 });
 
 Route::group(['prefix' => 'report'], function() {
-	Route::get('/receivables');
-	Route::get('/purchase_returns');
-	Route::get('/sales_returns');
-	Route::get('/purchase');
-	Route::get('/debts');
-	Route::get('/sales');
+	Route::get('/receivables', 'Report\ReceivableController@index');
+	Route::get('/purchase_returns', 'Report\PurchaseReturnController@index');
+	Route::get('/sales_returns', 'Report\SalesReturnController@index');
+	Route::get('/purchase', 'Report\PurchaseController@index');
+	Route::get('/debts', 'Report\DebtController@index');
+	Route::get('/sales', 'Report\SaleController@index');
+	Route::get('/costs', 'Report\ExpenseController@index');
 });
 
 Route::group(['prefix' => 'setting'], function() {

@@ -11,9 +11,9 @@
     <h2 class="text-lg font-medium mr-auto">
         Data {{$title}}
     </h2>
-    <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a href="{{ url('/purchase/purchase_orders/create') }}" class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</a>
-    </div>
+    {{-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+        <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button>
+    </div> --}}
 </div>
 <div class="intro-y datatable-wrapper box p-5 mt-5">
     <table class="table table-report table-report--bordered display datatable w-full" id="main-table">
@@ -27,7 +27,7 @@
                 <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                {{-- <th class="border-b-2 whitespace-no-wrap">Action</th> --}}
             </tr>
         </thead>
         <tbody>
@@ -37,6 +37,26 @@
 </div>
 <div class="modal" id="main-modal">
    <div class="modal__content modal__content--xl">
+        <form id="main-form">
+            <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+                <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
+            </div>
+            <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+                <input type="hidden" name="id" id="input-id" value="0"> 
+                <div class="col-span-12 sm:col-span-6"> 
+                    <label>Total</label> 
+					<input type="number" name="total" id="input-total" class="input w-full border mt-2 flex-1" > 
+                </div>
+				<div class="col-span-12 sm:col-span-6"> 
+					<label>Konsiyasi</label> 
+					<select name="store_consignment_id" id="input-store-consignment-id" class="single-select input w-full border mt-2 flex-1"></select> 
+				</div>
+            </div>
+            <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
+                <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
+                <button type="submit" class="button w-20 bg-theme-1 text-white">Submit</button> 
+            </div>
+        </form>
    </div>
 </div>
 @endsection
@@ -49,12 +69,6 @@
 <script type="text/javascript">
     drawDatatable()
 
-    $(document).on("click", "button#edit-data",function(e) {
-      e.preventDefault();
-      let id = $(this).data('id')
-	  window.location.replace(`/purchase/purchase_orders/edit/${id}`)
-    });
-
     function drawDatatable() {
         $("#main-table").DataTable({
             "destroy": true,
@@ -62,7 +76,7 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/purchase_order_datatables",
+                "url": API_URL+"/api/report_purchase_order_datatables",
                 "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
@@ -78,8 +92,8 @@
                 {data: 'status', name: 'status', className: 'text-center border-b'},
                 {data: 'discount', name: 'discount', className: 'text-center border-b'},
                 {data: 'total', name: 'total', className: 'text-center border-b'},
-                {data: 'created_by', name: 'created_by', className: 'text-center border-b'},
-                {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
+                {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
+                // {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],
             "initComplete": function(settings, json) {
@@ -87,47 +101,5 @@
             }
         });
     }
-
-    $(document).on('click', 'button#delete-data', function( e ) {
-        e.preventDefault();
-        let id = $(this).data('id');
-
-        Swal.fire({
-          title: "Apakah anda yakin?",
-          text: "Anda tidak bisa memulihkan data ini",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Ya'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            $.ajax({
-                type: 'DELETE',
-                url: API_URL+"/api/purchase_orders/"+id,
-                headers: {
-                  'Authorization': 'Bearer '+TOKEN
-                },
-                cache: false,
-                contentType: false,
-                processData: false,
-                dataType: 'json',
-                beforeSend: function() {
-                    $('.loading-area').show();
-                },
-                success: function(res) {
-                    Swal.fire(
-                      'Terhapus!',
-                      'Data anda telah dihapus.',
-                      'success'
-                    )
-                    $('#main-table').DataTable().ajax.reload( function ( json ) {
-                        feather.replace();
-                    } );
-                }
-            })
-          }
-        })
-    });
 </script>
 @endsection
