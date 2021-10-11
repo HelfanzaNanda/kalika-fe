@@ -32,6 +32,7 @@
       }
       
       var ROLE_ID = JSON.parse(loggedUser)['role_id'];
+      var STORE_ID = JSON.parse(loggedUser)['role_id'];
       TOKEN = JSON.parse(loggedUser)['token'];
     </script>
     <body class="app">
@@ -89,6 +90,21 @@
             let id = $(this).data('id');
             $('#'+id).modal('hide');
         });
+
+        function checkCashRegister() {
+          $.ajax({
+            url: API_URL+"/api/cash_registers?store_id="+STORE_ID+"&status=open",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+              
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+          }); 
+        }
       </script>
       @yield('additionalScriptJS')
   </body>

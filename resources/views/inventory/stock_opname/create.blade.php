@@ -23,47 +23,30 @@
 		</div>
 		<div class="px-5 py-3 grid grid-cols-12 gap-4 row-gap-3">
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Nama </label> 
-				<input type="text" readonly name="name" id="input-name" class="input w-full border mt-2 flex-1"/>
+				<label>Nama Kasir </label> 
+				<input type="text" disabled="" name="name" id="input-name" class="input w-full border mt-2 flex-1"/>
 			</div>
-			
+
+			<div class="col-span-12 sm:col-span-6">
+				<label>Toko</label>
+				<select name="store_id" id="input-store-id" class="select2 input w-full border mt-2 flex-1"></select>
+			</div>
 		</div>
 		<div class="px-5">
 			<table class="table table-report table-report--bordered display w-full" id="details-table">
 				<thead>
 					<tr>
-						<th class="border-b-2 text-center whitespace-no-wrap">Expense Category</th>
-						<th class="border-b-2 text-center whitespace-no-wrap">Amount</th>
-						<th class="border-b-2 text-center whitespace-no-wrap">Description</th>
-						<th class="border-b-2 text-center whitespace-no-wrap">Aksi</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Produk</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Kategori</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Stok Buku</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Stok Fisik</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Selisih</th>
 					</tr>
 				</thead>
-				<tbody>
-					<tr class="item-0">
-						<td>
-							<select name="expense_category_id[]" id="input-expense-category-id-0" class="input w-full border mt-2 flex-1"></select>
-						</td>
-						<td>
-							<input type="number" name="amount[]" id="input-amount-0" class="amount input w-full border mt-2 flex-1"/>
-						</td>
-						<td>
-							<textarea name="description[]" id="input-description-0" class="input w-full border mt-2 flex-1" rows="2"></textarea>
-						</td>
-						<td>
-							<button style="display: none" type="button" class="w-6 h-6 rounded flex text-white font-semibold justify-center items-center btn-remove-item bg-theme-6 text-white">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x mx-auto"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-							</button>
-						</td>
-					</tr>
+				<tbody id="stock-opname-items">
+
 				</tbody>
 			</table>
-		</div>
-		<div class="flex px-5 justify-between mb-2">
-			<button type="button" class="button btn-add-item w-20 bg-theme-1 text-white">Add Row</button> 
-			<div class="text-right">
-				<label for="">Total</label>
-				<h4><strong class="total">Rp 0</strong></h4>
-			</div>
 		</div>
 		<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
 			<a href="{{ route('expense.index') }}" type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Kembali</a> 
@@ -80,14 +63,16 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
 	let index = 0
-	setNameCurrentUser()
-    getExpenseCategories()
-	initSelect2()
+	let storeId = 0;
+	let stores = [];
+	setNameCurrentUser();
+	initSelect2();
+	getProductLocation();
+	getStores();
 
 	function initSelect2(){
 		$("#input-expense-category-id-"+index).select2({
-			placeholder: "Choose One",
-			allowClear: false
+			placeholder: "Choose One"
 		});
 	}
 
@@ -99,98 +84,108 @@
 		}
 	}
 
-    function getExpenseCategories() {
-        $.ajax({
-            url: API_URL+"/api/expense_categories",
-            type: 'GET',
-            headers: { 'Authorization': 'Bearer '+TOKEN },
-            dataType: 'JSON',
-            success: function(res, textStatus, jqXHR){
-                let opt = ''
-                opt += '<option value=""> - Pilih Kategori - </option>'
-                $.each(res.data, function (index, item) {  
-                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
-                })
-				//console.log('id', '#input-expense-category-id-'+index);
-                $('#input-expense-category-id-'+index).html(opt)
-            },
-            error: function(jqXHR, textStatus, errorThrown){
+	function getStores() {
+		$.ajax({
+			url: API_URL+"/api/stores",
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			success: function(res, textStatus, jqXHR){
+				let opt = ''
+				stores = res.data;
+				opt += '<option value=""> - Pilih Toko - </option>'
+				$.each(res.data, function (index, item) {  
+					opt += '<option value="'+item.id+'">'+item.name+'</option>'
+				})
+				$('#input-store-id').html(opt)
+			},
+			error: function(jqXHR, textStatus, errorThrown){
 
-            },
-        })
-    }
-    
-
-	$(document).on('click', '.btn-add-item', function (e) {  
-		e.preventDefault()
-		index++
-		$('#details-table tbody').append(setHtmlItem())
-		initSelect2()
-		getExpenseCategories()
-	})
-
-	$(document).on('click', '.btn-remove-item', function (e) {  
-		e.preventDefault()
-		const key = $(this).data('key')
-		$('.item-'+key).remove()
-	})
-
-	function setHtmlItem() {  
-		let html = ''
-		html += '<tr class="item-'+index+'">'
-		html += '	<td>'
-		html += '		<select name="expense_category_id[]" id="input-expense-category-id-'+index+'" class="input w-full border mt-2 flex-1"></select>'
-		html += '	</td>'
-		html += '	<td>'
-		html += '		<input type="number" name="amount[]" id="input-amount-'+index+'" class="amount input w-full border mt-2 flex-1"/>'
-		html += '	</td>'
-		html += '	<td>'
-		html += '		<textarea name="description[]" id="input-description-'+index+'" class="input w-full border mt-2 flex-1" rows="2"></textarea>'
-		html += '	</td>'
-		html += '	<td>'
-		html += '		<button data-key="'+index+'" type="button" class="w-6 h-6 rounded flex text-white font-semibold justify-center items-center btn-remove-item bg-theme-6 text-white">'
-		html += '			<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x mx-auto"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
-		html += '		</button>'
-		html += '	</td>'
-		html += '</tr>'
-		return html
-	}
-
-	$(document).on('keyup', '.amount', function (e) {  
-		e.preventDefault()
-		countAmount()
-	})
-
-	function countAmount() {  
-		let total = 0
-		$('.amount').each(function (index, element) {  
-			total += parseInt($(this).val())
+			},
 		})
-		if (isNaN(total)) {
-			total = 0
-		}
-		$('.total').html(formatRupiah(total.toString(), 'Rp '))
 	}
+
+	function getProductLocation() {
+		$.ajax({
+			url: API_URL+"/api/product_locations?store_id="+storeId,
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			async: false,
+			success: function(res, textStatus, jqXHR){
+				let html = '';
+				$.each(res.data, function (index, item) {  
+					html += '<tr class="item-'+index+'">'
+					html += '	<td>'
+					html += '		<input type="hidden" value="'+item.product_id+'" name="product_id" id="input-product_id"><label>'+item.product.name+'</label>'
+					html += '	</td>'
+					html += '	<td>'
+					html += '		<label>'+item.product.category.name+'</label>'
+					html += '	</td>'
+					html += '	<td>'
+					html += '		<input type="hidden" value="'+item.quantity+'" name="stock_on_book" id="input-stock_on_book"> <label id="quantity-'+index+'">'+item.quantity+'</label>'
+					html += '	</td>'
+					html += '	<td>'
+					html += '		<input type="text" name="stock_on_physic" id="input-stock_on_physic" class="input w-full border mt-2 flex-1" value="0" data-index="'+index+'">'
+					html += '	</td>'
+					html += '	<td>'
+					html += '		<label id="difference-'+index+'">0</label>'
+					html += '	</td>'
+					html += '</tr>'
+				});
+
+				$('#stock-opname-items').html(html);
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+
+			},
+		})
+	}
+
+	function diff(num1, num2) {
+		if (num1 > num2) {
+		  return parseFloat(num1) - parseFloat(num2)
+		} else {
+		  return parseFloat(num2) - parseFloat(num1)
+		}
+	}
+
+	$(document).on('keyup', '#input-stock_on_physic', function (e) {  
+		e.preventDefault()
+		let id = $(this).data('index');
+		let value = parseFloat($(this).val());
+		let bookQuantity = parseFloat($('label#quantity-'+id).text());
+		
+		$('label#difference-'+id).text(diff(bookQuantity, value));
+	});
+
+	$(document).on('change', '#input-store-id', function (e) {  
+		e.preventDefault()
+		storeId = parseInt($(this).find(':selected').val());
+		getProductLocation();
+	})
 
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
 		const data = {
-			"expense_details" : []
+			"store_id": parseInt($('#input-store-id').find(':selected').val()),
+			"note": "-",
+			"type": "product",
+			"stock_opname_details" : []
 		}
 		
-		$('#details-table tbody > tr').each(function (index, element) {  
+		$('#stock-opname-items > tr').each(function (index, element) {  
 			let item = {
-				'expense_category_id' : parseInt($(this).find('select').val()),
-				'amount' : parseInt($(this).find('.amount').val()),
-				'description' : $(this).find('textarea').val(),
+				'product_id' : parseInt($(this).find('#input-product_id').val()),
+				'stock_on_book' : parseInt($(this).find('#input-stock_on_book').val()),
+				'stock_on_physic' : parseInt($(this).find('#input-stock_on_physic').val()),
 			}
-			data.expense_details.push(item)
+			data.stock_opname_details.push(item)
 		})
 
-		console.log(JSON.stringify(data));
         $.ajax({
             type: 'POST',
-            url: API_URL+"/api/expenses",
+            url: API_URL+"/api/stock_opnames",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(data),
 			contentType: 'application/json',
@@ -205,7 +200,7 @@
                   text: res.message
                 }).then((result) => {
                   if (result.isConfirmed) {
-					  window.location.href = "{{ route('expense.index') }}"
+					  window.location.href = "{{ route('stock_opname.index') }}"
                   }
                 });
             },

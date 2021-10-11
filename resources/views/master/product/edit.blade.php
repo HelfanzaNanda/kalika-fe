@@ -249,7 +249,7 @@
 
 	function getProductLocation() {
 		$.ajax({
-			url: API_URL+"/api/product_locations?product_id="+id,
+			url: API_URL+"/api/product_locations?model=Product&product_id="+id,
 			type: 'GET',
 			headers: { 'Authorization': 'Bearer '+TOKEN },
 			dataType: 'JSON',
