@@ -376,7 +376,8 @@
             productName = '&name='+name;
         }
         $.ajax({
-            url: API_URL+"/api/raw_materials?active=1"+productName+searchStore,
+            //url: API_URL+"/api/raw_materials?active=1"+productName+searchStore,
+            url: API_URL+"/api/raw_materials?"+productName+searchStore,
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',

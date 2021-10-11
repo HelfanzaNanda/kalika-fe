@@ -20,6 +20,8 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Customer</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Konsiyasi</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Receivables</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Date</th>
@@ -57,6 +59,14 @@
 					<label>Date</label> 
 					<input type="text" name="date" id="input-date" class="datepicker input w-full border mt-2 flex-1"> 
 				</div>
+				<div class="col-span-12 sm:col-span-6"> 
+					<label>Customer</label> 
+					<select name="customer_id" id="input-customer-id" class="single-select input w-full border mt-2 flex-1"></select> 
+				</div>
+				<div class="col-span-12 sm:col-span-6"> 
+					<label>Konsiyasi</label> 
+					<select name="store_consignment_id" id="input-store-consignment-id" class="single-select input w-full border mt-2 flex-1"></select> 
+				</div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
@@ -74,8 +84,19 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
     drawDatatable()
+	initSelect2()
 
-    $(document).on("click","button#add-button",function() {
+	function initSelect2(){
+		$('.single-select').select2({
+			placeholder: "Choose One",
+			allowClear: true
+		});
+	}
+
+    $(document).on("click","button#add-button",function(e) {
+		e.preventDefault()
+		getCustomers()
+		getStoreConsignments()
 		resetAllInputOnForm('#main-form')
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
@@ -83,6 +104,8 @@
 
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
+	  getCustomers()
+	getStoreConsignments()
 	  resetAllInputOnForm('#main-form')
       let id = $(this).data('id');
       $.ajax({
@@ -95,6 +118,8 @@
           $('#input-total').val(res.data.total)
           $('#input-receivables').val(res.data.receivables)
           $('#input-note').val(res.data.note)
+          $('#input-customer-id').val(res.data.customer_id).trigger('change')
+          $('#input-store-consignment-id').val(res.data.store_consignment_id).trigger('change')
 		  $('#input-date').val(moment(res.data.date).format('YYYY-MM-DD'))
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
@@ -110,7 +135,7 @@
         var form_data  =  new FormData(this)
 		let data = {}
 		for (var pair of form_data.entries()) {
-			if (['id', 'total', 'receivables'].includes(pair[0])) {
+			if (['id', 'total', 'receivables', 'customer_id', 'store_consignment_id'].includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
 			}else{	
 				data[pair[0]] = pair[1]
@@ -164,6 +189,8 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
+                { data: 'customer_name', name: 'customer_name', className: 'text-center border-b' },
+                { data: 'store_consignment_name', name: 'store_consignment_name', className: 'text-center border-b' },
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'receivables', name: 'receivables', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'date', name: 'date', className: 'text-center border-b', render : data => moment(data).format('DD MMMM YYYY') },
@@ -219,5 +246,45 @@
           }
         })
     });
+
+	function getCustomers() {
+        $.ajax({
+            url: API_URL+"/api/customers",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Customer - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-customer-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
+
+	function getStoreConsignments() {
+        $.ajax({
+            url: API_URL+"/api/store_consignments",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Konsiyasi - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.store_name+'</option>'
+                })
+                $('#input-store-consignment-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
 </script>
 @endsection

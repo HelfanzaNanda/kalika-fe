@@ -5,11 +5,11 @@ namespace App\Http\Controllers\Report;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class DebtController extends Controller
+class ExpenseController extends Controller
 {
     public function index()
 	{
-		$title = 'Laporan Hutang';
-		return view('report.debt', compact('title'));
+		$title = 'Laporan Biaya';
+		return view('report.expense', compact('title'));
 	}
 }

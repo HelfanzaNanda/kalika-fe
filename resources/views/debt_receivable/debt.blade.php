@@ -20,6 +20,7 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Supplier</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Debts</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Date</th>
@@ -57,6 +58,10 @@
 					<label>Date</label> 
 					<input type="text" name="date" id="input-date" class="datepicker input w-full border mt-2 flex-1"> 
 				</div>
+				<div class="col-span-12 sm:col-span-6"> 
+					<label>Supplier</label> 
+					<select name="supplier_id" id="input-supplier-id" class="single-select input w-full border mt-2 flex-1"></select> 
+				</div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
                 <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
@@ -75,14 +80,25 @@
 <script type="text/javascript">
     drawDatatable()
 
+	initSelect2()
+
+	function initSelect2(){
+		$('.single-select').select2({
+			placeholder: "Choose One",
+			allowClear: true
+		});
+	}
+
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
+		getSuppliers()
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
 
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
+	  getSuppliers()
 	  resetAllInputOnForm('#main-form')
       let id = $(this).data('id');
       $.ajax({
@@ -95,6 +111,7 @@
           $('#input-total').val(res.data.total)
           $('#input-debts').val(res.data.debts)
           $('#input-note').val(res.data.note)
+          $('#input-supplier-id').val(res.data.supplier_id).trigger('change')
           $('#input-date').val(moment(res.data.date).format('YYYY-MM-DD'))
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
@@ -110,7 +127,7 @@
         var form_data  =  new FormData(this)
 		let data = {}
 		for (var pair of form_data.entries()) {
-			if (['id', 'total', 'debts'].includes(pair[0])) {
+			if (['id', 'total', 'debts', 'supplier_id'].includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
 			}else{	
 				data[pair[0]] = pair[1]
@@ -165,6 +182,7 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
+                { data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b'},
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'debts', name: 'debts', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'date', name: 'date', className: 'text-center border-b', render : data => moment(data).format('DD MMMM YYYY') },
@@ -220,5 +238,26 @@
           }
         })
     });
+
+
+	function getSuppliers() {
+        $.ajax({
+            url: API_URL+"/api/suppliers",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Supllier - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-supplier-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
 </script>
 @endsection

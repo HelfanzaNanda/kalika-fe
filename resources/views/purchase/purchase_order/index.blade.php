@@ -76,7 +76,7 @@
                 {data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b'},
                 {data: 'date', name: 'date', className: 'text-center border-b'},
                 {data: 'status', name: 'status', className: 'text-center border-b'},
-                {data: 'discount_value', name: 'discount_value', className: 'text-center border-b'},
+                {data: 'discount', name: 'discount', className: 'text-center border-b'},
                 {data: 'total', name: 'total', className: 'text-center border-b'},
                 {data: 'created_by', name: 'created_by', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
