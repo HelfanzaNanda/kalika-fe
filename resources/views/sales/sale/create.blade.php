@@ -77,13 +77,11 @@
     getStores();
 	getCustomers()
 	getCashRegisters()
-
-	initSelect2()
+	initSelect2();
 
 	function initSelect2(){
 		$(".single-select").select2({
 			placeholder: "Choose One",
-			allowClear: true
 		});
 	}
 
@@ -160,7 +158,7 @@
 				data[pair[0]] = pair[1]
 			}
 		}
-        console.log(data);
+
         $.ajax({
             type: 'POST',
             url: API_URL+"/api/sales",

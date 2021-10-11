@@ -356,8 +356,8 @@ function buildMenu(permissions, url) {
 
 // purchase_order_deliveries
 
-  let _master = ['expense_categories', 'divisions', 'units', 'unit_conversions', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials', 'cash_registers']
-  let _inventory = ['beginning_stocks', 'stock_opnames'];
+  let _master = ['expense_categories', 'divisions', 'units', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials', 'cash_registers']
+  let _inventory = ['stock_opnames'];
   let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
   let _dR = ['debts', 'receivables'];

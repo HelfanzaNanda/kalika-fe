@@ -63,13 +63,33 @@
 					<label>Smallest Unit</label>
 					<select name="smallest_unit_id" id="input-smallest-unit-id" class="single-select input w-full border mt-2 flex-1"></select>
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+{{-- 				<div class="col-span-12 sm:col-span-6">
 					<label>Stock</label>
 					<input type="number" name="stock" class="input w-full border mt-2 flex-1" id="input-stock">
-				</div>
+				</div> --}}
 				<div class="col-span-12 sm:col-span-6">
 					<label>Store</label>
 					<select name="store_id" id="input-store-id" class="single-select input w-full border mt-2 flex-1"></select>
+				</div>
+			</div>
+			<div class="intro-y box mt-5">
+			    <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5">
+			        <h2 class="font-medium text-base mr-auto">
+			            Stok
+			        </h2>
+			    </div>
+				<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+					<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6">
+						<thead>
+							<tr>
+								<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Toko</th>
+								<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Quantity</th>
+							</tr>
+						</thead>
+						<tbody id="product-location-list">
+
+						</tbody>
+					</table>
 				</div>
 			</div>
 			<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
@@ -89,6 +109,8 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
+	let productLocation = [];
+
 	drawDatatable();
 	initSelect2()
 
@@ -109,12 +131,13 @@
     });
 
     $(document).on("click", "button#edit-data",function(e) {
-      e.preventDefault();
-	  resetAllInputOnForm('#main-form')
-      let id = $(this).data('id');
+      	e.preventDefault();
+	  	resetAllInputOnForm('#main-form')
+      	let id = $(this).data('id');
+	  	getProductLocation(id);
 	  	getSuppliers()
 		getUnits()
-		getStores()
+		getStores(id)
 		$.ajax({
 			url: API_URL+"/api/raw_materials/"+id,
 			type: 'GET',
@@ -141,7 +164,9 @@
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
         var form_data  =  new FormData(this)
-		let data = {}
+		let data = {
+			"product_locations": []
+		}
 		for (var pair of form_data.entries()) {
 			const arrInt = ['id', 'supplier_id', 'price', 'unit_id', 
 			'smallest_unit_id', 'stock', 'store_id']
@@ -151,6 +176,15 @@
 				data[pair[0]] = pair[1]
 			}
 		}
+
+		$('#product-location-list > tr').each(function (index, element) {
+			let item = {
+				'store_id' : parseInt($(this).find('.product_location_store_id').val()),
+				'quantity' : parseInt($(this).find('.product_location_quantity').val()),
+			}
+			data.product_locations.push(item)
+		});
+
         $.ajax({
             type: 'post',
             url: API_URL+"/api/raw_materials",
@@ -291,7 +325,7 @@
 		})
 	}
 
-	function getStores() {
+	function getStores(productId) {
 		$.ajax({
 			url: API_URL+"/api/stores",
 			type: 'GET',
@@ -299,10 +333,46 @@
 			dataType: 'JSON',
 			success: function(res, textStatus, jqXHR){
 				let opt = ''
+				let productLocationHtml = ''
 				$.each(res.data, function (index, item) {  
+					let currentStock = 0;
+					if (productId != null && productLocation.length > 0) {
+						if (productLocation[item.id][productId] != null) {
+							currentStock = productLocation[item.id][productId];
+						}
+					}
+
 					opt += '<option value="'+item.id+'">'+item.name+'</option>'
+
+					productLocationHtml += '<tr class="item-0">';
+					productLocationHtml += '	<td class="text-center"> <input type="hidden" class="product_location_store_id" value="'+item.id+'"/> <label>'+item.name+'</label> </td>';
+					productLocationHtml += '	<td> ';
+					productLocationHtml += '		<input type="number" id="input-amount-0" class="product_location_quantity input w-full border mt-2 flex-1" value="'+currentStock+'"/> ';
+					productLocationHtml += '	</td>';
+					productLocationHtml += '</tr>';
+				});
+				$('#input-store-id').html(opt);
+				$('#product-location-list').html(productLocationHtml);
+				
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+
+			},
+		})
+	}
+
+	function getProductLocation(productId) {
+		$.ajax({
+			url: API_URL+"/api/product_locations?model=RawMaterial&product_id="+productId,
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			async: false,
+			success: function(res, textStatus, jqXHR){
+				$.each(res.data, function (index, item) {  
+					productLocation[item.store_id] = [];
+					productLocation[item.store_id][productId] = item.quantity;
 				})
-				$('#input-store-id').html(opt)
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 

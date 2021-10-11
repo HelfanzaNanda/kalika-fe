@@ -28,16 +28,15 @@
 <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
     <!-- BEGIN: Item List -->
     <div class="intro-y col-span-12 lg:col-span-8">
-        <div class="lg:flex intro-y">
-            <div class="relative text-gray-700 dark:text-gray-300">
-                <input type="text" class="input input--lg w-full lg:w-64 box pr-10 placeholder-theme-13" placeholder="Search item...">
-                <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i> 
-            </div>
-        </div>
         <div class="mt-4 mb-4">
 			<button class="button button--lg w-full text-white bg-theme-1 shadow-md ml-auto" id="category-btn">Pilih Kategori</button>
         </div>
-
+        <div class="lg:flex intro-y">
+            <div class="relative text-gray-700 dark:text-gray-300 w-full">
+                <input type="text" class="input input--lg w-full box pr-10 placeholder-theme-13" placeholder="Cari Produk..." id="search-product">
+                <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i> 
+            </div>
+        </div>
         <div class="grid grid-cols-12 gap-5 mt-5 pt-5 border-t border-theme-5" id="product-list">
 
         </div>
@@ -233,6 +232,7 @@
 	buildCart();
 	getPaymentMethods();
 	getSales();
+    checkCashRegister();
 
     function getSales() {
         $.ajax({
@@ -303,9 +303,18 @@
         })
     }
 
-    function getProducts() {
+    function getProducts(name = "") {
+        let productName = '';
+        let searchCategory = '';
+        if (name != '') {
+            productName = '&name='+name;
+        }
+        if (selectedCategoryId > 0 && name == '') {
+            searchCategory = '&category_id='+selectedCategoryId;
+        }
+
         $.ajax({
-            url: API_URL+"/api/products?active=1&category_id="+selectedCategoryId,
+            url: API_URL+"/api/products?active=1"+searchCategory+productName,
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
@@ -649,5 +658,11 @@
 
 		buildCart();
     }
+
+    $(document).on("keyup", "input#search-product",function() {
+        if (($(this).val()).length > 2) {
+            getProducts($(this).val());
+        }
+    });
 </script>
 @endsection
