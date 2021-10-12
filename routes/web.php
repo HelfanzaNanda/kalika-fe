@@ -48,7 +48,11 @@ Route::group(['prefix' => 'sales'], function() {
 		Route::get('/create', 'Sales\SalesConsignmentController@create')->name('sales.consignment.create');
 		Route::get('/edit/{id}', 'Sales\SalesConsignmentController@edit')->name('sales.consignment.edit');
 	});
-	Route::get('/sales_returns');
+	Route::prefix('sales_returns')->group(function(){
+		Route::get('', 'Sales\SalesReturnController@index')->name('sales_return.index');
+		Route::get('/create', 'Sales\SalesReturnController@create')->name('sales_return.create');
+		Route::get('/edit/{id}', 'Sales\SalesReturnController@edit')->name('sales_return.edit');
+	});
 	
 	Route::get('/pos', 'Sales\SaleController@pos')->name('sales.pos');
 	
