@@ -20,12 +20,12 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Phone</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Sales Name</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Sales Phone</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Term Of Payment</th>
-				<th class="border-b-2 whitespace-no-wrap">Action</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">No. Telp.</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Nama Sales</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Telp. Sales</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">TOP</th>
+				<th class="border-b-2 whitespace-no-wrap">Aksi</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -46,20 +46,20 @@
 					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name">
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Phone</label>
+					<label>No. Telp.</label>
 					<input type="text" name="phone" class="input w-full border mt-2 flex-1" id="input-phone">
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Sales Name</label>
+					<label>Nama Sales</label>
 					<input type="text" name="sales_name" class="input w-full border mt-2 flex-1" id="input-sales-name">
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Sales Phone</label>
+					<label>Telp. Sales</label>
 					<input type="text" name="sales_phone" class="input w-full border mt-2 flex-1"
 						id="input-sales-phone">
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Description</label>
+					<label>Deskripsi</label>
 					<textarea name="description" id="input-description" cols="30" rows="3"
 						class="input w-full border mt-2 flex-1"></textarea>
 				</div>

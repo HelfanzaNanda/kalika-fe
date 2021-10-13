@@ -27,13 +27,12 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Customer</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Konsiyasi</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Receivables</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Date</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Kustomer</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Total Piutang</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Sisa Piutang</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Tanggal</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Note</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Created At</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 {{-- <th class="border-b-2 whitespace-no-wrap">Action</th> --}}
             </tr>
         </thead>
@@ -109,7 +108,6 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
-                { data: 'customer_name', name: 'customer_name', className: 'text-center border-b' },
                 { data: 'store_consignment_name', name: 'store_consignment_name', className: 'text-center border-b' },
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'receivables', name: 'receivables', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },

@@ -340,6 +340,10 @@ function buildMenu(permissions, url) {
       'name': 'Laporan L/R',
       'url': '/profit_loss'
     },
+    'payments.report': {
+      'name': 'Laporan Pembayaran',
+      'url': '/payments'
+    },
     'users': {
       'name': 'Pengguna',
       'url': '/users'
@@ -361,7 +365,7 @@ function buildMenu(permissions, url) {
   let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
   let _dR = ['debts', 'receivables'];
-  let _reports = ['payments.report', 'sales.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report'];
+  let _reports = ['payments.report', 'sales.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report', 'payments.report'];
   let _settings = ['users', 'permissions', 'roles'];
 
   let _p = JSON.parse(permissions);

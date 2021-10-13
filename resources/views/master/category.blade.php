@@ -15,15 +15,15 @@
         <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button>
     </div>
 </div>
-<div class="intro-y datatable-wrapper box p-5 mt-5">
+<div class="intro-y datatable-wrapper box p-5 mt-5 w-2/4">
     <table class="table table-report table-report--bordered display datatable w-full" id="main-table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Division</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Divisi</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Status</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Division</label> 
+                    <label>Divisi</label> 
 					<select name="division_id" id="input-division-id" class="select2 w-full border"></select>
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 

@@ -20,15 +20,13 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Store Name </th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Store Phone</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Pic Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Pic Phone</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Discount</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Day Of Rules</th>
-                {{-- <th class="border-b-2 text-center whitespace-no-wrap">Location</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Description</th> --}}
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama Toko</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">No. Telp. Toko</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama PIC</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">No. Telp. PIC</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">TOP</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -45,35 +43,31 @@
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Store Name</label> 
+                    <label>Nama Toko</label> 
 					<input type="text" name="store_name" class="input w-full border mt-2 flex-1" id="input-store-name"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Store Phone</label> 
+                    <label>No. Telp. Toko</label> 
 					<input type="text" name="store_phone" class="input w-full border mt-2 flex-1" id="input-store-phone"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>PIC Name</label> 
+                    <label>Nama PIC</label> 
 					<input type="text" name="pic_name" class="input w-full border mt-2 flex-1" id="input-pic-name"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>PIC Phone</label> 
+                    <label>No. Telp. PIC</label> 
 					<input type="text" name="pic_phone" class="input w-full border mt-2 flex-1" id="input-pic-phone"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Discount</label> 
+                    <label>Diskon</label> 
                     <input type="number" name="discount" class="input w-full border mt-2 flex-1" id="input-discount"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Day Of Rules</label> 
+                    <label>Diskon</label> 
                     <input type="number" name="day_of_rules" class="input w-full border mt-2 flex-1" id="input-day-of-rules"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Location</label> 
-                    <textarea name="location" id="input-location" cols="30" rows="3" class="input w-full border mt-2 flex-1"></textarea>
-                </div>
-                <div class="col-span-12 sm:col-span-6"> 
-                    <label>Description</label> 
+                    <label>TOP</label> 
                     <textarea name="description" id="input-description" cols="30" rows="3" class="input w-full border mt-2 flex-1"></textarea>
                 </div>
             </div>

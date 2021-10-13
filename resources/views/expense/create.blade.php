@@ -32,9 +32,9 @@
 			<table class="table table-report table-report--bordered display w-full" id="details-table">
 				<thead>
 					<tr>
-						<th class="border-b-2 text-center whitespace-no-wrap">Expense Category</th>
-						<th class="border-b-2 text-center whitespace-no-wrap">Amount</th>
-						<th class="border-b-2 text-center whitespace-no-wrap">Description</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Kategori Biaya</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Jumlah</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Deskripsi</th>
 						<th class="border-b-2 text-center whitespace-no-wrap">Aksi</th>
 					</tr>
 				</thead>
@@ -59,7 +59,7 @@
 			</table>
 		</div>
 		<div class="flex px-5 justify-between mb-2">
-			<button type="button" class="button btn-add-item w-20 bg-theme-1 text-white">Add Row</button> 
+			<button type="button" class="button btn-add-item w-40 bg-theme-1 text-white">Tambah Pengeluaran</button> 
 			<div class="text-right">
 				<label for="">Total</label>
 				<h4><strong class="total">Rp 0</strong></h4>
@@ -86,8 +86,7 @@
 
 	function initSelect2(){
 		$("#input-expense-category-id-"+index).select2({
-			placeholder: "Choose One",
-			allowClear: true
+			placeholder: "Silahkan Pilih"
 		});
 	}
 

@@ -20,12 +20,12 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Number</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Date</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Asal Toko</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">No. Ref</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Tanggal</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Status</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -81,7 +81,7 @@
                 },
                 {data: 'store.name', name: 'store_name'},
                 {data: 'status', name: 'status'},
-                {data: 'created_by', name: 'created_by'},
+                {data: 'created_by_name', name: 'created_by_name'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],

@@ -29,11 +29,11 @@
     <!-- BEGIN: Item List -->
     <div class="intro-y col-span-12 lg:col-span-8">
         <div class="mt-4 mb-4">
-            <button class="button button--lg w-full text-white bg-theme-1 shadow-md ml-auto" id="category-btn">Cari Produk Berdasarkan Supplier</button>
+            <button class="button button--lg w-full text-white bg-theme-1 shadow-md ml-auto" id="category-btn">Cari Bahan Baku Berdasarkan Supplier</button>
         </div>
         <div class="lg:flex intro-y">
             <div class="relative text-gray-700 dark:text-gray-300 w-full">
-                <input type="text" class="input input--lg w-full box pr-10 placeholder-theme-13" placeholder="Cari Produk..." id="search-raw-material">
+                <input type="text" class="input input--lg w-full box pr-10 placeholder-theme-13" placeholder="Cari Bahan Baku..." id="search-raw-material">
                 <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i> 
             </div>
         </div>
@@ -54,7 +54,7 @@
                                     <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">#</th>
                                     <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Nama Produk</th>
                                     <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Harga</th>
-                                    <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Stock</th>
+                                    <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Stok</th>
                                 </tr>
                             </thead>
                             <tbody id="product-list">
@@ -70,71 +70,44 @@
     <!-- END: Item List -->
     <!-- BEGIN: Ticket -->
     <div class="col-span-12 lg:col-span-4">
-        <div class="intro-y pr-1">
-            <div class="box p-2">
-                <div class="pos__tabs nav-tabs justify-center flex"> <a data-toggle="tab" data-target="#ticket" href="javascript:;" class="flex-1 py-2 rounded-md text-center active">Pesanan</a> <a data-toggle="tab" data-target="#details" href="javascript:;" class="flex-1 py-2 rounded-md text-center">Details</a> </div>
+        <div class="box flex p-5 mt-5">
+            <div class="w-full relative text-gray-700">
+                <label>Pilih Supplier :</label>
+                <select id="input-supplier" class="single-select select2 input w-full border mt-4 flex-1"></select>
+            </div>
+            <div class="w-full relative text-gray-700">
+                <label>Status Pembelian :</label>
+                <select id="input-purchase-status" class="single-select select2 input w-full border mt-4 flex-1">
+                    <option>Pending</option>
+                    <option>Terkirim</option>
+                </select>
             </div>
         </div>
-        <div class="tab-content">
-            <div class="tab-content__pane active" id="ticket">
-                <div class="box flex p-5 mt-5">
-                    <div class="w-full relative text-gray-700">
-                        <label>Pilih Supplier :</label>
-                        <select id="input-supplier" class="single-select select2 input w-full border mt-4 flex-1"></select>
-                    </div>
-                </div>
-                <div class="pos__ticket box p-2 mt-5" id="cart-list">
-                    
-                </div>
-                <div class="box p-5 mt-5">
-                    <div class="flex">
-                        <div class="mr-auto">Subtotal</div>
-                        <div id="subtotal">Rp 0</div>
-                    </div>
-                    <div class="flex mt-4">
-                        <div class="mr-auto">Diskon</div>
-                        <div class="text-theme-6"><input type="text" class="input w-full bg-gray-200 pr-10 placeholder-theme-13" placeholder="Nominal Diskon..." id="discount"></div>
-                    </div>
-                    <div class="flex mt-4 pt-4 border-t border-gray-200 dark:border-dark-5">
-                        <div class="mr-auto font-medium text-base">Total</div>
-                        <div class="font-medium text-base" id="total">Rp 0</div>
-                    </div>
-                </div>
-                <div class="flex mt-5">
-                    <button class="button w-full border border-gray-400 dark:border-dark-5 text-gray-600 dark:text-gray-300">Kosongkan Pesanan</button>
-                </div>
-                <div class="flex mt-5">
-                     <button class="button w-full inline-block mr-1 mb-2 border border-theme-1 text-theme-1 dark:border-theme-10 dark:text-theme-10">Simpan Ke Draft</button>
-                </div>
-                <div class="flex mt-5">
-                    <button class="button w-full text-white bg-theme-1 shadow-md ml-auto" id="pay">Bayar</button>
-                </div>
+        <div class="pos__ticket box p-2 mt-5" id="cart-list">
+            
+        </div>
+        <div class="box p-5 mt-5">
+            <div class="flex">
+                <div class="mr-auto">Subtotal</div>
+                <div id="subtotal">Rp 0</div>
             </div>
-            <div class="tab-content__pane" id="details">
-                <div class="box p-5 mt-5">
-                    <div class="flex items-center border-b dark:border-dark-5 pb-5">
-                        <div class="">
-                            <div class="text-gray-600">Tanggal</div>
-                            <div>{{date('d M Y')}}</div>
-                        </div>
-                        <i data-feather="clock" class="w-4 h-4 text-gray-600 ml-auto"></i> 
-                    </div>
-                    <div class="flex items-center border-b dark:border-dark-5 py-5">
-                        <div class="">
-                            <div class="text-gray-600">Customer</div>
-                            <div><input type="text" id="input-customer-name" class="input w-full bg-gray-200 pr-10 placeholder-theme-13"></div>
-                        </div>
-                        <i data-feather="user" class="w-4 h-4 text-gray-600 ml-auto"></i> 
-                    </div>
-                    <div class="flex items-center border-b dark:border-dark-5 py-5">
-                        <div class="">
-                            <div class="text-gray-600">No. HP</div>
-                            <div><input type="text" id="input-customer-phone" class="input w-full bg-gray-200 pr-10 placeholder-theme-13"></div>
-                        </div>
-                        <i data-feather="users" class="w-4 h-4 text-gray-600 ml-auto"></i> 
-                    </div>
-                </div>
+            <div class="flex mt-4">
+                <div class="mr-auto">Diskon</div>
+                <div class="text-theme-6"><input type="text" class="input w-full bg-gray-200 pr-10 placeholder-theme-13" placeholder="Nominal Diskon..." id="discount"></div>
             </div>
+            <div class="flex mt-4 pt-4 border-t border-gray-200 dark:border-dark-5">
+                <div class="mr-auto font-medium text-base">Total</div>
+                <div class="font-medium text-base" id="total">Rp 0</div>
+            </div>
+        </div>
+        <div class="flex mt-5">
+            <button class="button w-full border border-gray-400 dark:border-dark-5 text-gray-600 dark:text-gray-300">Kosongkan Pesanan</button>
+        </div>
+        <div class="flex mt-5">
+             <button class="button w-full inline-block mr-1 mb-2 border border-theme-1 text-theme-1 dark:border-theme-10 dark:text-theme-10">Simpan Ke Draft</button>
+        </div>
+        <div class="flex mt-5">
+            <button class="button w-full text-white bg-theme-1 shadow-md ml-auto" id="pay">Bayar</button>
         </div>
     </div>
     <!-- END: Ticket -->
@@ -176,7 +149,7 @@
                         <div class="font-medium text-base">300rb</div>
                     </div>
                 </div>
-                <input type="text" class="input w-full border mt-2 flex-1" placeholder="Customer table" id="input-pay-amount">
+                <input type="text" class="input w-full border mt-2 flex-1" placeholder="Masukkan Pembayaran" id="input-pay-amount" value="0">
             </div>
 
             <div class="col-span-12">
@@ -478,6 +451,7 @@
         $('#input-payment-method').val('').trigger('change');
         $('#input-supplier').val('').trigger('change');
         $('#input-payment-method-note').val('');
+        $('#input-purchase-status').val('').trigger('change');
 
         currentPurchaseId = 0;
         currentPaymentId = 0;

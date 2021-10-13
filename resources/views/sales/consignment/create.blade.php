@@ -33,7 +33,7 @@
         </div>
         <div class="lg:flex intro-y">
             <div class="relative text-gray-700 dark:text-gray-300 w-full">
-                <input type="text" class="input input--lg w-full box pr-10 placeholder-theme-13" placeholder="Cari Bahan Baku..." id="search-raw-material">
+                <input type="text" class="input input--lg w-full box pr-10 placeholder-theme-13" placeholder="Cari Produk..." id="search-product">
                 <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i> 
             </div>
         </div>
@@ -119,6 +119,9 @@
                     </div>
                     <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="300000">
                         <div class="font-medium text-base">300rb</div>
+                    </div>
+                    <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="0">
+                        <div class="font-medium text-base text-center">PAS</div>
                     </div>
                 </div>
                 <input type="text" class="input w-full border mt-2 flex-1" placeholder="Customer table" id="input-pay-amount">
@@ -288,9 +291,18 @@
         })
     }
 
-    function getProducts() {
+    function getProducts(name = "") {
+        let productName = '';
+        let searchCategory = '';
+        if (name != '') {
+            productName = '&name='+name;
+        }
+        if (selectedCategoryId > 0 && name == '') {
+            searchCategory = '&category_id='+selectedCategoryId;
+        }
+
         $.ajax({
-            url: API_URL+"/api/products?active=1&category_id="+selectedCategoryId,
+            url: API_URL+"/api/products?active=1"+searchCategory+productName,
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
@@ -306,7 +318,7 @@
                     html += '    <div class="box rounded-md p-3 relative zoom-in">';
                     html += '        <div class="flex-none pos-image relative block">';
                     html += '            <div class="pos-image__preview image-fit">';
-                    html += '                <img alt="Midone Tailwind HTML Admin Template" src="dist/images/food-beverage-19.jpg">';
+                    html += '                <img alt="Kalika Cake Product" src="{{ asset('templates/midone/images/logo_kalika.png') }}">';
                     html += '            </div>';
                     html += '        </div>';
                     html += '        <div class="block font-medium text-center truncate mt-3">'+item.name+'</div>';
@@ -367,13 +379,15 @@
     // Select product on Product list
     $(document).on("click","a#product-click",function() {
         let productId = $(this).data('id');
-        
+        let price = 0;
+        if (tempProduct[productId]["product_price"].length > 0) {
+            price = tempProduct[productId]["product_price"][0]["price"];
+        }
         cart[productId] = {
             "id": productId,
             "name": tempProduct[productId]['name'],
             "quantity": cart[productId] == null ? 1 : parseInt(cart[productId]["quantity"]) + 1,
-            // "unit_price": parseFloat(0.0)
-            "unit_price": parseFloat(Math.floor((Math.random() * 999999) + 1))
+            "unit_price": parseFloat(price)
         };
 
         buildCart();
@@ -392,13 +406,18 @@
 
         if (product.is_custom_price) {
             htmlPrice += '<label>Harga</label>';
-            htmlPrice += '<input type="text" class="input w-full border mt-2 flex-1" id="cart-product-detail-price-input">';
+            htmlPrice += '<input type="text" class="input w-full border mt-2 flex-1" id="cart-product-detail-price-input" value="'+productCart["unit_price"]+'">';
         } else {
             htmlPrice += '<label>Harga</label>';
             htmlPrice += '<select class="input w-full border mt-2 flex-1" id="cart-product-detail-price-input">';
             htmlPrice += '    <option value=""> - Pilih Harga - </option>';
-            htmlPrice += '    <option value="100000">100000</option>';
-            htmlPrice += '    <option value="150000">150000</option>';
+            $.each(product["product_price"], function (index, item) {
+                if (parseFloat(productCart["unit_price"]) == item.price) {
+                    htmlPrice += '    <option value="'+item.price+'" selected>'+item.name+' ('+item.price+')</option>';
+                } else {
+                    htmlPrice += '    <option value="'+item.price+'">'+item.name+' ('+item.price+')</option>';
+                }
+            });
             htmlPrice += '</select>';
         }
 
@@ -473,6 +492,9 @@
 
     $(document).on("click", "div#pay-amount",function() {
         let amount = $(this).data('amount');
+        if (amount < 1) {
+            amount = $('#pay-sales-total').text();
+        }
         
         $('#input-pay-amount').val(amount);
         calculateChange();
@@ -617,5 +639,11 @@
 
         buildCart();
     }
+
+    $(document).on("keyup", "input#search-product",function() {
+        if (($(this).val()).length > 2) {
+            getProducts($(this).val());
+        }
+    });
 </script>
 @endsection

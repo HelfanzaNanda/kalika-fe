@@ -22,11 +22,10 @@
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">No Ref.</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Supplier</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Tanggal</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Status</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Pada</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
@@ -74,11 +73,10 @@
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'number', name: 'number', className: 'text-center border-b'},
                 {data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b'},
-                {data: 'date', name: 'date', className: 'text-center border-b'},
                 {data: 'status', name: 'status', className: 'text-center border-b'},
-                {data: 'discount', name: 'discount', className: 'text-center border-b'},
                 {data: 'total', name: 'total', className: 'text-center border-b'},
-                {data: 'created_by', name: 'created_by', className: 'text-center border-b'},
+                {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
+                {data: 'created_at', name: 'created_at', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],

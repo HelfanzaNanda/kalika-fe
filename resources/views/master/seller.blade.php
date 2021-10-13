@@ -15,14 +15,14 @@
         <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button>
     </div>
 </div>
-<div class="intro-y datatable-wrapper box p-5 mt-5">
+<div class="intro-y datatable-wrapper box p-5 mt-5 w-2/4">
     <table class="table table-report table-report--bordered display datatable w-full" id="main-table">
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Code</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Kode</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -39,11 +39,11 @@
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Code</label> 
+                    <label>Kode</label> 
 					<input type="text" name="code" class="input w-full border mt-2 flex-1" id="input-code"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Name</label> 
+                    <label>Nama</label> 
 					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
                 </div>
             </div>

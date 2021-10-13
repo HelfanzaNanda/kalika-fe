@@ -49,7 +49,7 @@
                                     <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">#</th>
                                     <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Bahan Baku</th>
                                     <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Harga</th>
-                                    <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Stock</th>
+                                    <th class="border-b-2 dark:border-dark-5 whitespace-no-wrap">Stok</th>
                                 </tr>
                             </thead>
                             <tbody id="product-list">

@@ -20,13 +20,13 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Code </th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Phone</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Address</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Pic Name</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Pic Phone</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Kode</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">No. HP</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Alamat</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama PIC</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">No. HP PIC</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -43,27 +43,27 @@
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Code</label> 
+                    <label>Kode</label> 
 					<input type="text" name="code" class="input w-full border mt-2 flex-1" id="input-code"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Name</label> 
+                    <label>Nama</label> 
 					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Phone</label> 
+                    <label>No. HP</label> 
 					<input type="text" name="phone" class="input w-full border mt-2 flex-1" id="input-phone"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Address</label> 
+                    <label>Alamat</label> 
 					<textarea name="address" id="input-address" cols="30" rows="3" class="input w-full border mt-2 flex-1"></textarea>
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>PIC Name</label> 
+                    <label>Nama PIC</label> 
 					<input type="text" name="pic_name" class="input w-full border mt-2 flex-1" id="input-pic-name"> 
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>PIC Phone</label> 
+                    <label>No. HP PIC</label> 
 					<input type="text" name="pic_phone" class="input w-full border mt-2 flex-1" id="input-pic-phone"> 
                 </div>
             </div>

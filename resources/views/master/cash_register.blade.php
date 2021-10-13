@@ -20,10 +20,10 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Store</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Cash In Hand</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Status</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
                 <div class="col-span-12 sm:col-span-6"> 
-                    <label>Store</label> 
+                    <label>Toko</label> 
 					<select name="store_id" id="input-store-id" class="single-select input w-full border mt-2 flex-1"></select>
                 </div>
                 <div class="col-span-12 sm:col-span-6"> 

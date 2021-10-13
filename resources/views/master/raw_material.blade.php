@@ -20,14 +20,14 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Name</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Supplier</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Price</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Unit</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Smallest Unit</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Stock</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Store</th>
-				<th class="border-b-2 whitespace-no-wrap">Action</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Harga</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Satuan</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Satuan Terkecil</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Divisi</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
+				<th class="border-b-2 whitespace-no-wrap">Aksi</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -52,15 +52,15 @@
 					<select name="supplier_id" id="input-supplier-id" class="single-select input w-full border mt-2 flex-1"></select>
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Price</label>
+					<label>Harga</label>
 					<input type="number" name="price" class="input w-full border mt-2 flex-1" id="input-price">
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Unit</label>
+					<label>Satuan</label>
 					<select name="unit_id" id="input-unit-id" class="single-select input w-full border mt-2 flex-1"></select>
 				</div>
 				<div class="col-span-12 sm:col-span-6">
-					<label>Smallest Unit</label>
+					<label>Satuan Terkecil</label>
 					<select name="smallest_unit_id" id="input-smallest-unit-id" class="single-select input w-full border mt-2 flex-1"></select>
 				</div>
 {{-- 				<div class="col-span-12 sm:col-span-6">
@@ -68,8 +68,12 @@
 					<input type="number" name="stock" class="input w-full border mt-2 flex-1" id="input-stock">
 				</div> --}}
 				<div class="col-span-12 sm:col-span-6">
-					<label>Store</label>
+					<label>Toko</label>
 					<select name="store_id" id="input-store-id" class="single-select input w-full border mt-2 flex-1"></select>
+				</div>
+				<div class="col-span-12 sm:col-span-6">
+					<label>Divisi</label>
+					<select name="division_id" id="input-division-id" class="single-select input w-full border mt-2 flex-1"></select>
 				</div>
 			</div>
 			<div class="intro-y box mt-5">
@@ -116,8 +120,7 @@
 
 	function initSelect2(){
 		$(".single-select").select2({
-			placeholder: "Choose One",
-			allowClear: true
+			placeholder: "Silahkan Pilih"
 		});
 	}
 
@@ -126,6 +129,7 @@
 		getSuppliers();
 		getUnits();
 		getStores();
+		getDivisions();
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
@@ -138,6 +142,7 @@
 	  	getSuppliers()
 		getUnits()
 		getStores(id)
+		getDivisions();
 		$.ajax({
 			url: API_URL+"/api/raw_materials/"+id,
 			type: 'GET',
@@ -148,11 +153,12 @@
 			$('#input-name').val(res.data.name);
 			$('#input-price').val(res.data.price);
 			$('#input-stock').val(res.data.stock);
-			$('#input-supplier-id').val(res.data.supplier_id);
-			$('#input-unit-id').val(res.data.unit_id);
-			$('#input-smallest-unit-id').val(res.data.smallest_unit_id);
+			$('#input-supplier-id').val(res.data.supplier_id).trigger('change');
+			$('#input-unit-id').val(res.data.unit_id).trigger('change');
+			$('#input-smallest-unit-id').val(res.data.smallest_unit_id).trigger('change');
 			$('#input-store-id').val(res.data.store_id);
 			$('#modal-title').text('Edit {{$title}}');
+			$('#input-division-id').val(res.data.division_id).trigger('change');
 			$('#main-modal').modal('show');
 			},
 			error: function(jqXHR, textStatus, errorThrown){
@@ -169,7 +175,7 @@
 		}
 		for (var pair of form_data.entries()) {
 			const arrInt = ['id', 'supplier_id', 'price', 'unit_id', 
-			'smallest_unit_id', 'stock', 'store_id']
+			'smallest_unit_id', 'stock', 'store_id', 'division_id']
 			if (arrInt.includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
 			}else{	
@@ -234,7 +240,7 @@
                 {data: 'price', name: 'price', className: 'text-center border-b'},
                 {data: 'unit_name', name: 'unit_name', className: 'text-center border-b'},
                 {data: 'smallest_unit_name', name: 'smallest_unit_name', className: 'text-center border-b'},
-                {data: 'stock', name: 'stock', className: 'text-center border-b'},
+                {data: 'division_name', name: 'division_name', className: 'text-center border-b'},
                 {data: 'store_name', name: 'store_name', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
@@ -305,6 +311,7 @@
 			},
 		})
 	}
+
 	function getUnits() {
 		$.ajax({
 			url: API_URL+"/api/units",
@@ -318,6 +325,25 @@
 				})
 				$('#input-unit-id').html(opt)
 				$('#input-smallest-unit-id').html(opt)
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+
+			},
+		})
+	}
+
+	function getDivisions() {
+		$.ajax({
+			url: API_URL+"/api/divisions",
+			type: 'GET',
+			headers: { 'Authorization': 'Bearer '+TOKEN },
+			dataType: 'JSON',
+			success: function(res, textStatus, jqXHR){
+				let opt = ''
+				$.each(res.data, function (index, item) {  
+					opt += '<option value="'+item.id+'">'+item.name+'</option>'
+				})
+				$('#input-division-id').html(opt)
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 

@@ -24,31 +24,31 @@
 		<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
 			{{-- <input type="hidden" name="id" id="input-id" value="0"> --}}
 			<div class="col-span-12 sm:col-span-6">
-				<label>Name</label>
+				<label>Nama</label>
 				<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name">
 			</div>
 			<div class="col-span-12 sm:col-span-6">
-				<label>Stock Minimum</label>
+				<label>Minimum Stok</label>
 				<input type="number" name="stock_minimum" class="input w-full border mt-2 flex-1" id="input-stock-minimum">
 			</div>
 			<div class="col-span-12 sm:col-span-6">
-				<label>Production Minimum</label>
+				<label>Minimum Produksi</label>
 				<input type="number" name="production_minimum" class="input w-full border mt-2 flex-1" id="input-production-minimum">
 			</div>
 			<div class="col-span-12 sm:col-span-6">
-				<label>Division</label>
+				<label>Divisi</label>
 				<select name="division_id" id="input-division-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6">
-				<label>Category</label>
+				<label>Kategori</label>
 				<select name="category_id" id="input-category-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6">
-				<label>Cake Type</label>
+				<label>Tipe Cake</label>
 				<select name="cake_type_id" id="input-cake-type-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6">
-				<label>Cake Variant</label>
+				<label>Variant Cake</label>
 				<select name="cake_variant_id" id="input-cake-variant-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
@@ -59,11 +59,11 @@
 					</div>
 					<div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
 						<input type="checkbox" name="is_custom_price" id="input-is-custom-price" class="input border mr-2">
-						<label class="cursor-pointer select-none" for="input-is-custom-price">Is Custom Price</label>
+						<label class="cursor-pointer select-none" for="input-is-custom-price">Bisa Ubah Harga</label>
 					</div>
 					<div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
 						<input type="checkbox" name="is_custom_product" id="input-is-custom-product" class="input border mr-2">
-						<label class="cursor-pointer select-none" for="input-is-custom-product">Is Custom Product</label>
+						<label class="cursor-pointer select-none" for="input-is-custom-product">Bisa Custom Produk</label>
 					</div>
 				</div>
 			</div>
@@ -79,8 +79,8 @@
 		<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6" id="details-table">
 			<thead>
 				<tr>
-					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Name</th>
-					<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Amount</th>
+					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Nama</th>
+					<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Nominal</th>
 					<th class="border-b-2 text-center whitespace-no-wrap">Aksi</th>
 				</tr>
 			</thead>

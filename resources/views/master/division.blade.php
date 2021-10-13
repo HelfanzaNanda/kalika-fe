@@ -15,14 +15,14 @@
         <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button>
     </div>
 </div>
-<div class="intro-y datatable-wrapper box p-5 mt-5">
+<div class="intro-y datatable-wrapper box p-5 mt-5 w-2/4">
     <table class="table table-report table-report--bordered display datatable w-full" id="main-table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Active</th>
-                <th class="border-b-2 whitespace-no-wrap">Action</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Aktif</th>
+                <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
         <tbody>

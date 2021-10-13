@@ -27,21 +27,21 @@
 				<select name="product_id" id="input-product-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Cake Character</label> 
+				<label>Karakter Cake</label> 
 				<input type="text" name="cake_character" id="input-cake-character" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Cake Shape</label> 
+				<label>Bentuk Cake</label> 
 				<input type="text" name="cake_shape" id="input-cake-shape" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Cake Size</label> 
+				<label>Ukuran Cake</label> 
 				<input type="number" name="cake_size" id="input-cake-size" class="input w-full border mt-2 flex-1"> 
 			</div>
-			{{-- <div class="col-span-12 sm:col-span-6"> 
+			<div class="col-span-12 sm:col-span-6"> 
 				<label>Delivery Date</label> 
 				<input type="text" name="delivery_date" id="input-delivery-date" class="datepicker input w-full border mt-2 flex-1"> 
-			</div> --}}
+			</div>
 
 			<div class="col-span-12 sm:col-span-6"> 
 				<label>Harga</label> 
@@ -56,40 +56,50 @@
 				<textarea name="other" id="input-other" class="input w-full border mt-2 flex-1" rows="3"></textarea>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Cake Custom Name</label> 
+				<label>Nama Custom Cake</label> 
 				<input type="text" name="cake_custom_name" id="input-cake-custom-name" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Candle</label> 
+				<label>Lilin</label> 
 				<input type="text" name="candle" id="input-candle" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Discount</label> 
+				<label>Diskon</label> 
 				<input type="number" name="discount" id="input-discount" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Delivery Cost</label> 
+				<label>Biaya Pengiriman</label> 
 				<input type="number" name="delivery_cost" id="input-delivery-cost" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Recipient Name</label> 
+				<label>Nama Penerima</label> 
 				<input type="text" name="recipient_name" id="input-recipient-name" class="input w-full border mt-2 flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Recipient Address</label> 
+				<label>Alamat Penerima</label> 
 				<textarea name="recipient_address" id="input-recipient-address" class="input w-full border mt-2 flex-1" rows="3"></textarea>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Recipient Method</label> 
-				<input type="text" name="recipient_method" id="input-recipient-method" class="input w-full border mt-2 flex-1"> 
+				<label>Status</label> 
+				<select name="recipient_status" id="input-recipient-status" class="single-select input w-full border mt-2 flex-1">
+					<option value="pending">Pending</option>
+					<option value="on_process">Proses</option>
+					<option value="on_delivery">Sedang Dikirim</option>
+					<option value="done">Selesai</option>
+				</select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Recipient Status</label> 
-				<input type="text" name="recipient_status" id="input-recipient-status" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Shipment Type</label> 
-				<input type="text" name="shipment_type" id="input-shipment-type" class="input w-full border mt-2 flex-1"> 
+				<label>Tipe Pengiriman</label> 
+				<select name="shipment_type" id="input-shipment-type" class="single-select input w-full border mt-2 flex-1">
+					<option value="diambil">DIAMBIL</option>
+					<option value="diambil_prama">DIAMBIL PRAMA</option>
+					<option value="diambil_tm">DIAMBIL TM</option>
+					<option value="order_prama">ORDER PRAMA</option>
+					<option value="order_tm">ORDER TM</option>
+					<option value="dikirim_kalika">DIKIRIM KALIKA</option>
+					<option value="ojol_cash">OJOL CASH</option>
+					<option value="ojol_cod">OJOL COD</option>
+				</select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
 				<label>Note</label> 
@@ -117,8 +127,7 @@
 
 	function initSelect2(){
 		$(".single-select").select2({
-			placeholder: "Choose One",
-			allowClear: true
+			placeholder: "Choose One"
 		});
 	}
 
@@ -175,6 +184,7 @@
 				data[pair[0]] = pair[1]
 			}
 		}
+		data["delivery_date"] = moment(data["delivery_date"]).format();
         $.ajax({
             type: 'POST',
             url: API_URL+"/api/custom_orders",

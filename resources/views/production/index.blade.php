@@ -71,7 +71,7 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
-                {data: 'product_name', name: 'product_name'},
+                {data: 'product.name', name: 'product_name'},
                 {data: 'total_cogs', name: 'total_cogs'},
                 {data: 'overhead_percentage', name: 'overhead_percentage'},
                 {data: 'overhead_price', name: 'overhead_price'},

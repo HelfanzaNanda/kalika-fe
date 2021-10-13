@@ -20,15 +20,15 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Name</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Stok Minumum</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Production Minumum</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Division</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Category</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Cake Type</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Cake Variant</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Min. Stok</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Min. Produksi</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Divisi</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Kategori</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Tipe Cake</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Variant Cake</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Status</th>
-				<th class="border-b-2 whitespace-no-wrap">Action</th>
+				<th class="border-b-2 whitespace-no-wrap">Aksi</th>
 			</tr>
 		</thead>
 		<tbody>
