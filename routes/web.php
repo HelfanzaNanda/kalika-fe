@@ -48,7 +48,11 @@ Route::group(['prefix' => 'sales'], function() {
 		Route::get('/create', 'Sales\SalesConsignmentController@create')->name('sales.consignment.create');
 		Route::get('/edit/{id}', 'Sales\SalesConsignmentController@edit')->name('sales.consignment.edit');
 	});
-	Route::get('/sales_returns');
+	Route::prefix('sales_returns')->group(function(){
+		Route::get('', 'Sales\SalesReturnController@index')->name('sales_return.index');
+		Route::get('/create', 'Sales\SalesReturnController@create')->name('sales_return.create');
+		Route::get('/edit/{id}', 'Sales\SalesReturnController@edit')->name('sales_return.edit');
+	});
 	
 	Route::get('/pos', 'Sales\SaleController@pos')->name('sales.pos');
 	
@@ -71,6 +75,11 @@ Route::group(['prefix' => 'purchase'], function() {
 		Route::get('', 'Purchase\PurchaseOrderController@index')->name('purchase_order.index');
 		Route::get('/create', 'Purchase\PurchaseOrderController@create')->name('purchase_order.create');
 		Route::get('/edit/{id}', 'Purchase\PurchaseOrderController@edit')->name('purchase_order.edit');
+	});
+	Route::prefix('purchase_returns')->group(function(){
+		Route::get('', 'Purchase\PurchaseReturnController@index')->name('purchase_return.index');
+		Route::get('/create', 'Purchase\PurchaseReturnController@create')->name('purchase_return.create');
+		Route::get('/edit/{id}', 'Purchase\PurchaseReturnController@edit')->name('purchase_return.edit');
 	});
 	Route::get('/purchase_invoices');
 });
