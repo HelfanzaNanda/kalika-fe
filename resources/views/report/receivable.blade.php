@@ -108,7 +108,7 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
-                { data: 'store_consignment_name', name: 'store_consignment_name', className: 'text-center border-b' },
+                { data: 'customer_name', name: 'customer_name', className: 'text-center border-b' },
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'receivables', name: 'receivables', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'date', name: 'date', className: 'text-center border-b', render : data => moment(data).format('DD MMMM YYYY') },

@@ -21,8 +21,8 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Date</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Number</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Created At</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">No Ref</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>

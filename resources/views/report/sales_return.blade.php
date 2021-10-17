@@ -146,7 +146,7 @@
 				document.body.removeChild(link);
             },
             error: function(jqXHR, textStatus, errorThrown){
-                console.log(jqXHR.responseJSON);
+                console.log(jqXHR);
             },
         });
 	})
