@@ -27,7 +27,7 @@
       let loggedUser = localStorage.getItem('_r');
       let userPermissions = localStorage.getItem('_p');
 
-      if (loggedUser == null && userPermissions == null) {
+      if (loggedUser == null || userPermissions == null) {
         window.location.replace(BASE_URL+'/login');
       }
       
@@ -89,6 +89,12 @@
         $(document).on("click",".modal-close",function() {
             let id = $(this).data('id');
             $('#'+id).modal('hide');
+        });
+
+        $(document).on("click","#logout",function() {
+            localStorage.removeItem("_r");
+            localStorage.removeItem("_p");
+            window.location.replace(BASE_URL);
         });
 
         function checkCashRegister() {

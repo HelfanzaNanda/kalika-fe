@@ -164,6 +164,7 @@
                 "headers": {
                   'Authorization': 'Bearer '+token
                 },
+                async: false,
                 dataType: 'JSON',
                 success: function(result, textStatus, jqXHR){
                     localStorage.setItem("_p", JSON.stringify(result.data));
