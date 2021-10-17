@@ -150,7 +150,7 @@
                 },
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'payment_method', name: 'payment_method', className: 'text-center border-b'},
-                { data: 'created_at', name: 'created_at', className: 'text-center border-b', render : data => moment(data).format('DD MMMM YYYY') },
+                { data: 'created_at', name: 'created_at', className: 'text-center border-b', render : data => moment(data).format('DD MMM YYYY hh:mm:ss') },
                 { data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
                 // {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],

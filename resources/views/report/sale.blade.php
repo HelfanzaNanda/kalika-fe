@@ -120,7 +120,7 @@
                 {
 					data: 'updated_at', name: 'updated_at', 
 					className: 'text-center border-b',
-					render : data => moment(data).format('DD MMMM YYYY')
+					render : data => moment(data).format('DD MMM YYYY hh:mm:ss')
 				},
             ],
             "order": [0, 'desc'],
