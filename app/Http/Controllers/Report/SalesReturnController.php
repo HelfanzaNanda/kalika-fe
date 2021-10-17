@@ -9,7 +9,7 @@ class SalesReturnController extends Controller
 {
     public function index()
 	{
-		$title = 'Laporan Return Penjualan';
+		$title = 'Laporan Retur Penjualan';
 		return view('report.sales_return', compact('title'));
 	}
 }

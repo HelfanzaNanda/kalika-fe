@@ -29,12 +29,11 @@
 			<tr>
 				<th>Id</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Supplier</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Total Hutang</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Sisa Hutang</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Tanggal</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Note</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
-				{{-- <th class="border-b-2 whitespace-no-wrap">Action</th> --}}
+                <th class="border-b-2 text-center whitespace-no-wrap">Total Hutang</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Sisa Hutang</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Tanggal</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Note</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -117,7 +116,7 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
-                { data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b' },
+                { data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b'},
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'debts', name: 'debts', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 { data: 'date', name: 'date', className: 'text-center border-b', render : data => moment(data).format('DD MMMM YYYY') },

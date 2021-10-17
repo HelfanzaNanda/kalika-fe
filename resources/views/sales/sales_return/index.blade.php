@@ -20,11 +20,11 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Number</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Customer</th>
+				<th class="border-b-2 text-center whitespace-no-wrap">No. Ref</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Kustomer</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Konsiyasi</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Created By</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 <th class="border-b-2 whitespace-no-wrap">Action</th>
             </tr>
         </thead>
