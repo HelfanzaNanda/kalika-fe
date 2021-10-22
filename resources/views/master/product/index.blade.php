@@ -111,7 +111,7 @@
     $(document).on("click", "button#edit-data",function(e) {
 		e.preventDefault();
 		let id = $(this).data('id');
-	  	window.location.replace(`/master/products/edit/${id}`)
+	  	window.location.replace(BASE_URL+`/master/products/edit/${id}`)
     });
 
     function drawDatatable() {

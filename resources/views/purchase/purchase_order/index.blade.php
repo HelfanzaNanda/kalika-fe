@@ -51,7 +51,7 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(`/purchase/purchase_orders/edit/${id}`)
+	  window.location.replace(BASE_URL+`/purchase/purchase_orders/edit/${id}`)
     });
 
     function drawDatatable() {

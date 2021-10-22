@@ -50,7 +50,7 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(`/stock_opname/edit/${id}`)
+	  window.location.replace(BASE_URL+`/stock_opname/edit/${id}`)
     });
 
     function drawDatatable() {

@@ -49,7 +49,7 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(`/expense/edit/${id}`)
+	  window.location.replace(BASE_URL+`/expense/edit/${id}`)
     });
 
     function drawDatatable() {
