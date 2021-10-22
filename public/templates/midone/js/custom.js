@@ -183,6 +183,11 @@ function buildMenu(permissions, url) {
   let segmentOne = extractUrl[3];
   let segmentTwo = extractUrl[4];
 
+  if (url.includes('public')) {
+    segmentOne = extractUrl[5];
+    segmentTwo = extractUrl[6];
+  }
+
   let _menu = {
     'unit_conversions': {
       'name': 'Konversi Satuan',
