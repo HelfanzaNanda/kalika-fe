@@ -32,22 +32,22 @@
     </table>
 </div>
 <div class="modal" id="main-modal">
-   <div class="modal__content modal__content--xl">
+   <div class="modal__content modal__content--lg">
         <form id="main-form">
             <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
-                <div class="col-span-12 sm:col-span-6"> 
-                    <label>Divisi</label> 
-					<select name="division_id" id="input-division-id" class="select2 w-full border"></select>
-                </div>
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>Nama</label> 
                     <input type="text" name="name" class="input w-full border flex-1" id="input-name"> 
                 </div>
-				<div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
+                    <label>Divisi</label> 
+					<select name="division_id" id="input-division-id" class="select2 w-full border"></select>
+                </div>
+				<div class="col-span-12"> 
                     <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
 						<input type="checkbox" name="active" id="input-active" class="input border mr-2">
 						<label class="cursor-pointer select-none" for="input-active">Aktif</label>
@@ -74,10 +74,11 @@
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
 		getDivisions()
+        $('#input-active').prop('checked', true);
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
-
+    
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
 	  resetAllInputOnForm('#main-form')

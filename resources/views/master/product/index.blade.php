@@ -25,8 +25,6 @@
 				<th class="border-b-2 text-center whitespace-no-wrap">Min. Produksi</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Divisi</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Kategori</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Tipe Cake</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Variant Cake</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Status</th>
 				<th class="border-b-2 whitespace-no-wrap">Aksi</th>
 			</tr>
@@ -138,8 +136,6 @@
                 {data: 'production_minimum', name: 'production_minimum', className: 'text-center border-b'},
                 {data: 'division_name', name: 'division_name', className: 'text-center border-b'},
                 {data: 'category_name', name: 'category_name', className: 'text-center border-b'},
-                {data: 'cake_type_name', name: 'cake_type_name', className: 'text-center border-b'},
-                {data: 'cake_variant_name', name: 'cake_variant_name', className: 'text-center border-b'},
 				{
                     data: 'active', 
                     name: 'active', 

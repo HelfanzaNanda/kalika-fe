@@ -23,8 +23,11 @@
 				<th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Supplier</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Harga</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Satuan</th>
-				<th class="border-b-2 text-center whitespace-no-wrap">Satuan Terkecil</th>
+				<th class="border-b-2 text-center whitespace-no-wrap"></th>
+				<th class="border-b-2 text-center whitespace-no-wrap"></th>
+				<th class="border-b-2 text-center whitespace-no-wrap"></th>
+				<th class="border-b-2 text-center whitespace-no-wrap"></th>
+				<th class="border-b-2 text-center whitespace-no-wrap">Harga per Unit</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Divisi</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
 				<th class="border-b-2 whitespace-no-wrap">Aksi</th>
@@ -36,44 +39,51 @@
 	</table>
 </div>
 <div class="modal" id="main-modal">
-	<div class="modal__content modal__content--xl">
+	<div class="modal__content modal__content--lg">
 		<form id="main-form">
 			<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
 				<h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
 			</div>
 			<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
 				<input type="hidden" name="id" id="input-id">
-				<div class="col-span-12 sm:col-span-6">
-					<label>Nama</label>
-					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name">
+				<div class="col-span-12">
+					<label>Nama Bahan Baku</label>
+					<input type="text" name="name" class="input w-full border flex-1" id="input-name">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
-					<label>Supplier</label>
-					<select name="supplier_id" id="input-supplier-id" class="single-select input w-full border mt-2 flex-1"></select>
-				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>Harga</label>
-					<input type="number" name="price" class="input w-full border mt-2 flex-1" id="input-price">
+					<input type="number" name="price" class="input w-full border flex-1 calc-price-per-unit" id="input-price">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
-					<label>Satuan</label>
-					<select name="unit_id" id="input-unit-id" class="single-select input w-full border mt-2 flex-1"></select>
+				<div class="col-span-12">
+					<label>Jumlah Satuan Terbesar</label>
+					<input type="text" name="qty" class="input w-full border flex-1 calc-price-per-unit" id="input-qty">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
-					<label>Satuan Terkecil</label>
-					<select name="smallest_unit_id" id="input-smallest-unit-id" class="single-select input w-full border mt-2 flex-1"></select>
+				<div class="col-span-12">
+					<label>Satuan Terbesar</label>
+					<select name="unit_id" id="input-unit-id" class="single-select input w-full border flex-1"></select>
 				</div>
-{{-- 				<div class="col-span-12 sm:col-span-6">
-					<label>Stock</label>
-					<input type="number" name="stock" class="input w-full border mt-2 flex-1" id="input-stock">
-				</div> --}}
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
+					<label>Unit Per Konversi</label>
+					<input type="text" name="qty_conversion" class="input w-full border flex-1 calc-price-per-unit" id="input-qty-conversion">
+				</div>
+				<div class="col-span-12">
+					<label>Konversi Ke</label>
+					<select name="smallest_unit_id" id="input-smallest-unit-id" class="single-select input w-full border flex-1"></select>
+				</div>
+				<div class="col-span-12">
+					<label>Supplier</label>
+					<select name="supplier_id" id="input-supplier-id" class="single-select input w-full border flex-1"></select>
+				</div>
+				<div class="col-span-12">
 					<label>Toko</label>
-					<select name="store_id" id="input-store-id" class="single-select input w-full border mt-2 flex-1"></select>
+					<select name="store_id" id="input-store-id" class="single-select input w-full border flex-1"></select>
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>Divisi</label>
-					<select name="division_id" id="input-division-id" class="single-select input w-full border mt-2 flex-1"></select>
+					<select name="division_id" id="input-division-id" class="single-select input w-full border flex-1"></select>
+				</div>
+				<div class="col-span-12">
+					<label>Harga Per Unit : <span id="price-per-unit">0</span></label>
 				</div>
 			</div>
 			<div class="intro-y box mt-5">
@@ -83,7 +93,7 @@
 			        </h2>
 			    </div>
 				<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-					<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6">
+					<table class="table table-report table-report--bordered display col-span-12">
 						<thead>
 							<tr>
 								<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Toko</th>
@@ -117,6 +127,21 @@
 
 	drawDatatable();
 	initSelect2()
+	
+	$(document).on('keyup', '.calc-price-per-unit', function() {
+		calculatePricePerUnit();
+	});
+
+	function calculatePricePerUnit() {
+		let price = $('#input-price').val();
+		let qty = $('#input-qty').val();
+		let qtyUnitConversion = $('#input-qty-conversion').val();
+		
+		let calc = 0;
+
+		calc = (parseFloat(price) * parseFloat(qty)) / parseFloat(qtyUnitConversion);
+		$('#price-per-unit').text(Math.round(calc));
+	}
 
 	function initSelect2(){
 		$(".single-select").select2({
@@ -149,17 +174,20 @@
 			headers: { 'Authorization': 'Bearer '+TOKEN },
 			dataType: 'JSON',
 			success: function(res, textStatus, jqXHR){
-			$('#input-id').val(res.data.id);
-			$('#input-name').val(res.data.name);
-			$('#input-price').val(res.data.price);
-			$('#input-stock').val(res.data.stock);
-			$('#input-supplier-id').val(res.data.supplier_id).trigger('change');
-			$('#input-unit-id').val(res.data.unit_id).trigger('change');
-			$('#input-smallest-unit-id').val(res.data.smallest_unit_id).trigger('change');
-			$('#input-store-id').val(res.data.store_id);
-			$('#modal-title').text('Edit {{$title}}');
-			$('#input-division-id').val(res.data.division_id).trigger('change');
-			$('#main-modal').modal('show');
+				$('#input-id').val(res.data.id);
+				$('#input-name').val(res.data.name);
+				$('#input-price').val(res.data.price);
+				$('#input-stock').val(res.data.stock);
+				$('#input-supplier-id').val(res.data.supplier_id).trigger('change');
+				$('#input-unit-id').val(res.data.unit_id).trigger('change');
+				$('#input-smallest-unit-id').val(res.data.smallest_unit_id).trigger('change');
+				$('#input-store-id').val(res.data.store_id).trigger('change');
+				$('#modal-title').text('Edit {{$title}}');
+				$('#input-division-id').val(res.data.division_id).trigger('change');
+				$('#input-qty').val(res.data.qty);
+				$('#input-qty-conversion').val(res.data.qty_conversion);
+				$('#main-modal').modal('show');
+				calculatePricePerUnit();
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 
@@ -175,7 +203,7 @@
 		}
 		for (var pair of form_data.entries()) {
 			const arrInt = ['id', 'supplier_id', 'price', 'unit_id', 
-			'smallest_unit_id', 'stock', 'store_id', 'division_id']
+			'smallest_unit_id', 'stock', 'store_id', 'division_id', 'qty', 'qty_conversion']
 			if (arrInt.includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
 			}else{	
@@ -238,8 +266,22 @@
                 {data: 'name', name: 'name', className: 'text-center border-b'},
                 {data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b'},
                 {data: 'price', name: 'price', className: 'text-center border-b'},
+                {data: 'qty', name: 'qty', className: 'text-center border-b'},
                 {data: 'unit_name', name: 'unit_name', className: 'text-center border-b'},
+                {data: 'qty_conversion', name: 'qty_conversion', className: 'text-center border-b'},
                 {data: 'smallest_unit_name', name: 'smallest_unit_name', className: 'text-center border-b'},
+				{
+                    data: 'price', 
+                    name: 'price', 
+                    className: 'text-center border-b',
+                    render: function ( data, type, row ) {
+                    	let pricePerUnit = 0;
+                    	if (row.qty_conversion > 0) {
+                    		pricePerUnit = (row.price * row.qty) / row.qty_conversion;
+                    	}
+                        return Math.round(pricePerUnit);
+                    }
+                },
                 {data: 'division_name', name: 'division_name', className: 'text-center border-b'},
                 {data: 'store_name', name: 'store_name', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}

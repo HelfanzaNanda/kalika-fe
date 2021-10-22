@@ -21,6 +21,7 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
+                <th class="border-b-2 whitespace-no-wrap">Deskripsi</th>
                 <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
@@ -30,16 +31,20 @@
     </table>
 </div>
 <div class="modal" id="main-modal">
-   <div class="modal__content modal__content--xl">
+   <div class="modal__content modal__content--lg">
         <form id="main-form">
             <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>Nama</label> 
-					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
+                    <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
+                </div>
+                <div class="col-span-12"> 
+                    <label>Deskripsi</label> 
+                    <textarea class="input w-full border" name="description" id="input-description"></textarea>
                 </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -77,6 +82,7 @@
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id)
           $('#input-name').val(res.data.name)
+          $('#input-description').val(res.data.description)
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
         },
@@ -146,6 +152,7 @@
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'name', name: 'name', className: 'text-center border-b'},
+                {data: 'description', name: 'description', className: 'border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],

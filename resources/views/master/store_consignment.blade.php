@@ -25,7 +25,7 @@
                 <th class="border-b-2 text-center whitespace-no-wrap">Nama PIC</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">No. Telp. PIC</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">TOP</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Pembayaran Sebelum (hari)</th>
                 <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
@@ -35,40 +35,44 @@
     </table>
 </div>
 <div class="modal" id="main-modal">
-   <div class="modal__content modal__content--xl">
+   <div class="modal__content modal__content--lg">
         <form id="main-form">
             <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id" value="0"> 
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>Nama Toko</label> 
-					<input type="text" name="store_name" class="input w-full border mt-2 flex-1" id="input-store-name"> 
+					<input type="text" name="store_name" class="input w-full border flex-1" id="input-store-name"> 
                 </div>
-                <div class="col-span-12 sm:col-span-6"> 
-                    <label>No. Telp. Toko</label> 
-					<input type="text" name="store_phone" class="input w-full border mt-2 flex-1" id="input-store-phone"> 
-                </div>
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>Nama PIC</label> 
-					<input type="text" name="pic_name" class="input w-full border mt-2 flex-1" id="input-pic-name"> 
+					<input type="text" name="pic_name" class="input w-full border flex-1" id="input-pic-name"> 
                 </div>
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>No. Telp. PIC</label> 
-					<input type="text" name="pic_phone" class="input w-full border mt-2 flex-1" id="input-pic-phone"> 
+					<input type="text" name="pic_phone" class="input w-full border flex-1" id="input-pic-phone"> 
                 </div>
-                <div class="col-span-12 sm:col-span-6"> 
-                    <label>Diskon</label> 
-                    <input type="number" name="discount" class="input w-full border mt-2 flex-1" id="input-discount"> 
-                </div>
-                <div class="col-span-12 sm:col-span-6"> 
-                    <label>Diskon</label> 
-                    <input type="number" name="day_of_rules" class="input w-full border mt-2 flex-1" id="input-day-of-rules"> 
-                </div>
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>TOP</label> 
-                    <textarea name="description" id="input-description" cols="30" rows="3" class="input w-full border mt-2 flex-1"></textarea>
+                    <input type="text" class="input w-full border flex-1" id="input-top" value="Discount"> 
+                </div>
+                <div class="col-span-12"> 
+                    <label>D Untuk TOP</label> 
+                    <input type="number" name="day_of_rules" class="input w-full border flex-1" id="input-day-of-rules"> 
+                </div>
+                <div class="col-span-12"> 
+                    <label>% Diskon</label> 
+                    <input type="number" name="discount" class="input w-full border flex-1" id="input-discount"> 
+                </div>
+                <div class="col-span-12"> 
+                    <label>Deskripsi</label> 
+                    <textarea name="description" id="input-description" cols="30" rows="3" class="input w-full border flex-1"></textarea>
+                </div>
+                <div class="col-span-12"> 
+                    <label>No. Telp. Toko</label> 
+                    <input type="text" name="store_phone" class="input w-full border flex-1" id="input-store-phone"> 
                 </div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -90,6 +94,9 @@
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
+        $('#input-top').val('Discount');
+        $('#input-day-of-rules').val(0);
+        $('#input-discount').val(0);
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
@@ -97,6 +104,7 @@
     $(document).on("click", "button#edit-data",function(e) {
 		e.preventDefault();
 		resetAllInputOnForm('#main-form')
+        $('#input-top').val('Discount');
       let id = $(this).data('id');
       $.ajax({
         url: API_URL+"/api/store_consignments/"+id,

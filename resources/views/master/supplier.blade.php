@@ -34,36 +34,36 @@
 	</table>
 </div>
 <div class="modal" id="main-modal">
-	<div class="modal__content modal__content--xl">
+	<div class="modal__content modal__content--lg">
 		<form id="main-form">
 			<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
 				<h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
 			</div>
 			<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
 				<input type="hidden" name="id" id="input-id" value="0">
-				<div class="col-span-12 sm:col-span-6">
-					<label>Name</label>
+				<div class="col-span-12">
+					<label>Nama</label>
 					<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>No. Telp.</label>
 					<input type="text" name="phone" class="input w-full border mt-2 flex-1" id="input-phone">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>Nama Sales</label>
 					<input type="text" name="sales_name" class="input w-full border mt-2 flex-1" id="input-sales-name">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>Telp. Sales</label>
 					<input type="text" name="sales_phone" class="input w-full border mt-2 flex-1"
 						id="input-sales-phone">
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>Deskripsi</label>
 					<textarea name="description" id="input-description" cols="30" rows="3"
 						class="input w-full border mt-2 flex-1"></textarea>
 				</div>
-				<div class="col-span-12 sm:col-span-6">
+				<div class="col-span-12">
 					<label>Term Of Payment</label>
 					<input type="number" name="term_of_payment" class="input w-full border mt-2 flex-1"
 						id="input-term-of-payment">

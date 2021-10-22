@@ -16,42 +16,30 @@
         Data {{$title}}
     </h2>
 </div>
-<div class="intro-y box mt-3">
+<div class="intro-y box mt-3 lg:w-2/4">
 	<form id="main-form">
 		<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
 			<h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
 		</div>
 		<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
 			{{-- <input type="hidden" name="id" id="input-id" value="0"> --}}
-			<div class="col-span-12 sm:col-span-6">
-				<label>Name</label>
+			<div class="col-span-12">
+				<label>Nama Produk</label>
 				<input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name">
 			</div>
-			<div class="col-span-12 sm:col-span-6">
-				<label>Minimum Stok</label>
-				<input type="number" name="stock_minimum" class="input w-full border mt-2 flex-1" id="input-stock-minimum">
-			</div>
-			<div class="col-span-12 sm:col-span-6">
-				<label>Minimum Produksi</label>
-				<input type="number" name="production_minimum" class="input w-full border mt-2 flex-1" id="input-production-minimum">
-			</div>
-			<div class="col-span-12 sm:col-span-6">
-				<label>Divisi</label>
-				<select name="division_id" id="input-division-id" class="single-select input w-full border mt-2 flex-1"></select>
-			</div>
-			<div class="col-span-12 sm:col-span-6">
+			<div class="col-span-12">
 				<label>Kategori</label>
 				<select name="category_id" id="input-category-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
-			<div class="col-span-12 sm:col-span-6">
-				<label>Tipe Cake</label>
-				<select name="cake_type_id" id="input-cake-type-id" class="single-select input w-full border mt-2 flex-1"></select>
+			<div class="col-span-12">
+				<label>Minimum Stok</label>
+				<input type="number" name="stock_minimum" class="input w-full border mt-2 flex-1" id="input-stock-minimum">
 			</div>
-			<div class="col-span-12 sm:col-span-6">
-				<label>Variant Cake</label>
-				<select name="cake_variant_id" id="input-cake-variant-id" class="single-select input w-full border mt-2 flex-1"></select>
+			<div class="col-span-12">
+				<label>Minimum Produksi</label>
+				<input type="number" name="production_minimum" class="input w-full border mt-2 flex-1" id="input-production-minimum">
 			</div>
-			<div class="col-span-12 sm:col-span-6"> 
+			<div class="col-span-12"> 
 				<div class="flex space-x-5">
 					<div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
 						<input type="checkbox" name="active" id="input-active" class="input border mr-2">
@@ -61,37 +49,29 @@
 						<input type="checkbox" name="is_custom_price" id="input-is-custom-price" class="input border mr-2">
 						<label class="cursor-pointer select-none" for="input-is-custom-price">Bisa Ubah Harga</label>
 					</div>
-					<div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
-						<input type="checkbox" name="is_custom_product" id="input-is-custom-product" class="input border mr-2">
-						<label class="cursor-pointer select-none" for="input-is-custom-product">Bisa Custom Produk</label>
-					</div>
 				</div>
 			</div>
 		</div>
 </div>
-<div class="intro-y box mt-5">
+<div class="intro-y box mt-5 lg:w-2/4">
     <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5">
         <h2 class="font-medium text-base mr-auto">
             Tipe Harga
         </h2>
     </div>
 	<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-		<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6" id="details-table">
+		<table class="table table-report table-report--bordered display col-span-12" id="details-table">
 			<thead>
 				<tr>
 					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Nama Harga</th>
-					<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">Nominal</th>
+					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Nominal</th>
+					<th class="w-1/4 border-b-2 text-center whitespace-no-wrap">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr class="item-0">
-					<td> <input type="text" name="name[]" id="input-name-0" class="name input w-full border mt-2 flex-1"/> </td>
+					<td class="text-center"> Normal <input type="hidden" name="name[]" class="name" id="input-name-0" value="Normal" /> </td>
 					<td> <input type="number" name="amount[]" id="input-amount-0" class="amount input w-full border mt-2 flex-1"/> </td>
-					<td>
-						<button style="display: none" type="button" class="w-6 h-6 rounded flex text-white font-semibold justify-center items-center btn-remove-item bg-theme-6 text-white">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x mx-auto"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-						</button>
-					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -100,14 +80,14 @@
 		<button type="button" class="button btn-add-item w-30 bg-theme-1 text-white">Tambah Tipe Harga</button> 
 	</div>
 </div>
-<div class="intro-y box mt-5">
+<div class="intro-y box mt-5 lg:w-2/4">
     <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200 dark:border-dark-5">
         <h2 class="font-medium text-base mr-auto">
             Stok
         </h2>
     </div>
 	<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-		<table class="table table-report table-report--bordered display col-span-12 sm:col-span-6">
+		<table class="table table-report table-report--bordered display col-span-12">
 			<thead>
 				<tr>
 					<th class="w-1/2 border-b-2 text-center whitespace-no-wrap">Toko</th>
@@ -121,7 +101,7 @@
 	</div>
 </div>
 
-<div class="intro-y box mt-5">
+<div class="intro-y box mt-5 lg:w-2/4">
 		<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
 			<a href="{{ route('product.index') }}" type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Kembali</a> 
 			<button type="submit" class="button w-20 bg-theme-1 text-white">Submit</button> 
@@ -136,11 +116,9 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
-	let index = 0
+	let index = 0;
 	getDivisions();
 	getCategories();
-	getCakeTypes();
-	getCakeVariants();
 	initSelect2();
 	getStores();
 
@@ -150,11 +128,12 @@
 		});
 	}
     
+	$('#input-active').prop('checked', true);
 
 	$(document).on('click', '.btn-add-item', function (e) {  
 		e.preventDefault()
 		index++
-		$('#details-table tbody').append(setHtmlItem())
+		$('#details-table tbody').append(setHtmlItem());
 	})
 
 	$(document).on('click', '.btn-remove-item', function (e) {  
@@ -300,44 +279,6 @@
 					opt += '</tr>';
 				})
 				$('#product-location-list').html(opt)
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-
-			},
-		})
-	}
-
-	function getCakeTypes() {
-		$.ajax({
-			url: API_URL+"/api/cake_types",
-			type: 'GET',
-			headers: { 'Authorization': 'Bearer '+TOKEN },
-			dataType: 'JSON',
-			success: function(res, textStatus, jqXHR){
-				let opt = ''
-				$.each(res.data, function (index, item) {  
-					opt += '<option value="'+item.id+'">'+item.name+'</option>'
-				})
-				$('#input-cake-type-id').html(opt)
-			},
-			error: function(jqXHR, textStatus, errorThrown){
-
-			},
-		})
-	}
-
-	function getCakeVariants() {
-		$.ajax({
-			url: API_URL+"/api/cake_variants",
-			type: 'GET',
-			headers: { 'Authorization': 'Bearer '+TOKEN },
-			dataType: 'JSON',
-			success: function(res, textStatus, jqXHR){
-				let opt = ''
-				$.each(res.data, function (index, item) {  
-					opt += '<option value="'+item.id+'">'+item.name+'</option>'
-				})
-				$('#input-cake-variant-id').html(opt)
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 

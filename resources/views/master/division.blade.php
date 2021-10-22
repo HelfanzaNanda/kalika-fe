@@ -21,6 +21,7 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Nama</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Tipe</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Aktif</th>
                 <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
@@ -31,18 +32,26 @@
     </table>
 </div>
 <div class="modal" id="main-modal">
-   <div class="modal__content modal__content--xl">
+   <div class="modal__content modal__content--lg">
         <form id="main-form">
             <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
                 <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
             </div>
             <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
                 <input type="hidden" name="id" id="input-id"> 
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12"> 
                     <label>Nama</label> 
                     <input type="text" name="name" class="input w-full border mt-2 flex-1" id="input-name"> 
                 </div>
-                <div class="col-span-12 sm:col-span-6"> 
+                <div class="col-span-12">
+                    <label>Tipe</label> 
+                    <select name="type" id="input-type" class="single-select input w-full border mt-2 flex-1">
+                        <option value=""> Pilih Tipe </option>
+                        <option value="production">Produksi</option>
+                        <option value="finished_goods">Barang Jadi</option>
+                    </select>
+                </div>
+                <div class="col-span-12"> 
                     <div class="flex items-center text-gray-700 dark:text-gray-500 mt-5">
 						<input type="checkbox" name="active" id="input-active" class="input border mr-2">
 						<label class="cursor-pointer select-none" for="input-active">Aktif</label>
@@ -68,6 +77,7 @@
 
     $(document).on("click","button#add-button",function() {
 		resetAllInputOnForm('#main-form')
+        $('#input-active').prop('checked', true);
         $('h2#modal-title').text('Tambah {{$title}}')
         $('#main-modal').modal('show');
     });
@@ -86,6 +96,7 @@
         success: function(res, textStatus, jqXHR){
           $('#input-id').val(res.data.id);
           $('#input-name').val(res.data.name);
+          $('#input-type').val(res.data.type).trigger('change');
 		  $("#input-active").prop("checked",  res.data.active ? true : false);
           $('#modal-title').text('Edit {{$title}}');
           $('#main-modal').modal('show');
@@ -155,6 +166,20 @@
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false},
                 {data: 'name', name: 'name', className: 'text-center border-b'},
+                {
+                    data: 'type', 
+                    name: 'type', 
+                    className: 'text-center border-b',
+                    render: function ( data, type, row ) {
+                        if (data == 'production') {
+                            return 'Produksi';
+                        } else if (data == 'finished_goods') {
+                            return 'Barang Jadi';
+                        } else {
+                            return '';
+                        }
+                    }
+                },
                 {
                     data: 'active', 
                     name: 'active', 
