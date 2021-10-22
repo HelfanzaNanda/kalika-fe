@@ -182,7 +182,7 @@ function buildMenu(permissions, url) {
   let extractUrl = url.split("/");
   let segmentOne = extractUrl[3];
   let segmentTwo = extractUrl[4];
-  console.log(extractUrl);
+  
   if (url.includes('public')) {
     segmentOne = extractUrl[5];
     segmentTwo = extractUrl[6];
