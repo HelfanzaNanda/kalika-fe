@@ -19,7 +19,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', 'Dashboard\DashboardController@index');
 
 Route::group(['prefix' => 'master'], function() {
-	Route::get('/payment_methods', 'Master\paymentMethodController@index');
+	Route::get('/payment_methods', 'Master\PaymentMethodController@index');
 	Route::get('/raw_materials', 'Master\RawMaterialController@index');
 	Route::get('/customers', 'Master\CustomerController@index');
 	Route::get('/categories', 'Master\CategoryController@index');
