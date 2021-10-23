@@ -272,7 +272,7 @@
         let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
         let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
         let _dR = ['debts', 'receivables'];
-        let _reports = ['payments.report', 'sales.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report'];
+        let _reports = ['payments.report', 'sales.report', 'custom_orders.report', 'sales_consignments.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report'];
         let _settings = ['users', 'permissions', 'roles'];
 
         $.ajax({
