@@ -22,46 +22,18 @@
 		<button class="button text-white bg-theme-1 shadow-md mr-2" id="pdf-button">PDF</button>
 	</div>
 </div>
-<div class="intro-y datatable-wrapper box p-5 mt-5">
-    <table class="table table-report table-report--bordered display datatable w-full" id="main-table">
+<div class="intro-y box p-5 mt-5 overflow-x-auto">
+    <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">No. Ref</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Tanggal</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Total Biaya</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
-                {{-- <th class="border-b-2 whitespace-no-wrap">Action</th> --}}
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama Biaya</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
             </tr>
         </thead>
         <tbody>
             
         </tbody>
     </table>
-</div>
-<div class="modal" id="main-modal">
-   <div class="modal__content modal__content--xl">
-        <form id="main-form">
-            <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
-                <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
-            </div>
-            <div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
-                <input type="hidden" name="id" id="input-id" value="0"> 
-                <div class="col-span-12 sm:col-span-6"> 
-                    <label>Total</label> 
-					<input type="number" name="total" id="input-total" class="input w-full border mt-2 flex-1" > 
-                </div>
-				<div class="col-span-12 sm:col-span-6"> 
-					<label>Konsiyasi</label> 
-					<select name="store_consignment_id" id="input-store-consignment-id" class="single-select input w-full border mt-2 flex-1"></select> 
-				</div>
-            </div>
-            <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
-                <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Cancel</button> 
-                <button type="submit" class="button w-20 bg-theme-1 text-white">Submit</button> 
-            </div>
-        </form>
-   </div>
 </div>
 @endsection
 
@@ -71,59 +43,26 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
-    drawDatatable()
+	getExpenses()
 
 	$('#daterangepicker').on('apply.daterangepicker', function(ev, picker) {
-		$('#filter-start-date').val(picker.startDate.format('YYYY-MM-DD'))
-		$('#filter-end-date').val(picker.endDate.format('YYYY-MM-DD'))
-		$('#main-table').DataTable().ajax.reload( function ( json ) {
-			feather.replace();
-		} );
+		let startDate = picker.startDate.format('YYYY-MM-DD')
+		let endDate = picker.endDate.format('YYYY-MM-DD')
+		$('#filter-start-date').val(startDate)
+		$('#filter-end-date').val(endDate)
+		getExpenses(startDate, endDate)
   	});
 
 	$('#daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
 		$(this).val('');
-		$('#main-table').DataTable().ajax.reload( function ( json ) {
-			feather.replace();
-		} );
+		getExpenses()
 	});
-
-    function drawDatatable() {
-        $("#main-table").DataTable({
-            "destroy": true,
-            "pageLength": 10,
-            "processing": true,
-            "serverSide": true,
-            "ajax":{
-                "url": API_URL+"/api/report_expense_datatables",
-                "headers": { 'Authorization': 'Bearer '+TOKEN },
-                "dataType": "json",
-                "type": "POST",
-                "data":function(d) { 
-					d.start_date = $('#filter-start-date').val()
-                  	d.end_date = $('#filter-end-date').val()
-                },
-            },
-            "columns": [
-                {data: 'id', name: 'id', width: '5%', "visible": false },
-                { data: 'number', name: 'number', className: 'text-center border-b' },
-                { data: 'date', name: 'date', className: 'text-center border-b', render : data => moment(data).format('DD MMM YYYY hh:mm:ss') },
-                { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
-                {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
-                // {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
-            ],
-            "order": [0, 'desc'],
-            // "initComplete": function(settings, json) {
-            //     feather.replace();
-            // }
-        });
-    }
 
 	$(document).on('click', '#pdf-button', function (e) {  
 		e.preventDefault()
 		const data = {
-			'start_date' : $('#filter-start-date').val(),
-			'end_date' : $('#filter-end-date').val()
+			'start_date' : $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
 		}
 		$.ajax({
             type: 'POST',
@@ -136,6 +75,7 @@
                 
             },
             success: function(res) {
+				
 				const link = document.createElement('a');
 				link.href = API_URL+"/api/download?path=" + res.data;
 				link.target = "_blank";
@@ -148,5 +88,67 @@
             },
         });
 	})
+
+	function getExpenses(startDate = null, endDate = null) {
+		if (startDate == null) {
+			startDate = moment().startOf('month').format('YYYY-MM-DD')
+		}
+		if (endDate == null) {
+			endDate = moment().endOf('month').format('YYYY-MM-DD')
+		}
+		let data = {
+			start_date : startDate,
+			end_date : endDate,
+		}
+        $.ajax({
+            url: API_URL+"/api/report_expense_datatables",
+            type: 'POST',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+			data : JSON.stringify(data),
+			contentType: 'application/json',
+            success: function(res, textStatus, jqXHR){
+				let tr = ''
+				res.data.forEach(item => {
+					tr += '<tr>'
+					tr += '		<td class="border-b">'+item.category_name+'</td>'
+					tr += '		<td class="border-b">'+formatRupiah(item.total.toString(), ' ')+'</td>'
+					tr += '</tr>'
+				});
+				$("table tbody").html(tr)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
+
+
+	
+    // function drawDatatable() {
+    //     $("#main-table").DataTable({
+    //         "destroy": true,
+    //         "pageLength": 10,
+    //         "processing": true,
+    //         "serverSide": true,
+    //         "ajax":{
+    //             "url": API_URL+"/api/report_expense_datatables",
+    //             "headers": { 'Authorization': 'Bearer '+TOKEN },
+    //             "dataType": "json",
+    //             "type": "POST",
+    //             "data":function(d) { 
+	// 				d.start_date = $('#filter-start-date').val()
+    //               	d.end_date = $('#filter-end-date').val()
+    //             },
+    //         },
+    //         "columns": [
+    //             {data: 'id', name: 'id', width: '5%', "visible": false },
+    //             { data: 'number', name: 'number', className: 'text-center border-b' },
+    //             { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
+    //         ],
+    //         "order": [0, 'desc'],
+    //     });
+    // }
 </script>
 @endsection
+
