@@ -21,11 +21,12 @@
             <tr>
                 <th>Id</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">No. Ref</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Produk</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Harga</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Pada</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Nama Pemesan</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Produk</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dipesan Untuk Tanggal</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Pembayaran</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 <th class="border-b-2 whitespace-no-wrap">Aksi</th>
             </tr>
         </thead>
@@ -72,11 +73,48 @@
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'number', name: 'number', className: 'text-center border-b'},
-                {data: 'store_name', name: 'store_name', className: 'text-center border-b'},
-                {data: 'product_name', name: 'product_name', className: 'text-center border-b'},
-                {data: 'price', name: 'price', className: 'text-center border-b'},
+                {
+                    data: 'created_at', 
+                    name: 'created_at', 
+                    className: 'text-center border-b',
+                    render: function ( data, type, row ) {
+                        return moment(data).format('DD MMM YYYY hh:mm:ss')
+                    }
+                },
+                {data: 'customer_name', name: 'customer_name', className: 'text-center border-b'},
+                {
+                    data: 'product_id', 
+                    name: 'product_id', 
+                    className: 'text-center border-b',
+                    render: function ( data, type, row ) {
+                        return row.product_name + " \n("+row.cake_character+")";
+                    }
+                },
+                {
+                    data: 'delivery_date', 
+                    name: 'delivery_date', 
+                    className: 'text-center border-b',
+                    render: function ( data, type, row ) {
+                        let deliveryDate = moment(data).format('DD MMM YYYY hh:mm');
+                        return deliveryDate + " \n("+shipmentType(row.shipment_type)+")";
+                    }
+                },
+                {
+                    data: 'down_payment', 
+                    name: 'down_payment', 
+                    className: 'text-center border-b',
+                    render: function ( data, type, row ) {
+                        let total = parseFloat(row.total);
+                        let downPayment = parseFloat(row.down_payment);
+
+                        if (total > downPayment) {
+                            return "Piutang "+(total - downPayment);
+                        } else {
+                            return "Lunas";
+                        }
+                    }
+                },
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
-                {data: 'created_at', name: 'created_at', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],

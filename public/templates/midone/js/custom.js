@@ -265,6 +265,10 @@ function buildMenu(permissions, url) {
       'name': 'Stok Opname',
       'url': '/stock_opnames'
     },
+    'check_stocks': {
+      'name': 'Cek Stok',
+      'url': '/check_stocks'
+    },
     'sales': {
       'name': 'Penjualan',
       'url': '/sales'
@@ -366,7 +370,7 @@ function buildMenu(permissions, url) {
 // purchase_order_deliveries
 
   let _master = ['expense_categories', 'divisions', 'units', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials']
-  let _inventory = ['stock_opnames'];
+  let _inventory = ['stock_opnames', 'check_stocks'];
   let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
   let _dR = ['debts', 'receivables'];
@@ -663,4 +667,27 @@ function newExportAction(e, dt, button, config) {
 		});
 	});
 	dt.ajax.reload();
+}
+
+function shipmentType(type) {
+  switch(type) {
+    case 'diambil':
+      return 'DIAMBIL';
+    case 'diambil_prama':
+      return 'DIAMBIL PRAMA';
+    case 'diambil_tm':
+      return 'DIAMBIL TM';
+    case 'order_prama':
+      return 'ORDER PRAMA';
+    case 'order_tm':
+      return 'ORDER TM';
+    case 'dikirim_kalika':
+      return 'DIKIRIM KALIKA';
+    case 'ojol_cash':
+      return 'OJOL CASH';
+    case 'ojol_cod':
+      return 'OJOL COD';
+    default:
+      return 'UNKNOWN';
+  }
 }

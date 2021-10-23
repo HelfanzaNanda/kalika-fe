@@ -24,12 +24,12 @@
 		<div class="px-5 py-3 grid grid-cols-12 gap-4 row-gap-3">
 			<div class="col-span-12 sm:col-span-6"> 
 				<label>Nama Kasir </label> 
-				<input type="text" disabled="" name="name" id="input-name" class="input w-full border mt-2 flex-1"/>
+				<input type="text" disabled="" name="name" id="input-name" class="input w-full border flex-1"/>
 			</div>
 
 			<div class="col-span-12 sm:col-span-6">
 				<label>Toko</label>
-				<select name="store_id" id="input-store-id" class="select2 input w-full border mt-2 flex-1"></select>
+				<select name="store_id" id="input-store-id" class="select2 input w-full border flex-1"></select>
 			</div>
 		</div>
 		<div class="px-5">

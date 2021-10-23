@@ -154,11 +154,17 @@
                     <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="300000">
                         <div class="font-medium text-base">300rb</div>
                     </div>
+                    <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="400000">
+                        <div class="font-medium text-base">400rb</div>
+                    </div>
+                    <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="500000">
+                        <div class="font-medium text-base">500rb</div>
+                    </div>
                     <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="0">
                         <div class="font-medium text-base text-center">PAS</div>
                     </div>
 				</div>
-				<input type="text" class="input w-full border mt-2 flex-1" placeholder="Jumlah Bayar" id="input-pay-amount">
+				<input type="text" class="input w-full border mt-2 flex-1" placeholder="Jumlah Bayar" id="input-pay-amount" value=0>
             </div>
 
             <div class="col-span-12">
@@ -168,6 +174,7 @@
         </div>
         <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5">
             <button type="button" data-dismiss="modal" class="button w-32 border dark:border-dark-5 text-gray-700 dark:text-gray-300 mr-1">Cancel</button>
+            <button type="button" class="button w-32 bg-theme-9 text-white" id="print-btn">Cetak</button>
             <button type="button" class="button w-32 bg-theme-1 text-white" id="finish-payment-btn">Selesai</button>
         </div>
     </div>
@@ -229,13 +236,18 @@
 	let currentSalesId = 0;
 	let currentPaymentId = 0;
 	let currentCustomerId = 0;
+    let id = "{{isset($_GET['edit']) && $_GET['edit'] ? $_GET['edit'] : 0 }}";
 
 	getCategories();
 	getProducts();
 	buildCart();
 	getPaymentMethods();
 	getSales();
-    checkCashRegister();
+    // checkCashRegister();
+
+    if (parseInt(id) > 0) {
+        getSalesById(id);
+    }
 
     function getSales() {
         $.ajax({
@@ -292,6 +304,7 @@
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
+            async: false,
             success: function(res, textStatus, jqXHR){
                 let opt = ''
                 opt += '<option value=""> - Pilih Metode Pembayaran - </option>'
@@ -467,6 +480,8 @@
 
     $(document).on("click", "button#pay", function() {
         $('#pay-sales-total').text(total);
+        let payAmount = $('#input-pay-amount').val();
+        $('#change').text(parseFloat(total) - parseFloat(payAmount));
         $('#pay-modal').modal('show');
     });
 
@@ -529,7 +544,10 @@
 	
 	$(document).on("click", "a#latest-invoice",function() {
 		let salesId = $(this).data('id');
-
+        getSalesById(salesId);
+	});
+    
+    function getSalesById(salesId) {
         $.ajax({
             url: API_URL+"/api/sales/"+salesId,
             type: 'GET',
@@ -537,48 +555,47 @@
             dataType: 'JSON',
             async: false,
             beforeSend: function() {
-				clearAll()
+                clearAll()
             },
             success: function(res, textStatus, jqXHR){
-				$.each(res.data.sales_details, function (index, item) {
-			    	cart[item.product_id] = {
-			    		"id": item.product_id,
-			    		"name": item.product.name,
-			    		"quantity": item.qty,
-			    		"unit_price": item.unit_price
-			    	};
-					
-					item.product["id"] = item.product_id;
-			    	tempProduct[item.product_id] = item.product;
+                $.each(res.data.sales_details, function (index, item) {
+                    cart[item.product_id] = {
+                        "id": item.product_id,
+                        "name": item.product.name,
+                        "quantity": item.qty,
+                        "unit_price": item.unit_price
+                    };
+                    
+                    item.product["id"] = item.product_id;
+                    tempProduct[item.product_id] = item.product;
 
-			    	subtotal += parseFloat(item.unit_price) * parseFloat(item.qty);
-				});
+                    subtotal += parseFloat(item.unit_price) * parseFloat(item.qty);
+                });
 
-				discount = res.data.discount_value;
+                discount = res.data.discount_value;
 
-				total = subtotal - discount;
+                total = subtotal - discount;
 
-				$('#input-pay-amount').val(res.data.customer_pay);
-				$('#change').text(res.data.customer_change);
-				$('#pay-sales-total').text(res.data.total);
-				$('#discount').val(res.data.discount_value);
-				$('#input-payment-method').val(res.data.payment.payment_method_id).trigger('change');
-				$('#input-payment-method-note').val(res.data.payment.payment_note);
-				$('#input-customer-name').val(res.data.customer.name);
-				$('#input-customer-phone').val(res.data.customer.phone);
+                $('#input-pay-amount').val(res.data.customer_pay);
+                $('#change').text(res.data.customer_change);
+                $('#pay-sales-total').text(res.data.total);
+                $('#discount').val(res.data.discount_value);
+                $('#input-payment-method').val(res.data.payment.payment_method_id).trigger('change');
+                $('#input-payment-method-note').val(res.data.payment.payment_note);
+                $('#input-customer-name').val(res.data.customer.name);
+                $('#input-customer-phone').val(res.data.customer.phone);
 
-				currentSalesId = res.data.id;
-				currentPaymentId = res.data.payment.id;
-				currentCustomerId = res.data.customer.id
+                currentSalesId = res.data.id;
+                currentPaymentId = res.data.payment.id;
+                currentCustomerId = res.data.customer.id
 
-				buildCart();
+                buildCart();
             },
             error: function(jqXHR, textStatus, errorThrown){
 
             },
         });
-	});
-
+    }
     $(document).on("click", "button#finish-payment-btn",function() {
 		let salesBodyReq = {
 			"id": currentSalesId,

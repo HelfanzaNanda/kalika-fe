@@ -12,85 +12,69 @@
         Data {{$title}}
     </h2>
 </div>
-<div class="intro-y box mt-3">
-	<form id="main-form">
+<form id="main-form">
+	<div class="intro-y box mt-3">
 		<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
-			<h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
+			<h2 class="font-medium text-base mr-auto" id="modal-title">Masukkan Detail Pesanan</h2>
 		</div>
 		<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
 			<div class="col-span-12 sm:col-span-6"> 
 				<label>Toko</label> 
-				<select name="store_id" id="input-store-id" class="single-select input w-full border mt-2 flex-1"></select>
+				<select name="store_id" id="input-store-id" class="single-select input w-full border flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
 				<label>Produk</label> 
-				<select name="product_id" id="input-product-id" class="single-select input w-full border mt-2 flex-1"></select>
+				<select name="product_id" id="input-product-id" class="single-select input w-full border flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Karakter Cake</label> 
-				<input type="text" name="cake_character" id="input-cake-character" class="input w-full border mt-2 flex-1"> 
+				<label>Penjual</label> 
+				<select name="seller_id" id="input-seller-id" class="single-select input w-full border flex-1"></select>
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Tipe Cake</label> 
+				<select name="type_cake_id" id="input-type-cake-id" class="single-select input w-full border flex-1"></select>
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Karakter/Kode</label> 
+				<input type="text" name="cake_character" id="input-cake-character" class="input w-full border flex-1"> 
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
 				<label>Bentuk Cake</label> 
-				<input type="text" name="cake_shape" id="input-cake-shape" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Ukuran Cake</label> 
-				<input type="number" name="cake_size" id="input-cake-size" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Delivery Date</label> 
-				<input type="text" name="delivery_date" id="input-delivery-date" class="datepicker input w-full border mt-2 flex-1"> 
-			</div>
-
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Harga</label> 
-				<input type="number" name="price" id="input-price" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Tambahan Harga</label> 
-				<input type="number" name="additional_price" id="input-additional-price" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Other</label> 
-				<textarea name="other" id="input-other" class="input w-full border mt-2 flex-1" rows="3"></textarea>
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Nama Custom Cake</label> 
-				<input type="text" name="cake_custom_name" id="input-cake-custom-name" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Lilin</label> 
-				<input type="text" name="candle" id="input-candle" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Diskon</label> 
-				<input type="number" name="discount" id="input-discount" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Biaya Pengiriman</label> 
-				<input type="number" name="delivery_cost" id="input-delivery-cost" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Nama Penerima</label> 
-				<input type="text" name="recipient_name" id="input-recipient-name" class="input w-full border mt-2 flex-1"> 
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Alamat Penerima</label> 
-				<textarea name="recipient_address" id="input-recipient-address" class="input w-full border mt-2 flex-1" rows="3"></textarea>
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
-				<label>Status</label> 
-				<select name="recipient_status" id="input-recipient-status" class="single-select input w-full border mt-2 flex-1">
-					<option value="pending">Pending</option>
-					<option value="on_process">Proses</option>
-					<option value="on_delivery">Sedang Dikirim</option>
-					<option value="done">Selesai</option>
+				<select name="cake_shape" id="input-cake-shape" class="single-select input w-full border flex-1">
+					<option value="Bulat">Bulat</option>
+					<option value="Hati">Hati</option>
+					<option value="Kotak">Kotak</option>
+					<option value="Lain Lain">Lain Lain</option>
 				</select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
+				<label>Ukuran Cake</label> 
+				<input type="number" name="cake_size" id="input-cake-size" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Variant Rasa</label> 
+				<select name="variant_cake_id" id="input-variant-cake-id" class="single-select input w-full border flex-1"></select>
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Waktu</label> 
+				<input type="text" name="delivery_date" id="input-delivery-date" class="datepicker input w-full border flex-1" data-timepicker="true"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Lain - lain</label> 
+				<input type="text" name="other" id="input-other" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Nama Pada Kue</label> 
+				<input type="text" name="cake_custom_name" id="input-cake-custom-name" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Lilin</label> 
+				<input type="text" name="candle" id="input-candle" class="input w-full border flex-1"> 
+			</div>
+
+			<div class="col-span-12 sm:col-span-6"> 
 				<label>Tipe Pengiriman</label> 
-				<select name="shipment_type" id="input-shipment-type" class="single-select input w-full border mt-2 flex-1">
+				<select name="shipment_type" id="input-shipment-type" class="single-select input w-full border flex-1">
 					<option value="diambil">DIAMBIL</option>
 					<option value="diambil_prama">DIAMBIL PRAMA</option>
 					<option value="diambil_tm">DIAMBIL TM</option>
@@ -101,18 +85,111 @@
 					<option value="ojol_cod">OJOL COD</option>
 				</select>
 			</div>
+{{-- 			<div class="col-span-12 sm:col-span-6"> 
+				<label>Status</label> 
+				<select name="status" id="input-status" class="single-select input w-full border flex-1">
+					<option value="pending">Pending</option>
+					<option value="on_process">Proses</option>
+					<option value="on_delivery">Sedang Dikirim</option>
+					<option value="done">Selesai</option>
+				</select>
+			</div> --}}
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Note</label> 
-				<textarea name="note" id="input-note" class="input w-full border mt-2 flex-1" rows="3"></textarea>
+				<label>Catatan Produksi</label> 
+				<textarea name="production_note" id="input-production-note" class="input w-full border flex-1" rows="3"></textarea>
 			</div>
-			
+		</div>
+	</div>
+	<div class="intro-y box mt-3">
+		<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+			<h2 class="font-medium text-base mr-auto" id="modal-title">Masukkan Detail Pemesan</h2>
+		</div>
+		<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Nama Pemesan</label> 
+				<input type="text" name="customer_name" id="input-customer-name" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>No. Telp. Pemesan</label> 
+				<input type="text" name="customer_phone" id="input-customer-phone" class="input w-full border flex-1">
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Alamat Pemesan</label> 
+				<textarea name="customer_address" id="input-customer-address" class="input w-full border flex-1" rows="3"></textarea>
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Deskripsi Alamat</label> 
+				<textarea name="customer_address_description" id="input-customer-address-description" class="input w-full border flex-1" rows="3"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="intro-y box mt-3">
+		<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+			<h2 class="font-medium text-base mr-auto" id="modal-title">Masukkan Detail Penerima</h2>
+		</div>
+		<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Nama Penerima</label> 
+				<input type="text" name="recipient_name" id="input-recipient-name" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Telp. Penerima</label> 
+				<input type="text" name="recipient_phone" id="input-recipient-phone" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Alamat Penerima</label> 
+				<textarea name="recipient_address" id="input-recipient-address" class="input w-full border flex-1" rows="3"></textarea>
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Deskripsi Alamat Penerima</label> 
+				<textarea name="recipient_address_detail" id="input-recipient-address-detail" class="input w-full border flex-1" rows="3"></textarea>
+			</div>
+		</div>
+	</div>
+	<div class="intro-y box mt-3">
+		<div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+			<h2 class="font-medium text-base mr-auto" id="modal-title">Masukkan Detail Pembayaran</h2>
+		</div>
+		<div class="p-5 grid grid-cols-12 gap-4 row-gap-3">
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Harga</label> 
+				<input type="number" name="price" id="input-price" class="input w-full border flex-1" onkeyup="calculateTotal()" onblur="calculateTotal()"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Harga Lain Lain</label> 
+				<input type="number" name="additional_price" id="input-additional-price" class="input w-full border flex-1" onkeyup="calculateTotal()" onblur="calculateTotal()"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Diskon</label> 
+				<input type="number" name="discount" id="input-discount" class="input w-full border flex-1" onkeyup="calculateTotal()" onblur="calculateTotal()"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Biaya Pengiriman</label> 
+				<input type="number" name="delivery_cost" id="input-delivery-cost" class="input w-full border flex-1" onkeyup="calculateTotal()" onblur="calculateTotal()"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Total</label> 
+				<input type="number" name="total" id="input-total" class="input w-full border flex-1 bg-gray-100 cursor-not-allowed" readonly=""> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Metode Pembayaran</label> 
+				<select name="payment_method_id" id="input-payment-method-id" class="single-select input w-full border flex-1"></select>
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Uang Muka</label> 
+				<input type="number" name="down_payment" id="input-down-payment" class="input w-full border flex-1"> 
+			</div>
+			<div class="col-span-12 sm:col-span-6"> 
+				<label>Catatan Pembayaran</label> 
+				<textarea name="payment_note" id="input-payment-note" class="input w-full border flex-1" rows="3"></textarea>
+			</div>
 		</div>
 		<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
 			<a href="{{ route('custom.order.index') }}" type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Kembali</a> 
 			<button type="submit" class="button w-20 bg-theme-1 text-white">Submit</button> 
 		</div>
-	</form>
-</div>
+	</div>
+</form>
 @endsection
 
 @section('additionalFileJS')
@@ -122,14 +199,39 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
     getStores();
-	getProducts()
-	initSelect2()
+	getProducts();
+	initSelect2();
+	getSellers();
+	getCakeVariants();
+	getCakeTypes();
+	getPaymentMethods();
 
 	function initSelect2(){
 		$(".single-select").select2({
-			placeholder: "Choose One"
+			placeholder: "Silahkan Pilih"
 		});
 	}
+
+    function getPaymentMethods() {
+        $.ajax({
+            url: API_URL+"/api/payment_methods",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            async: false,
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Metode Pembayaran - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-payment-method-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
 
     function getStores() {
         $.ajax({
@@ -144,6 +246,66 @@
                     opt += '<option value="'+item.id+'">'+item.name+'</option>'
                 })
                 $('#input-store-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
+
+    function getSellers() {
+        $.ajax({
+            url: API_URL+"/api/sellers",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Penjual - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-seller-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
+
+    function getCakeVariants() {
+        $.ajax({
+            url: API_URL+"/api/cake_variants",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Variant - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-variant-cake-id').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
+
+    function getCakeTypes() {
+        $.ajax({
+            url: API_URL+"/api/cake_types",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Variant - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-type-cake-id').html(opt)
             },
             error: function(jqXHR, textStatus, errorThrown){
 
@@ -176,8 +338,20 @@
         var form_data  =  new FormData(this)
 		let data = {}
 		for (var pair of form_data.entries()) {
-			const arrInt = ['store_id', 'product_id', 'cake_size', 
-			'price', 'additional_price', 'discount', 'delivery_cost']
+			const arrInt = [
+				'store_id',
+				'product_id',
+				'seller_id',
+				'type_cake_id',
+				'variant_cake_id',
+				'price',
+				'additional_price',
+				'discount',
+				'delivery_cost',
+				'total',
+				'payment_method_id',
+				'down_payment'
+			]
 			if (arrInt.includes(pair[0])) {
 				data[pair[0]] = parseInt(pair[1])
 			} else {	
@@ -212,5 +386,19 @@
 			},
         })
     });
+	
+    function calculateTotal() {
+		let price = $('#input-price').val();
+		let additionalPrice = $('#input-additional-price').val();
+		let discount = $('#input-discount').val();
+		let deliveryCost = $('#input-delivery-cost').val();
+		let downPayment = $('#input-down-payment').val();
+		let calculate = 0;
+
+
+		calculate = parseFloat(price) + parseFloat(additionalPrice) + parseFloat(deliveryCost) - parseFloat(discount);
+
+		$('#input-total').val(calculate);
+    }
 </script>
 @endsection

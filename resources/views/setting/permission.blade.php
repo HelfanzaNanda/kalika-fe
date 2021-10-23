@@ -267,8 +267,8 @@
     }
 
     function getPermissions() {
-        let _master = ['expense_categories', 'divisions', 'units', 'unit_conversions', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials', 'cash_registers'];
-        let _inventory = ['beginning_stocks', 'stock_opnames'];
+        let _master = ['expense_categories', 'divisions', 'units', 'unit_conversions', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials'];
+        let _inventory = ['stock_opnames', 'check_stocks'];
         let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
         let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
         let _dR = ['debts', 'receivables'];
@@ -315,6 +315,10 @@
                             buildCheckboxInventory += '<div class="mt-3">';
                             buildCheckboxInventory += '    <h2><strong>'+makeTitle(item.name)+'</strong></h2> ';
                             buildCheckboxInventory += '    <div class="flex flex-col sm:flex-row mt-2">';
+                            buildCheckboxInventory += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
+                            buildCheckboxInventory += '            <input type="checkbox" class="input border mr-2" id="'+item.id+'">';
+                            buildCheckboxInventory += '            <label class="cursor-pointer select-none" for="'+item.id+'">List</label>';
+                            buildCheckboxInventory += '        </div>';
                             $.each(res.data, function (key, value) {
                                 if (value.name.indexOf(item.name) !== -1 && value.name.toString().toLowerCase().indexOf(".") !== -1 && (value.name).split('.')[0] == (item.name).split('.')[0] && value.name.toString().toLowerCase().indexOf(".report") === -1) {
                                     buildCheckboxInventory += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';

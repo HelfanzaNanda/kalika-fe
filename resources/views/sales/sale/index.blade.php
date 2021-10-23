@@ -51,7 +51,7 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(BASE_URL+`/sales/sales/edit/${id}`)
+	  window.location.replace(BASE_URL+`/sales/pos?edit=${id}`)
     });
 
     function drawDatatable() {
@@ -74,9 +74,17 @@
                 {data: 'number', name: 'number', className: 'text-center border-b'},
                 {data: 'store_name', name: 'store_name', className: 'text-center border-b'},
                 {data: 'customer_name', name: 'customer_name', className: 'text-center border-b'},
-                {data: 'total', name: 'total', className: 'text-center border-b'},
+                {
+                    data: 'total', name: 'total', 
+                    className: 'text-center border-b',
+                    render : data => formatRupiah(data.toString(), 'Rp ')
+                },
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
-                {data: 'created_at', name: 'created_at', className: 'text-center border-b'},
+                {
+                    data: 'created_at', name: 'created_at', 
+                    className: 'text-center border-b',
+                    render : data => moment(data).format('DD MMM YYYY hh:mm:ss')
+                },
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],

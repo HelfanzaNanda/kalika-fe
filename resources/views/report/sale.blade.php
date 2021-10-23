@@ -118,7 +118,7 @@
 				},
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
                 {
-					data: 'updated_at', name: 'updated_at', 
+					data: 'created_at', name: 'created_at', 
 					className: 'text-center border-b',
 					render : data => moment(data).format('DD MMM YYYY hh:mm:ss')
 				},
