@@ -373,6 +373,10 @@ function buildMenu(permissions, url) {
       'name': 'Role',
       'url': '/roles'
     },
+    'general_settings': {
+      'name': 'Pengaturan Umum',
+      'url': '/general_settings'
+    },
   };
 
 // purchase_order_deliveries
@@ -383,7 +387,7 @@ function buildMenu(permissions, url) {
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
   let _dR = ['debts', 'receivables'];
   let _reports = ['payments.report', 'sales.report', 'custom_orders.report', 'sales_consignments.report', 'purchase_invoices.report', 'sales_returns.report', 'purchase_returns.report', 'debts.report', 'receivables.report', 'costs.report', 'stock_mutations.report', 'productions.report', 'profit_loss.report', 'payments.report'];
-  let _settings = ['users', 'permissions', 'roles'];
+  let _settings = ['users', 'permissions', 'roles', 'general_settings'];
 
   let _p = JSON.parse(permissions);
   let masterMenu = '';

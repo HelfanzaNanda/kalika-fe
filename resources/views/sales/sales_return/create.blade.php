@@ -23,15 +23,11 @@
 		</div>
 		<div class="px-5 py-3 grid grid-cols-12 gap-4 row-gap-3">
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Nama </label> 
-				<input type="text" readonly name="name" id="input-name" class="input w-full border mt-2 flex-1"/>
-			</div>
-			<div class="col-span-12 sm:col-span-6"> 
 				<label>Kustomer </label> 
 				<select name="customer_id" id="input-customer-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>konsiyasi </label> 
+				<label>Toko Konsinyasi </label> 
 				<select name="store_consignment_id" id="input-store-consignment-id" class="single-select input w-full border mt-2 flex-1"></select>
 			</div>
 		</div>
@@ -39,7 +35,7 @@
 			<table class="table table-report table-report--bordered display w-full" id="details-table">
 				<thead>
 					<tr>
-						<th class="border-b-2 text-center whitespace-no-wrap">Product</th>
+						<th class="border-b-2 text-center whitespace-no-wrap">Produk</th>
 						<th class="border-b-2 text-center whitespace-no-wrap">Qty</th>
 						<th class="border-b-2 text-center whitespace-no-wrap">Total</th>
 						<th class="border-b-2 text-center whitespace-no-wrap">Aksi</th>
@@ -98,11 +94,11 @@
 
 	function initSelect2(){
 		$("#input-product-id-"+index).select2({
-			placeholder: "Choose One",
+			placeholder: "Silahkan Pilih",
 			allowClear: true
 		});
 		$(".single-select").select2({
-			placeholder: "Choose One",
+			placeholder: "Silahkan Pilih",
 			allowClear: true
 		});
 	}
