@@ -20,20 +20,16 @@
     <table class="table table-report table-report--bordered display datatable w-full" id="main-table">
         <thead>
             <tr>
-                <th class="border-b-2 text-center whitespace-no-wrap">No</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Pada</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">No Ref</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Pada</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Metode</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
             </tr>
         </thead>
         <tbody></tbody>
 		<tfoot>
             <tr>
-                <th class="whitespace-no-wrap"></th>
-                <th class="whitespace-no-wrap"></th>
                 <th class="whitespace-no-wrap"></th>
                 <th class="whitespace-no-wrap"></th>
                 <th class="whitespace-no-wrap"></th>
@@ -66,12 +62,8 @@
 					<select name="created_by" id="input-created-by" class="single-select input w-full border mt-2 flex-1"></select> 
 				</div>
 				<div class="col-span-12 sm:col-span-6"> 
-					<label>Toko</label> 
-					<select name="store_id" id="input-store-id" class="single-select input w-full border mt-2 flex-1"></select> 
-				</div>
-				<div class="col-span-12 sm:col-span-6"> 
-					<label>Metode</label> 
-					<select name="payment_method_id" id="input-payment-method-id" class="single-select input w-full border mt-2 flex-1"></select> 
+					<label>Toko Konsinyasi</label> 
+					<select name="store_consignment_id" id="input-store-consignment-id" class="single-select input w-full border mt-2 flex-1"></select> 
 				</div>
             </div>
             <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
@@ -91,12 +83,11 @@
 <script type="text/javascript">
 
     drawDatatable()
-	$(document).on("click","button#filter-button",function() {
+	$(document).on("click", "button#filter-button", function() {
 		resetAllInputOnForm('#main-form')
         $('h2#modal-title').text('Filter {{$title}}')
-		getStores()
 		getUsers()
-		getPaymentMethods()
+		getStoreConsignments()
 		initSelect2()
         $('#main-modal').modal('show');
     });
@@ -118,16 +109,10 @@
 	$('#daterangepicker').on('apply.daterangepicker', function(ev, picker) {
 		$('#filter-start-date').val(picker.startDate.format('YYYY-MM-DD'))
 		$('#filter-end-date').val(picker.endDate.format('YYYY-MM-DD'))
-		// $('#main-table').DataTable().ajax.reload( function ( json ) {
-		// 	feather.replace();
-		// } );
   	});
 
 	$('#daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
 		$(this).val('');
-		// $('#main-table').DataTable().ajax.reload( function ( json ) {
-		// 	feather.replace();
-		// } );
 	});
 
     function drawDatatable() {
@@ -139,41 +124,31 @@
             "processing": true,
             "serverSide": true,
             "ajax":{
-                "url": API_URL+"/api/report_sale_datatables",
+                "url": API_URL+"/api/report_sales_consignment_datatables",
                 "headers": { 'Authorization': 'Bearer '+TOKEN },
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
-					d.start_date = $('#filter-start-date').val()
-                  	d.end_date = $('#filter-end-date').val()
-                  	d.store_id = $('#input-store-id').val()
+					d.start_date = $('#filter-start-date').val() || moment().format('YYYY-MM-DD')
+                  	d.end_date = $('#filter-end-date').val() || moment().add(1, 'd').format('YYYY-MM-DD')
                   	d.created_by = $('#input-created-by').val()
                   	d.payment_method_id = $('#input-payment-method-id').val()
                 },
             },
             "columns": [
-                {
-					data: null, name: null, width: '5%',
-					render : ( data, type, full, meta ) => meta.row + 1
-				},
+				{data: 'number', name: 'number', className: 'text-center border-b'},
                 {
 					data: 'created_at', name: 'created_at', 
 					className: 'text-center border-b',
 					render : data => moment(data).format('DD MMM YYYY hh:mm:ss')
 				},
-                {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
-                {data: 'number', name: 'number', className: 'text-center border-b'},
-                {
-					data: 'discount_value', name: 'discount_value', 
-					className: 'text-center border-b',
-					render : data => formatRupiah(data.toString(), 'Rp ')
-				},
-                {
+				{data: 'store_consignment_name', name: 'store_consignment_name', className: 'text-center border-b'},
+				{
 					data: 'total', name: 'total', 
 					className: 'text-center border-b',
 					render : data => formatRupiah(data.toString(), 'Rp ')
 				},
-                {data: 'metode', name: 'metode', className: 'text-center border-b'},
+				{data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
             ],
             "order": [0, 'desc'],
             "initComplete": function(settings, json) {
@@ -185,13 +160,10 @@
 					return typeof i === 'string' ? i.replace(/[\$,]/g, '')*1 :
 						typeof i === 'number' ? i : 0;
 				};
-
-				let discount = api.column(4).data().reduce((a, b) => intVal(a) + intVal(b), 0 );
-				let total = api.column(5).data().reduce((a, b) => intVal(a) + intVal(b), 0 );
+				let total = api.column(3).data().reduce((a, b) => intVal(a) + intVal(b), 0 );
 					
 				$( api.column(0).footer()).html('Total');
-				$( api.column(4).footer()).html(formatRupiah(discount.toString(), ''));
-				$( api.column(5).footer()).html(formatRupiah(total.toString(), ''));
+				$( api.column(3).footer()).html(formatRupiah(total.toString(), ''));
 			},
 		});
     }
@@ -199,15 +171,14 @@
 	$(document).on('click', '#pdf-button', function (e) {  
 		e.preventDefault()
 		const data = {
-			'start_date' : $('#filter-start-date').val(),
-			'end_date' : $('#filter-end-date').val(),
-			'store_id' : parseInt($('#input-store-id').val()),
+			'start_date' : $('#filter-start-date').val() || moment().format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().add(1, 'd').format('YYYY-MM-DD'),
 			'created_by' : parseInt($('#input-created-by').val()),
 			'payment_method_id' : parseInt($('#input-payment-method-id').val())
 		}
 		$.ajax({
             type: 'POST',
-            url: API_URL+"/api/sale_pdf",
+            url: API_URL+"/api/sales_consignment_pdf",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -228,27 +199,6 @@
             },
         });
 	})
-
-
-	function getStores() {
-        $.ajax({
-            url: API_URL+"/api/stores",
-            type: 'GET',
-            headers: { 'Authorization': 'Bearer '+TOKEN },
-            dataType: 'JSON',
-            success: function(res, textStatus, jqXHR){
-                let opt = ''
-                opt += '<option value=""> Semua </option>'
-                $.each(res.data, function (index, item) {  
-                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
-                })
-                $('#input-store-id').html(opt)
-            },
-            error: function(jqXHR, textStatus, errorThrown){
-
-            },
-        })
-    }
 	
 	function getUsers() {
         $.ajax({
@@ -270,9 +220,9 @@
         })
     }
 	
-	function getPaymentMethods() {
+	function getStoreConsignments() {
         $.ajax({
-            url: API_URL+"/api/payment_methods",
+            url: API_URL+"/api/store_consignments",
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
@@ -280,9 +230,9 @@
                 let opt = ''
                 opt += '<option value=""> Semua </option>'
                 $.each(res.data, function (index, item) {  
-                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                    opt += '<option value="'+item.id+'">'+item.store_name+'</option>'
                 })
-                $('#input-payment-method-id').html(opt)
+                $('#input-store-consignment-id').html(opt)
             },
             error: function(jqXHR, textStatus, errorThrown){
 

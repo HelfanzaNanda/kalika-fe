@@ -83,7 +83,7 @@
                 {
 					data: 'created_at', name: 'created_at', 
 					className: 'text-center border-b',
-					render : data => moment(data).format('DD MMMM YYYY')
+					render : data => moment(data || '').format('DD MMM YYYY hh:mm:ss')
 				},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],

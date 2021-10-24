@@ -68,7 +68,10 @@
             },
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
-                { data: 'date', name: 'date', className: 'text-center border-b', render : data => moment(data).format('DD MMMM YYYY') },
+                { 
+					data: 'date', name: 'date', className: 'text-center border-b', 
+					render : data => moment(data || '').format('DD MMM YYYY hh:mm:ss')
+				},
                 {data: 'number', name: 'number', className: 'text-center border-b'},
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}

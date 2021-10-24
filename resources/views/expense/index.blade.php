@@ -74,17 +74,13 @@
 					data: 'date', 
 					name: 'date', 
 					className: 'text-center border-b', 
-					render : (data) => {
-						return moment(data).format('DD MMMM YYYY')
-					}
+					render : data => moment(data || '').format('DD MMM YYYY hh:mm:ss')
 				},
                 {
 					data: 'total', 
 					name: 'total', 
 					className: 'text-center border-b',
-					render : (data) => {
-						return formatRupiah(data.toString(), 'Rp ')
-					}
+					render : data => formatRupiah(data.toString(), 'Rp ')
 				},
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}

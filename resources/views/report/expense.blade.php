@@ -30,6 +30,12 @@
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
             </tr>
         </thead>
+		<tfoot>
+			<tr>
+				<th>Total</th>
+				<th></th>
+			</tr>
+		</tfoot>
         <tbody>
             
         </tbody>
@@ -108,47 +114,24 @@
 			data : JSON.stringify(data),
 			contentType: 'application/json',
             success: function(res, textStatus, jqXHR){
+				let total = 0
 				let tr = ''
 				res.data.forEach(item => {
 					tr += '<tr>'
 					tr += '		<td class="border-b">'+item.category_name+'</td>'
 					tr += '		<td class="border-b">'+formatRupiah(item.total.toString(), ' ')+'</td>'
 					tr += '</tr>'
+					total += item.total
 				});
+				console.log(total);
 				$("table tbody").html(tr)
+				$("table tfoot tr").children().eq(1).html(formatRupiah(total.toString(), 'Rp. '))
             },
             error: function(jqXHR, textStatus, errorThrown){
 
             },
         })
     }
-
-
-	
-    // function drawDatatable() {
-    //     $("#main-table").DataTable({
-    //         "destroy": true,
-    //         "pageLength": 10,
-    //         "processing": true,
-    //         "serverSide": true,
-    //         "ajax":{
-    //             "url": API_URL+"/api/report_expense_datatables",
-    //             "headers": { 'Authorization': 'Bearer '+TOKEN },
-    //             "dataType": "json",
-    //             "type": "POST",
-    //             "data":function(d) { 
-	// 				d.start_date = $('#filter-start-date').val()
-    //               	d.end_date = $('#filter-end-date').val()
-    //             },
-    //         },
-    //         "columns": [
-    //             {data: 'id', name: 'id', width: '5%', "visible": false },
-    //             { data: 'number', name: 'number', className: 'text-center border-b' },
-    //             { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
-    //         ],
-    //         "order": [0, 'desc'],
-    //     });
-    // }
 </script>
 @endsection
 
