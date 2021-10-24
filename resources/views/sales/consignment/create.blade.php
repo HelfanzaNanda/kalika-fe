@@ -186,6 +186,7 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
+    let id = "{{isset($_GET['edit']) && $_GET['edit'] ? $_GET['edit'] : 0 }}";
     let selectedCategoryId = 0;
     let tempProduct = [];
     let cart = [];
@@ -201,6 +202,10 @@
     buildCart();
     getPaymentMethods();
     getSalesConsignment();
+
+    if (parseInt(id) > 0) {
+        getSalesConsignmentById(id);
+    }
 
     function getSalesConsignment() {
         $.ajax({
@@ -514,9 +519,13 @@
     
     $(document).on("click", "a#latest-invoice",function() {
         let salesConsignmentId = $(this).data('id');
+        
+        getSalesConsignmentById(salesConsignmentId);
+    });
 
+    function getSalesConsignmentById(consignmentId) {
         $.ajax({
-            url: API_URL+"/api/sales_consignments/"+salesConsignmentId,
+            url: API_URL+"/api/sales_consignments/"+consignmentId,
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
@@ -560,7 +569,7 @@
 
             },
         });
-    });
+    }
 
     $(document).on("click", "button#finish-payment-btn",function() {
         let salesConsigmentBodyReq = {

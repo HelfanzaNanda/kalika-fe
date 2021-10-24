@@ -297,6 +297,10 @@
                             buildCheckboxMaster += '<div class="mt-3">';
                             buildCheckboxMaster += '    <h2><strong>'+makeTitle(item.name)+'</strong></h2> ';
                             buildCheckboxMaster += '    <div class="flex flex-col sm:flex-row mt-2">';
+                            buildCheckboxMaster += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
+                            buildCheckboxMaster += '            <input type="checkbox" class="input border mr-2" id="'+item.id+'">';
+                            buildCheckboxMaster += '            <label class="cursor-pointer select-none" for="'+item.id+'">List</label>';
+                            buildCheckboxMaster += '        </div>';
                             $.each(res.data, function (key, value) {
                                 if (value.name.indexOf(item.name) !== -1 && value.name.toString().toLowerCase().indexOf(".") !== -1 && (value.name).split('.')[0] == (item.name).split('.')[0] && value.name.toString().toLowerCase().indexOf(".report") === -1) {
                                     buildCheckboxMaster += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
@@ -337,6 +341,10 @@
                             buildCheckboxSales += '<div class="mt-3">';
                             buildCheckboxSales += '    <h2><strong>'+makeTitle(item.name)+'</strong></h2> ';
                             buildCheckboxSales += '    <div class="flex flex-col sm:flex-row mt-2">';
+                            buildCheckboxSales += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
+                            buildCheckboxSales += '            <input type="checkbox" class="input border mr-2" id="'+item.id+'">';
+                            buildCheckboxSales += '            <label class="cursor-pointer select-none" for="'+item.id+'">List</label>';
+                            buildCheckboxSales += '        </div>';
                             $.each(res.data, function (key, value) {
                                 if (value.name.indexOf(item.name) !== -1 && value.name.toString().toLowerCase().indexOf(".") !== -1 && (value.name).split('.')[0] == (item.name).split('.')[0] && value.name.toString().toLowerCase().indexOf(".report") === -1) {
                                     buildCheckboxSales += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
@@ -355,6 +363,10 @@
                             buildCheckboxPurchase += '<div class="mt-3">';
                             buildCheckboxPurchase += '    <h2><strong>'+makeTitle(item.name)+'</strong></h2> ';
                             buildCheckboxPurchase += '    <div class="flex flex-col sm:flex-row mt-2">';
+                            buildCheckboxPurchase += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
+                            buildCheckboxPurchase += '            <input type="checkbox" class="input border mr-2" id="'+item.id+'">';
+                            buildCheckboxPurchase += '            <label class="cursor-pointer select-none" for="'+item.id+'">List</label>';
+                            buildCheckboxPurchase += '        </div>';
                             $.each(res.data, function (key, value) {
                                 if (value.name.indexOf(item.name) !== -1 && value.name.toString().toLowerCase().indexOf(".") !== -1 && (value.name).split('.')[0] == (item.name).split('.')[0] && value.name.toString().toLowerCase().indexOf(".report") === -1) {
                                     buildCheckboxPurchase += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
@@ -373,6 +385,10 @@
                             buildCheckboxDr += '<div class="mt-3">';
                             buildCheckboxDr += '    <h2><strong>'+makeTitle(item.name)+'</strong></h2> ';
                             buildCheckboxDr += '    <div class="flex flex-col sm:flex-row mt-2">';
+                            buildCheckboxDr += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
+                            buildCheckboxDr += '            <input type="checkbox" class="input border mr-2" id="'+item.id+'">';
+                            buildCheckboxDr += '            <label class="cursor-pointer select-none" for="'+item.id+'">List</label>';
+                            buildCheckboxDr += '        </div>';
                             $.each(res.data, function (key, value) {
                                 if (value.name.indexOf(item.name) !== -1 && value.name.toString().toLowerCase().indexOf(".") !== -1 && (value.name).split('.')[0] == (item.name).split('.')[0] && value.name.toString().toLowerCase().indexOf(".report") === -1) {
                                     buildCheckboxDr += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
@@ -414,6 +430,10 @@
                             buildCheckboxSetting += '<div class="mt-3">';
                             buildCheckboxSetting += '    <h2><strong>'+makeTitle(item.name)+'</strong></h2> ';
                             buildCheckboxSetting += '    <div class="flex flex-col sm:flex-row mt-2">';
+                            buildCheckboxSetting += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';
+                            buildCheckboxSetting += '            <input type="checkbox" class="input border mr-2" id="'+item.id+'">';
+                            buildCheckboxSetting += '            <label class="cursor-pointer select-none" for="'+item.id+'">List</label>';
+                            buildCheckboxSetting += '        </div>';
                             $.each(res.data, function (key, value) {
                                 if (value.name.indexOf(item.name) !== -1 && value.name.toString().toLowerCase().indexOf(".") !== -1 && (value.name).split('.')[0] == (item.name).split('.')[0] && value.name.toString().toLowerCase().indexOf(".report") === -1) {
                                     buildCheckboxSetting += '        <div class="flex items-center text-gray-700 dark:text-gray-500 mr-2">';

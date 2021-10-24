@@ -166,9 +166,6 @@
 			}
 			data.purchase_return_details.push(item)
 		})
-
-		console.log(JSON.stringify(data));
-		console.log(data);
 		
         $.ajax({
             type: 'POST',

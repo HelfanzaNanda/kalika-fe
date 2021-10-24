@@ -28,10 +28,7 @@
 <div class="pos intro-y grid grid-cols-12 gap-5 mt-5">
     <!-- BEGIN: Item List -->
     <div class="intro-y col-span-12 lg:col-span-8">
-        <div class="mt-4 mb-4">
-            <button class="button button--lg w-full text-white bg-theme-1 shadow-md ml-auto" id="category-btn">Cari Bahan Baku Berdasarkan Supplier</button>
-        </div>
-        <div class="lg:flex intro-y">
+        <div class="lg:flex intro-y mt-5 mb-4">
             <div class="relative text-gray-700 dark:text-gray-300 w-full">
                 <input type="text" class="input input--lg w-full box pr-10 placeholder-theme-13" placeholder="Cari Bahan Baku..." id="search-raw-material">
                 <i class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" data-feather="search"></i> 
@@ -70,18 +67,18 @@
     <!-- END: Item List -->
     <!-- BEGIN: Ticket -->
     <div class="col-span-12 lg:col-span-4">
-        <div class="box flex p-5 mt-5">
-            <div class="w-full relative text-gray-700">
+        <div class="box flex p-5 mt-5 grid grid-cols-12 gap-4 row-gap-3">
+            <div class="col-span-12"> 
                 <label>Pilih Supplier :</label>
                 <select id="input-supplier" class="single-select select2 input w-full border mt-4 flex-1"></select>
             </div>
-            <div class="w-full relative text-gray-700">
+{{--             <div class="col-span-12"> 
                 <label>Status Pembelian :</label>
                 <select id="input-purchase-status" class="single-select select2 input w-full border mt-4 flex-1">
                     <option>Pending</option>
                     <option>Terkirim</option>
                 </select>
-            </div>
+            </div> --}}
         </div>
         <div class="pos__ticket box p-2 mt-5" id="cart-list">
             
@@ -147,6 +144,15 @@
                     </div>
                     <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="300000">
                         <div class="font-medium text-base">300rb</div>
+                    </div>
+                    <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="400000">
+                        <div class="font-medium text-base">400rb</div>
+                    </div>
+                    <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="500000">
+                        <div class="font-medium text-base">500rb</div>
+                    </div>
+                    <div class="col-span-4 sm:col-span-4 xxl:col-span-3 box bg-theme-5 p-5 cursor-pointer zoom-in" id="pay-amount" data-amount="0">
+                        <div class="font-medium text-base text-center">PAS</div>
                     </div>
                 </div>
                 <input type="text" class="input w-full border mt-2 flex-1" placeholder="Masukkan Pembayaran" id="input-pay-amount" value="0">
@@ -219,11 +225,17 @@
     let storeId = 0;
     let currentPurchaseId = 0;
     let currentPaymentId = 0;
+    let supplierId = 0;
+    let id = "{{isset($_GET['edit']) && $_GET['edit'] ? $_GET['edit'] : 0 }}";
 
     buildCart();
     getSuppliers();
     getPaymentMethods();
     getPurchaseOrders();
+
+    if (parseInt(id) > 0) {
+        getPOById(id);
+    }
 
     function getPurchaseOrders() {
         $.ajax({
@@ -255,6 +267,7 @@
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
+            async: false,
             success: function(res, textStatus, jqXHR){
                 let opt = ''
                 opt += '<option value=""> - Pilih Metode Pembayaran - </option>'
@@ -339,18 +352,22 @@
         }
     });
 
-    function getRawMaterials(name) {
+    function getRawMaterials(name = '') {
         let searchStore = '';
         let productName = '';
+        let searchSupplierId = '';
         if (storeId > 0) {
             searchStore = '&store_id='+storeId;
+        }
+        if (supplierId > 0) {
+            searchSupplierId = '&supplier_id='+supplierId;
         }
         if (name != '') {
             productName = '&name='+name;
         }
         $.ajax({
             //url: API_URL+"/api/raw_materials?active=1"+productName+searchStore,
-            url: API_URL+"/api/raw_materials?"+productName+searchStore,
+            url: API_URL+"/api/raw_materials?"+productName+searchStore+searchSupplierId,
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
@@ -461,6 +478,8 @@
 
     $(document).on("click", "button#pay", function() {
         $('#pay-sales-total').text(total);
+        let payAmount = $('#input-pay-amount').val();
+        $('#change').text(parseFloat(total) - parseFloat(payAmount));
         $('#pay-modal').modal('show');
     });
 
@@ -548,12 +567,16 @@
             },
         });
     });
-
+    
     $(document).on("click", "a#latest-invoice",function() {
         let purchaseId = $(this).data('id');
+        
+        getPOById(purchaseId);
+    });
 
+    function getPOById(poId) {
         $.ajax({
-            url: API_URL+"/api/purchase_orders/"+purchaseId,
+            url: API_URL+"/api/purchase_orders/"+poId,
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
@@ -579,7 +602,7 @@
 
                 total = subtotal - discount;
 
-                $('#input-pay-amount').val(res.data.payment.total);
+                $('#input-pay-amount').val(res.data.customer_pay);
                 $('#change').text(res.data.payment.change);
                 $('#pay-sales-total').text(res.data.total);
                 $('#discount').val(res.data.discount);
@@ -591,11 +614,20 @@
                 currentPaymentId = res.data.payment.id;
 
                 buildCart();
+
+                supplierId = res.data.supplier_id;
+                getRawMaterials();
             },
             error: function(jqXHR, textStatus, errorThrown){
 
             },
         });
+    }
+
+    $(document).on('change', '#input-supplier', function() {
+        let selectedSupplierId = $(this).find(':selected').val();
+        supplierId = selectedSupplierId;
+        getRawMaterials();
     });
 </script>
 @endsection

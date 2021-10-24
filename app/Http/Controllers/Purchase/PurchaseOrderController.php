@@ -27,4 +27,12 @@ class PurchaseOrderController extends Controller
             'id' => $id
         ]);
     }
+
+    public function receipt($id)
+    {
+        return view('purchase.purchase_order.'.__FUNCTION__, [
+            'title' => ' Penerimaan Pembelian',
+            'id' => $id
+        ]);
+    }
 }

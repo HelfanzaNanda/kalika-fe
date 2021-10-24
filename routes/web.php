@@ -40,8 +40,6 @@ Route::group(['prefix' => 'master'], function() {
 	Route::get('/expense_categories', 'Master\ExpenseCategoryController@index');
 });
 
-
-
 Route::group(['prefix' => 'sales'], function() {
 	Route::prefix('sales_consignments')->group(function() {
 		Route::get('/', 'Sales\SalesConsignmentController@index')->name('sales.consignment.index');
@@ -75,6 +73,7 @@ Route::group(['prefix' => 'purchase'], function() {
 		Route::get('', 'Purchase\PurchaseOrderController@index')->name('purchase_order.index');
 		Route::get('/create', 'Purchase\PurchaseOrderController@create')->name('purchase_order.create');
 		Route::get('/edit/{id}', 'Purchase\PurchaseOrderController@edit')->name('purchase_order.edit');
+		Route::get('/receipt/{id}', 'Purchase\PurchaseOrderController@receipt')->name('purchase_order.receipt');
 	});
 	Route::prefix('purchase_returns')->group(function(){
 		Route::get('', 'Purchase\PurchaseReturnController@index')->name('purchase_return.index');
@@ -103,7 +102,7 @@ Route::group(['prefix' => 'production'], function() {
 	Route::get('/edit/{id}', 'Production\ProductionController@edit')->name('production.edit');
 });
 
-Route::prefix('expense')->group(function(){
+Route::prefix('expense')->group(function() {
 	Route::get('/', 'Expense\ExpenseController@index')->name('expense.index');
 	Route::get('/create', 'Expense\ExpenseController@create')->name('expense.create');
 	Route::get('/edit/{id}', 'Expense\ExpenseController@edit')->name('expense.edit');
