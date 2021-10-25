@@ -24,12 +24,14 @@
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Pada</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Diskon</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
             </tr>
         </thead>
         <tbody></tbody>
 		<tfoot>
             <tr>
+                <th class="whitespace-no-wrap"></th>
                 <th class="whitespace-no-wrap"></th>
                 <th class="whitespace-no-wrap"></th>
                 <th class="whitespace-no-wrap"></th>
@@ -143,11 +145,16 @@
 					render : data => moment(data).format('DD MMM YYYY hh:mm:ss')
 				},
 				{data: 'store_consignment_name', name: 'store_consignment_name', className: 'text-center border-b'},
-				{
-					data: 'total', name: 'total', 
-					className: 'text-center border-b',
-					render : data => formatRupiah(data.toString(), 'Rp ')
-				},
+                {
+                    data: 'total', name: 'total', 
+                    className: 'text-center border-b',
+                    render : data => formatRupiah(data.toString(), 'Rp ')
+                },
+                {
+                    data: 'discount', name: 'discount', 
+                    className: 'text-center border-b',
+                    render : data => formatRupiah(data.toString(), 'Rp ')
+                },
 				{data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
             ],
             "order": [0, 'desc'],
@@ -161,9 +168,11 @@
 						typeof i === 'number' ? i : 0;
 				};
 				let total = api.column(3).data().reduce((a, b) => intVal(a) + intVal(b), 0 );
+                let totalDiscount = api.column(4).data().reduce((a, b) => intVal(a) + intVal(b), 0 );
 					
 				$( api.column(0).footer()).html('Total');
 				$( api.column(3).footer()).html(formatRupiah(total.toString(), ''));
+                $( api.column(4).footer()).html(formatRupiah(totalDiscount.toString(), ''));
 			},
 		});
     }

@@ -23,6 +23,7 @@
                 <th class="border-b-2 text-center whitespace-no-wrap">No. Ref.</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Toko</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
+                <th class="border-b-2 text-center whitespace-no-wrap">Discount</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Pada</th>
                 <th class="border-b-2 whitespace-no-wrap">Aksi</th>
@@ -74,7 +75,12 @@
                 {data: 'store_consignment.store_name', name: 'store_consignment.store_name', className: 'text-center border-b'},
                 {
                     data: 'total', name: 'total', 
-                    className: 'text-center border-b',
+                    className: 'text-right border-b',
+                    render : data => formatRupiah(data.toString(), '')
+                },
+                {
+                    data: 'discount', name: 'discount', 
+                    className: 'text-right border-b',
                     render : data => formatRupiah(data.toString(), '')
                 },
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},
