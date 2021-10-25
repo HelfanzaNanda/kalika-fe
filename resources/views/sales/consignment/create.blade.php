@@ -282,6 +282,7 @@
             type: 'GET',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
+            async: false,
             success: function(res, textStatus, jqXHR){
                 let opt = ''
                 opt += '<option value=""> - Pilih Toko Konsinyasi - </option>'

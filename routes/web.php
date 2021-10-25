@@ -53,6 +53,7 @@ Route::group(['prefix' => 'sales'], function() {
 	});
 	
 	Route::get('/pos', 'Sales\SaleController@pos')->name('sales.pos');
+	Route::get('/pos/print/{sales_id}', 'Sales\SaleController@print')->name('sales.print');
 	
 	Route::prefix('sales')->group(function(){
 		Route::get('/', 'Sales\SaleController@index')->name('sales.index');
@@ -118,6 +119,8 @@ Route::group(['prefix' => 'report'], function() {
 	Route::get('/costs', 'Report\ExpenseController@index');
 	Route::get('/profit_loss', 'Report\ProfitLossController@index');
 	Route::get('/payments', 'Report\PaymentController@index');
+	Route::get('/ledger_receivables', 'Report\LedgerController@receivable');
+	Route::get('/ledger_debts', 'Report\LedgerController@debt');
 });
 
 Route::group(['prefix' => 'setting'], function() {

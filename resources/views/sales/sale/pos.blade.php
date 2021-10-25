@@ -402,7 +402,7 @@
     	total = subtotal - discount;
 
     	$('#total').text(total);
-    }
+    }  
 	
 	// Select product on Product list
     $(document).on("click","a#product-click",function() {
@@ -596,52 +596,61 @@
             },
         });
     }
+    
     $(document).on("click", "button#finish-payment-btn",function() {
-		let salesBodyReq = {
-			"id": currentSalesId,
-		    "customer_pay": parseFloat($('#input-pay-amount').val()),
-		    "customer_change": parseFloat($('#change').text()),
-		    "total": parseFloat($('#pay-sales-total').text()),
-		    "discount_value": parseFloat($('#discount').val()),
-		    "discount_percentage": 0,
-		    "payment": {
-		    	"id": currentPaymentId,
-		        "payment_method_id": parseInt($('#input-payment-method').find(':selected').val()),
-		        "total": parseFloat($('#pay-sales-total').text()),
-		        "change": parseFloat($('#change').text()),
-		        "payment_note": $('#input-payment-method-note').val()
-		    },
-		    "customer": {
-		    	"id": currentCustomerId,
-		        "name": $('#input-customer-name').val(),
-		        "address": "",
-		        "phone": $('#input-customer-phone').val()
-		    }
-		}
+        createSales();
+    });
 
-		let salesDetailBodyReq = [];
-		
-		$.each(cart, function (index, item) {
-			if (item != null) {
-				salesDetailBodyReq.push({
-					'product_id': index,
-					'qty': parseFloat(item.quantity),
-					'discount_percentage': 0,
-					'discount_value': 0,
-					'unit_price': parseFloat(item.unit_price)
-				});
-			}
-		});
+    $(document).on('click', '#print-btn', function() {
+        createSales();
+    });
 
-		salesBodyReq['sales_details'] = salesDetailBodyReq;
+    function createSales() {
+        let salesBodyReq = {
+            "id": currentSalesId,
+            "customer_pay": parseFloat($('#input-pay-amount').val()),
+            "customer_change": parseFloat($('#change').text()),
+            "total": parseFloat($('#pay-sales-total').text()),
+            "discount_value": parseFloat($('#discount').val()),
+            "discount_percentage": 0,
+            "payment": {
+                "id": currentPaymentId,
+                "payment_method_id": parseInt($('#input-payment-method').find(':selected').val()),
+                "total": parseFloat($('#pay-sales-total').text()),
+                "change": parseFloat($('#change').text()),
+                "payment_note": $('#input-payment-method-note').val()
+            },
+            "customer": {
+                "id": currentCustomerId,
+                "name": $('#input-customer-name').val(),
+                "address": "",
+                "phone": $('#input-customer-phone').val()
+            }
+        }
+
+        let salesDetailBodyReq = [];
+        
+        $.each(cart, function (index, item) {
+            if (item != null) {
+                salesDetailBodyReq.push({
+                    'product_id': index,
+                    'qty': parseFloat(item.quantity),
+                    'discount_percentage': 0,
+                    'discount_value': 0,
+                    'unit_price': parseFloat(item.unit_price)
+                });
+            }
+        });
+
+        salesBodyReq['sales_details'] = salesDetailBodyReq;
 
         $.ajax({
             type: 'POST',
             url: API_URL+"/api/sales",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(salesBodyReq),
-			contentType: 'application/json',
-			dataType: 'JSON',
+            contentType: 'application/json',
+            dataType: 'JSON',
             beforeSend: function() {
                 
             },
@@ -652,18 +661,17 @@
                   text: res.message
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    //TODO CLEAR ALL
-					clearAll();
-
-					$('#pay-modal').modal('hide');
+                    clearAll();
+                    window.open(BASE_URL+`/sales/pos/print?id=${res.data.id}`, '_blank');
+                    $('#pay-modal').modal('hide');
                   }
                 });
             },
-			error: function(jqXHR, textStatus, errorThrown){
-				console.log(jqXHR.responseJSON);
-			},
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR.responseJSON);
+            },
         });
-    });
+    }
 
     function clearAll() {
 		cart = [];
