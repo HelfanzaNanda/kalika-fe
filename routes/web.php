@@ -131,4 +131,5 @@ Route::group(['prefix' => 'setting'], function() {
 	Route::get('/users', 'Setting\UserController@index');
 	Route::get('/permissions', 'Setting\PermissionController@index');
 	Route::get('/roles', 'Setting\RoleController@index');
+	Route::get('/general_settings', 'Setting\GeneralSettingController@index');
 });
