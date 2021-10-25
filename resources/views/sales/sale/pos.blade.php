@@ -662,7 +662,7 @@
                 }).then((result) => {
                   if (result.isConfirmed) {
                     clearAll();
-                    window.open(BASE_URL+`/sales/pos/print?id=${res.data.id}`, '_blank');
+                    window.open(BASE_URL+`/sales/pos/print/${res.data.id}`, '_blank');
                     $('#pay-modal').modal('hide');
                   }
                 });

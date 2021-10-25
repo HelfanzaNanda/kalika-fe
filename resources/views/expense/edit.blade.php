@@ -23,8 +23,8 @@
 		</div>
 		<div class="px-5 py-3 grid grid-cols-12 gap-4 row-gap-3">
 			<div class="col-span-12 sm:col-span-6"> 
-				<label>Nama Kasir</label> 
-				<input type="text" readonly name="name" id="input-name" class="input w-full border mt-2 flex-1"/>
+				<label>Metode </label> 
+				<select id="input-payment-method" class="single-select select2 input w-full border mt-2 flex-1"></select>
 			</div>
 			
 		</div>
@@ -68,6 +68,7 @@
 	let index = 0
 	setNameCurrentUser()
 	getExpense()
+	getPaymentMethods();
 
 	function initSelect2(){
 		$("#input-expense-category-id-"+index).select2({
@@ -90,7 +91,8 @@
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
             success: function(res, textStatus, jqXHR){
-				$('.total').html(formatRupiah(res.data.total.toString(), 'Rp '))
+				$('.total').html(formatRupiah(res.data.total.toString(), 'Rp '));
+				$('#input-payment-method').val(res.data.payment_method_id).trigger('change');
 				res.data.expense_details.forEach((item, key) => {
 					index = key
 					$('#details-table tbody').append(setHtmlItemEdit(item))
@@ -207,6 +209,7 @@
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
 		const data = {
+			"payment_method_id": parseInt($('#input-payment-method').find(':selected').val()),
 			"expense_details" : []
 		}
 		
@@ -244,5 +247,26 @@
 			},
         })
     });
+
+    function getPaymentMethods() {
+        $.ajax({
+            url: API_URL+"/api/payment_methods",
+            type: 'GET',
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            dataType: 'JSON',
+            async: false,
+            success: function(res, textStatus, jqXHR){
+                let opt = ''
+                opt += '<option value=""> - Pilih Metode Pembayaran - </option>'
+                $.each(res.data, function (index, item) {  
+                    opt += '<option value="'+item.id+'">'+item.name+'</option>'
+                })
+                $('#input-payment-method').html(opt)
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+
+            },
+        })
+    }
 </script>
 @endsection
