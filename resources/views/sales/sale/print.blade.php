@@ -91,7 +91,7 @@
 	    <center><p>TERIMAKASIH</p></center>
 	    <center><p>www.kalikacakeshop.com</p></center>
 	    <center><p>Telp. 0812 2267 3369</p></center>
-	    <center><p>pembulatan akan didonasikan</p></center>
+	    <center><p style="font-size: 0.60em;" id="footer-note"></p></center>
 	  </section>
 	  <script src="{{ asset('templates/midone/vendor/jquery/jquery-3.6.0.min.js') }}"></script>
 	  <script src="{{ asset('templates/midone/vendor/moment/moment.min.js') }}"></script>
@@ -174,6 +174,20 @@
 			            },
 			            success: function(res, textStatus, jqXHR){
 							$('#payment-method').text(res.data.name);
+			            }
+			    	});
+
+			        $.ajax({
+			            url: API_URL+"/api/general_settings",
+			            type: 'GET',
+			            headers: { 'Authorization': 'Bearer '+TOKEN },
+			            dataType: 'JSON',
+			            async: false,
+			            beforeSend: function() {
+							
+			            },
+			            success: function(res, textStatus, jqXHR){
+										$('#footer-note').text(res.data[0].value);
 			            }
 			    	});
 
