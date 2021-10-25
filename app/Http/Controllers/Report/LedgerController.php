@@ -18,4 +18,10 @@ class LedgerController extends Controller
 		$title = 'Laporan Buku Besar Piutang';
 		return view('report.ledger_receivable', compact('title'));
 	}
+
+	public function cashBank()
+	{
+		$title = 'Laporan Buku Besar Kas Bank';
+		return view('report.ledger_cash_bank', compact('title'));	
+	}
 }

@@ -124,6 +124,7 @@ Route::group(['prefix' => 'report'], function() {
 	Route::get('/payments', 'Report\PaymentController@index');
 	Route::get('/ledger_receivables', 'Report\LedgerController@receivable');
 	Route::get('/ledger_debts', 'Report\LedgerController@debt');
+	Route::get('/ledger_cash_banks', 'Report\LedgerController@cashBank');
 });
 
 Route::group(['prefix' => 'setting'], function() {
