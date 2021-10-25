@@ -90,6 +90,7 @@ Route::group(['prefix' => 'inventory'], function() {
 		Route::get('/create', 'Inventory\StockOpnameController@create')->name('stock_opname.create');
 		Route::get('/edit/{id}', 'Inventory\StockOpnameController@edit')->name('stock_opname.edit');
 	});
+	Route::get('check_stocks', 'Inventory\CheckStockController@index')->name('check_stocks.index');
 });
 
 Route::group(['prefix' => 'debt_receivable'], function() {
@@ -113,6 +114,8 @@ Route::group(['prefix' => 'report'], function() {
 	Route::get('/receivables', 'Report\ReceivableController@index');
 	Route::get('/purchase_returns', 'Report\PurchaseReturnController@index');
 	Route::get('/sales_returns', 'Report\SalesReturnController@index');
+	Route::get('/custom_orders', 'Report\CustomOrderController@index');
+	Route::get('/sales_consignments', 'Report\SalesConsignmentController@index');
 	Route::get('/purchase', 'Report\PurchaseController@index');
 	Route::get('/debts', 'Report\DebtController@index');
 	Route::get('/sales', 'Report\SaleController@index');

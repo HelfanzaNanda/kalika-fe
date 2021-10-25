@@ -265,10 +265,18 @@
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'name', name: 'name', className: 'text-center border-b'},
                 {data: 'supplier_name', name: 'supplier_name', className: 'text-center border-b'},
-                {data: 'price', name: 'price', className: 'text-center border-b'},
+                {
+					data: 'price', name: 'price', 
+					className: 'text-center border-b',
+					render : data => formatRupiah(data.toString(), '')
+				},
                 {data: 'qty', name: 'qty', className: 'text-center border-b'},
                 {data: 'unit_name', name: 'unit_name', className: 'text-center border-b'},
-                {data: 'qty_conversion', name: 'qty_conversion', className: 'text-center border-b'},
+                {
+					data: 'qty_conversion', name: 'qty_conversion', 
+					className: 'text-center border-b',
+					render : data => formatRupiah(data.toString(), '')
+				},
                 {data: 'smallest_unit_name', name: 'smallest_unit_name', className: 'text-center border-b'},
 				{
                     data: 'price', 
@@ -279,7 +287,7 @@
                     	if (row.qty_conversion > 0) {
                     		pricePerUnit = (row.price * row.qty) / row.qty_conversion;
                     	}
-                        return Math.round(pricePerUnit);
+                        return formatRupiah(Math.round(pricePerUnit).toString(), '');
                     }
                 },
                 {data: 'division_name', name: 'division_name', className: 'text-center border-b'},

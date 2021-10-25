@@ -72,11 +72,20 @@
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 {data: 'product.name', name: 'product_name'},
-                {data: 'total_cogs', name: 'total_cogs'},
+                {
+					data: 'total_cogs', name: 'total_cogs',
+					render : data => formatRupiah(data.toString(), 'Rp ')
+				},
                 {data: 'overhead_percentage', name: 'overhead_percentage'},
-                {data: 'overhead_price', name: 'overhead_price'},
+                {
+					data: 'overhead_price', name: 'overhead_price',
+					render : data => formatRupiah(data.toString(), 'Rp ')
+				},
                 {data: 'recommendation_percentage', name: 'recommendation_percentage'},
-                {data: 'recommendation_price', name: 'recommendation_price'},
+                {
+					data: 'recommendation_price', name: 'recommendation_price',
+					render : data => formatRupiah(data.toString(), 'Rp ')
+				},
                 {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],

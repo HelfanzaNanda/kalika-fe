@@ -156,11 +156,10 @@
                 {data: 'name', name: 'name', className: 'text-center border-b'},
                 {data: 'address', name: 'address', className: 'text-center border-b'},
                 {data: 'phone', name: 'phone', className: 'text-center border-b'},
-                {
-					data: 'last_order', 
-					name: 'last_order', 
+				{
+					data: 'last_order', name: 'last_order', 
 					className: 'text-center border-b',
-					render: data => moment(data || '').format('DD MMMM YYYY')
+					render : data => moment(data || '').format('DD MMM YYYY hh:mm:ss')
 				},
                 {
                     data: 'status', 

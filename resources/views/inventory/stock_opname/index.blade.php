@@ -75,9 +75,7 @@
                     data: 'created_at', 
                     name: 'created_at', 
                     className: 'text-center border-b', 
-                    render : (data) => {
-                        return moment(data).format('DD MMMM YYYY')
-                    }
+					render : data => moment(data || '').format('DD MMM YYYY hh:mm:ss')
                 },
                 {data: 'store.name', name: 'store_name'},
                 {data: 'status', name: 'status'},
@@ -131,6 +129,33 @@
             })
           }
         })
+    });
+
+    $(document).on('click', 'button.btn-pdf', function( e ) {
+        e.preventDefault();
+        let id = $(this).data('id');
+        $.ajax({
+            type: 'GET',
+            url: API_URL+"/api/stock_opnames_pdf/"+id,
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            contentType: 'application/json',
+            dataType: 'JSON',
+            beforeSend: function() {
+                
+            },
+            success: function(res) {
+				
+				const link = document.createElement('a');
+				link.href = API_URL+"/api/download?path=" + res.data;
+				link.target = "_blank";
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR.responseJSON);
+            },
+        });
     });
 </script>
 @endsection
