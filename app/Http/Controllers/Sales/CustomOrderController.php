@@ -28,4 +28,27 @@ class CustomOrderController extends Controller
 			'id' => $id
 		]);
 	}
+
+	public function print($type, $id)
+	{
+		$view = '';
+		if ($type == 'nota-pengambilan') {
+			$view = 'sales.custom_order.print.nota-pengambilan';	
+		} else if ($type == 'faktur') {
+			$view = 'sales.custom_order.print.faktur';
+		} else if ($type == 'tanda-terima') {
+			$view = 'sales.custom_order.print.tanda-terima';
+		} else if ($type == 'pesanan-produksi') {
+			$view = 'sales.custom_order.print.pesanan-produksi';
+		} else if ($type == 'topper') {
+			$view = 'sales.custom_order.print.topper';
+		} else if ($type == 'tanda-terima-kasir') {
+			$view = 'sales.custom_order.print.tanda-terima-kasir';
+		}
+
+		return view($view, [
+			'title' => ' Cetak Penjualan Pesanan',
+			'id' => $id
+		]);
+	}
 }

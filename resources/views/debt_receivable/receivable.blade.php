@@ -12,7 +12,7 @@
         Data {{$title}}
     </h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button>
+        {{-- <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button> --}}
     </div>
 </div>
 <div class="intro-y datatable-wrapper box p-5 mt-5">
@@ -91,6 +91,7 @@
                                 <th class="border-b-2 text-center whitespace-no-wrap">Tgl Bayar</th>
                                 <th class="border-b-2 text-center whitespace-no-wrap">Metode</th>
                                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
+                                <th class="border-b-2 text-center whitespace-no-wrap">Ket.</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -242,6 +243,7 @@
                 { data: 'date_pay', name: 'date_pay', className: 'text-center border-b', render : data => moment(data).format('DD MMM YYYY HH:mm:ss') },
                 { data: 'payment_method', name: 'payment_method', className: 'text-center border-b'},
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
+                { data: 'note', name: 'note', className: 'text-center border-b'},
             ],
             "order": [0, 'desc'],
             "initComplete": function(settings, json) {

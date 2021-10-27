@@ -45,6 +45,8 @@ Route::group(['prefix' => 'sales'], function() {
 		Route::get('/', 'Sales\SalesConsignmentController@index')->name('sales.consignment.index');
 		Route::get('/create', 'Sales\SalesConsignmentController@create')->name('sales.consignment.create');
 		Route::get('/edit/{id}', 'Sales\SalesConsignmentController@edit')->name('sales.consignment.edit');
+		Route::get('/return/{id}', 'Sales\SalesConsignmentController@return')->name('sales.consignment.return');
+		Route::get('/print/{id}', 'Sales\SalesConsignmentController@print')->name('sales.consignment.print');
 	});
 	Route::prefix('sales_returns')->group(function(){
 		Route::get('', 'Sales\SalesReturnController@index')->name('sales_return.index');
@@ -65,6 +67,7 @@ Route::group(['prefix' => 'sales'], function() {
 		Route::get('/', 'Sales\CustomOrderController@index')->name('custom.order.index');
 		Route::get('/create', 'Sales\CustomOrderController@create')->name('custom.order.create');
 		Route::get('/edit/{id}', 'Sales\CustomOrderController@edit')->name('custom.order.edit');
+		Route::get('/print/{type}/{id}', 'Sales\CustomOrderController@print')->name('custom.order.print');
 	});
 });
 

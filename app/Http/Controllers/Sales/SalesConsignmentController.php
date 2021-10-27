@@ -28,4 +28,20 @@ class SalesConsignmentController extends Controller
 			'id' => $id
 		]);
 	}
+
+	public function return($id)
+	{
+		return view('sales.consignment.'.__FUNCTION__, [
+			'title' => ' Retur Penjualan',
+			'id' => $id
+		]);
+	}
+
+	public function print($id)
+	{
+		return view('sales.consignment.'.__FUNCTION__, [
+			'title' => ' Cetak Penjualan Konsinyasi',
+			'id' => $id
+		]);
+	}
 }

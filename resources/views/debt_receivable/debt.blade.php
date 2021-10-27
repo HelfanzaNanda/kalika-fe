@@ -12,7 +12,7 @@
         Data {{$title}}
     </h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button>
+        {{-- <button class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</button> --}}
     </div>
 </div>
 <div class="intro-y datatable-wrapper box p-5 mt-5">

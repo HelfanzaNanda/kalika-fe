@@ -51,8 +51,20 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(BASE_URL+`/sales/sales_consignments/create?edit=${id}`)
+      window.location.replace(BASE_URL+`/sales/sales_consignments/create?edit=${id}`)
     });
+
+    $(document).on("click", "button#return-data",function(e) {
+      e.preventDefault();
+      let id = $(this).data('id')
+      window.location.replace(BASE_URL+`/sales/sales_consignments/return/${id}`)
+    });
+
+    $(document).on("click", "button#print-data", function(e) {
+        e.preventDefault();
+        let id = $(this).data('id')
+        window.open(BASE_URL+`/sales/sales_consignments/print/${id}`, '_blank');
+    })
 
     function drawDatatable() {
         $("#main-table").DataTable({

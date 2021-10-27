@@ -12,7 +12,7 @@
         Data {{$title}}
     </h2>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
-        <a href="{{ route('sales_return.create') }}" class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</a>
+        {{-- <a href="{{ route('sales_return.create') }}" class="button text-white bg-theme-1 shadow-md mr-2" id="add-button">Tambah {{$title}}</a> --}}
     </div>
 </div>
 <div class="intro-y datatable-wrapper box p-5 mt-5">
@@ -21,7 +21,7 @@
             <tr>
                 <th>Id</th>
 				<th class="border-b-2 text-center whitespace-no-wrap">No. Ref</th>
-                <th class="border-b-2 text-center whitespace-no-wrap">Kustomer</th>
+                {{-- <th class="border-b-2 text-center whitespace-no-wrap">Kustomer</th> --}}
                 <th class="border-b-2 text-center whitespace-no-wrap">Konsiyasi</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Total</th>
                 <th class="border-b-2 text-center whitespace-no-wrap">Dibuat Oleh</th>
@@ -71,7 +71,7 @@
             "columns": [
                 {data: 'id', name: 'id', width: '5%', "visible": false },
                 { data: 'number', name: 'number', className: 'text-center border-b', },
-                { data: 'customer_name', name: 'customer_name', className: 'text-center border-b' },
+                // { data: 'customer_name', name: 'customer_name', className: 'text-center border-b' },
                 { data: 'store_consignment_name', name: 'store_consignment_name', className: 'text-center border-b' },
                 { data: 'total', name: 'total', className: 'text-center border-b', render : data => formatRupiah(data.toString(), 'Rp ') },
                 {data: 'created_by_name', name: 'created_by_name', className: 'text-center border-b'},

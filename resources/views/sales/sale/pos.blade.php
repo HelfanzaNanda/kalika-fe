@@ -164,7 +164,7 @@
                         <div class="font-medium text-base text-center">PAS</div>
                     </div>
 				</div>
-				<input type="text" class="input w-full border mt-2 flex-1" placeholder="Jumlah Bayar" id="input-pay-amount" value=0>
+				<input type="text" class="input w-full border mt-2 flex-1" placeholder="Jumlah Bayar" id="input-pay-amount" value="0">
             </div>
 
             <div class="col-span-12">
@@ -481,7 +481,7 @@
     $(document).on("click", "button#pay", function() {
         $('#pay-sales-total').text(total);
         let payAmount = $('#input-pay-amount').val();
-        $('#change').text(parseFloat(total) - parseFloat(payAmount));
+        $('#change').text(parseFloat(payAmount) - parseFloat(total));
         $('#pay-modal').modal('show');
     });
 

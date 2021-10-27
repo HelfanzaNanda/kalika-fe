@@ -35,8 +35,42 @@
         </tbody>
     </table>
 </div>
-<div class="modal" id="main-modal">
-   <div class="modal__content modal__content--xl">
+<div class="modal" id="print-modal">
+   <div class="modal__content modal__content--lg">
+        <div class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5">
+            <h2 class="font-medium text-base mr-auto" id="modal-title"></h2>
+        </div>
+        <div class="p-5">
+            <div class="preview flex flex-wrap">
+                <button class="button w-full mr-2 mb-2 flex items-center justify-center bg-theme-1 text-white" id="print-nota-pengambilan">  
+                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Nota Pengambilan 
+                </button>
+
+                <button class="button w-full mr-2 mb-2 flex items-center justify-center border text-gray-700 dark:border-dark-5 dark:text-gray-300" id="print-faktur">  
+                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Faktur 
+                </button>
+
+                <button class="button w-full mr-2 mb-2 flex items-center justify-center bg-theme-9 text-white" id="print-tanda-terima">  
+                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Tanda Terima 
+                </button>
+
+                <button class="button w-full mr-2 mb-2 flex items-center justify-center bg-theme-12 text-white" id="print-pesanan-produksi">  
+                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Pesanan Produksi 
+                </button>
+
+                <button class="button w-full mr-2 mb-2 flex items-center justify-center bg-theme-6 text-white" id="print-topper">  
+                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Topper / Nama / Foto 
+                </button>
+
+                <button class="button w-full mr-2 mb-2 flex items-center justify-center bg-gray-200 text-gray-600" id="print-tanda-terima-kasir">  
+                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Tanda terima di kasir 
+                </button> 
+
+            </div>
+        </div>
+        <div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
+            <button type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="print-modal">Cancel</button> 
+        </div>
    </div>
 </div>
 @endsection
@@ -47,13 +81,53 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
-    drawDatatable()
+    currentIdPrintModal = 0;
+
+    drawDatatable();
 
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(BASE_URL+`/sales/custom_orders/edit/${id}`)
+      window.location.replace(BASE_URL+`/sales/custom_orders/edit/${id}`)
     });
+
+    $(document).on("click", "button#print-data",function(e) {
+      e.preventDefault();
+      let id = $(this).data('id');
+      currentIdPrintModal = id;
+      $('#print-modal').modal('show');
+    });
+
+    $(document).on("click", "button#print-nota-pengambilan", function(e) {
+        e.preventDefault();
+        window.open(BASE_URL+`/sales/custom_orders/print/nota-pengambilan/${currentIdPrintModal}`, '_blank');
+    })
+
+    $(document).on("click", "button#print-faktur", function(e) {
+        e.preventDefault();
+        window.open(BASE_URL+`/sales/custom_orders/print/faktur/${currentIdPrintModal}`, '_blank');
+    })
+
+    $(document).on("click", "button#print-tanda-terima", function(e) {
+        e.preventDefault();
+        window.open(BASE_URL+`/sales/custom_orders/print/tanda-terima/${currentIdPrintModal}`, '_blank');
+    })
+
+    $(document).on("click", "button#print-pesanan-produksi", function(e) {
+        e.preventDefault();
+        window.open(BASE_URL+`/sales/custom_orders/print/pesanan-produksi/${currentIdPrintModal}`, '_blank');
+    })
+
+    $(document).on("click", "button#print-topper", function(e) {
+        e.preventDefault();
+        window.open(BASE_URL+`/sales/custom_orders/print/topper/${currentIdPrintModal}`, '_blank');
+    })
+
+    $(document).on("click", "button#print-tanda-terima-kasir", function(e) {
+        e.preventDefault();
+        window.open(BASE_URL+`/sales/custom_orders/print/tanda-terima-kasir/${currentIdPrintModal}`, '_blank');
+    })
+
 
     function drawDatatable() {
         $("#main-table").DataTable({

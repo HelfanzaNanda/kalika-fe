@@ -44,13 +44,13 @@
 				<tbody>
 					<tr class="item-0">
 						<td>
-							<select name="product_id[]" id="input-product-id-0" class="input w-full border mt-2 flex-1"></select>
+							<select name="product_id[]" id="input-product-id-0" class="product_id input w-full border mt-2 flex-1" data-row-id="0"></select>
 						</td>
 						<td>
 							<input type="number" name="qty[]" id="input-qty-0" class="qty input w-full border mt-2 flex-1"/>
 						</td>
 						<td>
-							<input type="number" name="total[]" id="input-subtotal-0" class="subtotal input w-full border mt-2 flex-1"/>
+							<select name="total[]" id="input-subtotal-0" class="subtotal input w-full border mt-2 flex-1"></select>
 						</td>
 						<td>
 							<button style="display: none" type="button" class="w-6 h-6 rounded flex text-white font-semibold justify-center items-center btn-remove-item bg-theme-6 text-white">
@@ -61,15 +61,15 @@
 				</tbody>
 				<tfoot>
 					<tr class="font-semibold">
-						<td colspan="2">Total</td>
+						{{-- <td colspan="2">Total</td> --}}
 						{{-- <td class="total-qty">6</td> --}}
-						<td class="total">0</td>
+						{{-- <td class="total">0</td> --}}
 					</tr>
 				</tfoot>
 			</table>
 		</div>
 		<div class="flex px-5 justify-between mb-2">
-			<button type="button" class="button btn-add-item w-20 bg-theme-1 text-white">Add Row</button> 
+			<button type="button" class="button btn-add-item w-30 bg-theme-1 text-white">Tambah Item Retur</button>
 		</div>
 		<div class="px-5 py-3 text-right border-t border-gray-200 dark:border-dark-5"> 
 			<a href="{{ route('sales_return.index') }}" type="button" class="modal-close button w-20 border text-gray-700 dark:border-dark-5 dark:text-gray-300 mr-1" data-id="main-modal">Kembali</a> 
@@ -94,12 +94,13 @@
 
 	function initSelect2(){
 		$("#input-product-id-"+index).select2({
-			placeholder: "Silahkan Pilih",
-			allowClear: true
+			placeholder: "Silahkan Pilih"
 		});
 		$(".single-select").select2({
-			placeholder: "Silahkan Pilih",
-			allowClear: true
+			placeholder: "Silahkan Pilih"
+		});
+		$(".subtotal").select2({
+			placeholder: "Silahkan Pilih"
 		});
 	}
 
@@ -128,15 +129,16 @@
 
 	function setHtmlItem() {  
 		let html = ''
+
 		html += '<tr class="item-'+index+'">'
 		html += '	<td>'
-		html += '		<select name="product_id[]" id="input-product-id-'+index+'" class="input w-full border mt-2 flex-1"></select>'
+		html += '		<select name="product_id[]" id="input-product-id-'+index+'" class="product_id input w-full border mt-2 flex-1" data-row-id="'+index+'"></select>'
 		html += '	</td>'
 		html += '	<td>'
 		html += '		<input type="number" name="qty[]" id="input-qty-'+index+'" class="qty input w-full border mt-2 flex-1"/>'
 		html += '	</td>'
 		html += '	<td>'
-		html += '		<input type="number" name="total[]" id="input-subtotal-'+index+'" class="subtotal input w-full border mt-2 flex-1"/>'
+		html += '		<select name="total[]" id="input-subtotal-'+index+'" class="subtotal input w-full border mt-2 flex-1"></select>'
 		html += '	</td>'
 		html += '	<td>'
 		html += '		<button data-key="'+index+'" type="button" class="w-6 h-6 rounded flex text-white font-semibold justify-center items-center btn-remove-item bg-theme-6 text-white">'
@@ -144,18 +146,17 @@
 		html += '		</button>'
 		html += '	</td>'
 		html += '</tr>'
+
 		return html
 	}
 
 	$(document).on('keyup', '.qty', function (e) {  
-		e.preventDefault()
-		//countSubtotal()
-		//countTotal()
+		e.preventDefault();
+		countTotal();
 	})
 	$(document).on('keyup', '.subtotal', function (e) {  
-		e.preventDefault()
-		//countSubtotal()
-		countTotal()
+		e.preventDefault();
+		countTotal();
 	})
 
 	function countSubtotal() {  
@@ -191,16 +192,13 @@
 		
 		$('#details-table tbody > tr').each(function (index, element) {  
 			let item = {
-				'product_id' : parseInt($(this).find('select').val()),
+				'product_id' : parseInt($(this).find('.product_id').val()),
 				'qty' : parseInt($(this).find('.qty').val()),
-				'total' : parseInt($(this).find('.subtotal').val()),
+				'unit_price' : parseInt($(this).find('.subtotal').val()),
 			}
 			data.sales_return_details.push(item)
 		})
 
-		console.log(JSON.stringify(data));
-		console.log(data);
-		//return
         $.ajax({
             type: 'POST',
             url: API_URL+"/api/sales_returns",
@@ -287,7 +285,36 @@
             error: function(jqXHR, textStatus, errorThrown){
 
             },
-        })
+        });
     }
+
+    $(document).on('change', 'select[id^="input-product-id-"]', function() {
+      	let rowId = $(this).data('row-id');
+      	let val = $(this).find(':selected').val();
+
+      	console.log(rowId);
+
+	    $.ajax({
+	        url: API_URL+"/api/product_prices?product_id="+val,
+	        type: 'GET',
+	        headers: { 'Authorization': 'Bearer '+TOKEN },
+	        dataType: 'JSON',
+	        success: function(res, textStatus, jqXHR){
+	            let opt = ''
+	            opt += '<option value=""> - Pilih Harga - </option>'
+	            $.each(res.data, function (index, item) {  
+	                opt += '<option value="'+item.price+'">'+item.name+' ('+item.price+')</option>'
+	            })
+	            $('#input-subtotal-'+rowId).html(opt)
+	        },
+	        error: function(jqXHR, textStatus, errorThrown){
+
+	        },
+	    });
+    });
+
+    $(document).on('change', 'select[id^="input-subtotal-"]', function() {
+		countTotal();
+    });
 </script>
 @endsection

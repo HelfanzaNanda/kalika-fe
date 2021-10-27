@@ -95,7 +95,7 @@
 	  </section>
 	  <script src="{{ asset('templates/midone/vendor/jquery/jquery-3.6.0.min.js') }}"></script>
 	  <script src="{{ asset('templates/midone/vendor/moment/moment.min.js') }}"></script>
-      <script src="{{ asset('templates/midone/vendor/moment/moment-with-locales.min.js') }}"></script>
+    <script src="{{ asset('templates/midone/vendor/moment/moment-with-locales.min.js') }}"></script>
 	  <script type="text/javascript">
 	  	let salesId = '{{$id}}';
 		
@@ -196,7 +196,8 @@
 					$('#discount').text(formatRupiah(res.data.discount_value.toString()));
 					$('#total').text(formatRupiah(res.data.total.toString()));
 
-					window.print();
+							 window.print();
+							 setTimeout(window.close, 500);
 	            },
 	            error: function(jqXHR, textStatus, errorThrown){
 
