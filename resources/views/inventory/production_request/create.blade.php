@@ -43,15 +43,8 @@
 		                 <th class="whitespace-no-wrap">Hasil</th>
 		             </tr>
 		         </thead>
-		         <tbody>
-		             <tr>
-		                 <td class="border-b dark:border-dark-5">1</td>
-		                 <td class="border-b dark:border-dark-5">Angelina</td>
-		                 <td class="border-b dark:border-dark-5">Jolie</td>
-		                 <td class="border-b dark:border-dark-5">@angelinajolie</td>
-		                 <td class="border-b dark:border-dark-5">@angelinajolie</td>
-		                 <td class="border-b dark:border-dark-5">@angelinajolie</td>
-		             </tr>
+		         <tbody id="product-items">
+
 		         </tbody>
 		     </table>
 		</div>
@@ -70,6 +63,8 @@
 @section('additionalScriptJS')
 <script type="text/javascript">
 	let index = 0
+	let divisionId = 0;
+	let storeId = 1;
 	getDivisions();
 
 	function setNameCurrentUser() {  
@@ -102,7 +97,7 @@
 
 	function getProductLocation() {
 		$.ajax({
-			url: API_URL+"/api/product_locations?store_id="+storeId,
+			url: API_URL+"/api/product_locations?model=Product&store_id=1&categories.division_id="+divisionId,
 			type: 'GET',
 			headers: { 'Authorization': 'Bearer '+TOKEN },
 			dataType: 'JSON',
@@ -110,26 +105,17 @@
 			success: function(res, textStatus, jqXHR){
 				let html = '';
 				$.each(res.data, function (index, item) {  
-					html += '<tr class="item-'+index+'">'
-					html += '	<td>'
-					html += '		<input type="hidden" value="'+item.product_id+'" name="product_id" id="input-product_id"><label>'+item.product.name+'</label>'
-					html += '	</td>'
-					html += '	<td>'
-					html += '		<label>'+item.product.category.name+'</label>'
-					html += '	</td>'
-					html += '	<td>'
-					html += '		<input type="hidden" value="'+item.quantity+'" name="stock_on_book" id="input-stock_on_book"> <label id="quantity-'+index+'">'+item.quantity+'</label>'
-					html += '	</td>'
-					html += '	<td>'
-					html += '		<input type="text" name="stock_on_physic" id="input-stock_on_physic" class="input w-full border mt-2 flex-1" value="0" data-index="'+index+'">'
-					html += '	</td>'
-					html += '	<td>'
-					html += '		<label id="difference-'+index+'">0</label>'
-					html += '	</td>'
-					html += '</tr>'
+		             html += '<tr>';
+		             html += '    <td class="border-b dark:border-dark-5">'+(index+1)+'</td>';
+		             html += '    <td class="border-b dark:border-dark-5"><input type="hidden" class="product_id" value="'+item.product_id+'">'+item.product.name+'</td>';
+		             html += '    <td class="border-b dark:border-dark-5"><input type="hidden" class="category_id" value="'+item.product.category_id+'">'+item.product.category.name+'</td>';
+		             html += '    <td class="border-b dark:border-dark-5" id="quantity-'+index+'"><input type="hidden" class="current_stock" value="'+item.quantity+'">'+item.quantity+'</td>';
+		             html += '    <td class="border-b dark:border-dark-5"><input type="number" id="input-production-qty" class="production_qty input w-full border flex-1" data-index="'+index+'" value="0"></td>';
+		             html += '    <td class="border-b dark:border-dark-5" id="difference-'+index+'">0</td>';
+		             html += '</tr>';
 				});
 
-				$('#stock-opname-items').html(html);
+				$('#product-items').html(html);
 			},
 			error: function(jqXHR, textStatus, errorThrown){
 
@@ -145,42 +131,44 @@
 		}
 	}
 
-	$(document).on('keyup', '#input-stock_on_physic', function (e) {  
+	$(document).on('keyup', '#input-production-qty', function (e) {  
 		e.preventDefault()
 		let id = $(this).data('index');
 		let value = parseFloat($(this).val());
-		let bookQuantity = parseFloat($('label#quantity-'+id).text());
+		let bookQuantity = parseFloat($('td#quantity-'+id).text());
 		
-		$('label#difference-'+id).text(diff(bookQuantity, value));
+		// $('td#difference-'+id).text(diff(bookQuantity, value));
+		$('td#difference-'+id).text(value);
 	});
 
-	$(document).on('change', '#input-store-id', function (e) {  
+	$(document).on('change', '#input-division-id', function (e) {  
 		e.preventDefault()
-		storeId = parseInt($(this).find(':selected').val());
+		divisionId = parseInt($(this).find(':selected').val());
 		getProductLocation();
 	})
 
     $( 'form#main-form' ).submit( function( e ) {
         e.preventDefault();
 		const data = {
-			"store_id": parseInt($('#input-store-id').find(':selected').val()),
+			"store_id": storeId,
+			"division_id": divisionId,
 			"note": "-",
-			"type": "product",
-			"stock_opname_details" : []
+			"production_request_details" : []
 		}
 		
-		$('#stock-opname-items > tr').each(function (index, element) {  
+		$('#product-items > tr').each(function (index, element) {  
 			let item = {
-				'product_id' : parseInt($(this).find('#input-product_id').val()),
-				'stock_on_book' : parseInt($(this).find('#input-stock_on_book').val()),
-				'stock_on_physic' : parseInt($(this).find('#input-stock_on_physic').val()),
+				'product_id': parseInt($(this).find('.product_id').val()),
+				'category_id': parseInt($(this).find('.category_id').val()),
+				'current_stock': parseInt($(this).find('.current_stock').val()),
+				'production_qty': parseInt($(this).find('.production_qty').val()),
 			}
-			data.stock_opname_details.push(item)
+			data.production_request_details.push(item)
 		})
 
         $.ajax({
             type: 'POST',
-            url: API_URL+"/api/stock_opnames",
+            url: API_URL+"/api/production_requests",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(data),
 			contentType: 'application/json',
@@ -195,7 +183,7 @@
                   text: res.message
                 }).then((result) => {
                   if (result.isConfirmed) {
-					  window.location.href = "{{ route('stock_opname.index') }}"
+					  window.location.href = "{{ url('/inventory/production_requests') }}"
                   }
                 });
             },

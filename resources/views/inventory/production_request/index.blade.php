@@ -50,8 +50,45 @@
     $(document).on("click", "button#edit-data",function(e) {
       e.preventDefault();
       let id = $(this).data('id')
-	  window.location.replace(BASE_URL+`/production_request/edit/${id}`)
+      window.location.replace(BASE_URL+`/inventory/production_requests/edit/${id}`)
     });
+
+    $(document).on("click", "button#approve-data",function(e) {
+        e.preventDefault();
+        let id = $(this).data('id')
+        const data = {
+            
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: API_URL+"/api/production_requests/approve/"+id,
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: 'JSON',
+            beforeSend: function() {
+                $('.loading-area').show();
+            },
+            success: function(res) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Sukses',
+                  text: res.message
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    $('#main-table').DataTable().ajax.reload( function ( json ) {
+                        feather.replace();
+                    } );
+                  }
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR.responseJSON);
+            },
+        })
+    });
+
 
     function drawDatatable() {
         $("#main-table").DataTable({
