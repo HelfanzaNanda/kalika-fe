@@ -268,7 +268,7 @@
 
     function getPermissions() {
         let _master = ['expense_categories', 'divisions', 'units', 'unit_conversions', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials'];
-        let _inventory = ['stock_opnames', 'check_stocks'];
+        let _inventory = ['stock_opnames', 'check_stocks', 'production_requests', 'store_mutations'];
         let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
         let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
         let _dR = ['debts', 'receivables'];

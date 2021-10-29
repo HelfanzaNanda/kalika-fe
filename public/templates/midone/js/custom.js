@@ -22,6 +22,27 @@ function addSeparator(nStr, inD = '.', outD = '.', sep = '.') {
   return nStr + nStrEnd;
 }
 
+function indonesianDay(str) {
+  switch(str.toLowerCase()) {
+    case 'sunday':
+      return 'Minggu';
+    case 'monday':
+      return 'Senin';
+    case 'tuesday':
+      return 'Selasa';
+    case 'wednesday':
+      return 'Rabu';
+    case 'thursday':
+      return 'Kamis';
+    case 'friday':
+      return 'Jumat';
+    case 'saturday':
+      return 'Sabtu';
+    default:
+      return 'UNKNOWN';
+  }
+}
+
 function formatDateIndo(str) {
   var dataMonth = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
   
@@ -265,6 +286,14 @@ function buildMenu(permissions, url) {
       'name': 'Stok Opname',
       'url': '/stock_opnames'
     },
+    'production_requests': {
+      'name': 'Permintaan Produksi',
+      'url': '/production_requests'
+    },
+    'store_mutations': {
+      'name': 'Mutasi Toko',
+      'url': '/store_mutations'
+    },
     'check_stocks': {
       'name': 'Cek Stok',
       'url': '/check_stocks'
@@ -365,14 +394,14 @@ function buildMenu(permissions, url) {
       'name': 'Buku Besar Hutang',
       'url': '/ledger_debts'
     },
-   'ledger_receivable.report': {
+    'ledger_receivable.report': {
      'name': 'Buku Besar Piutang',
      'url': '/ledger_receivables'
-   }, 
-   'ledger_cash_bank.report': {
+    }, 
+    'ledger_cash_bank.report': {
      'name': 'Buku Besar Kas Bank',
      'url': '/ledger_cash_banks'
-   }, 
+    }, 
     'users': {
       'name': 'Pengguna',
       'url': '/users'
@@ -394,7 +423,7 @@ function buildMenu(permissions, url) {
 // purchase_order_deliveries
 
   let _master = ['expense_categories', 'divisions', 'units', 'categories', 'products', 'cake_variants', 'cake_types', 'stores', 'suppliers', 'customers', 'store_consignments', 'payment_methods', 'sellers', 'raw_materials']
-  let _inventory = ['stock_opnames', 'check_stocks'];
+  let _inventory = ['stock_opnames', 'check_stocks', 'production_requests', 'store_mutations'];
   let _sales = ['sales', 'custom_orders', 'sales_consignments', 'sales_returns'];
   let _purchase = ['purchase_orders', 'purchase_invoices', 'purchase_returns'];
   let _dR = ['debts', 'receivables'];

@@ -93,6 +93,16 @@ Route::group(['prefix' => 'inventory'], function() {
 		Route::get('/create', 'Inventory\StockOpnameController@create')->name('stock_opname.create');
 		Route::get('/edit/{id}', 'Inventory\StockOpnameController@edit')->name('stock_opname.edit');
 	});
+	Route::prefix('production_requests')->group(function(){
+		Route::get('', 'Inventory\ProductionRequestController@index')->name('production_request.index');
+		Route::get('/create', 'Inventory\ProductionRequestController@create')->name('production_request.create');
+		Route::get('/edit/{id}', 'Inventory\ProductionRequestController@edit')->name('production_request.edit');
+	});
+	Route::prefix('store_mutations')->group(function(){
+		Route::get('', 'Inventory\StoreMutationController@index')->name('store_mutation.index');
+		Route::get('/create', 'Inventory\StoreMutationController@create')->name('store_mutation.create');
+		Route::get('/edit/{id}', 'Inventory\StoreMutationController@edit')->name('store_mutation.edit');
+	});
 	Route::get('check_stocks', 'Inventory\CheckStockController@index')->name('check_stocks.index');
 });
 
