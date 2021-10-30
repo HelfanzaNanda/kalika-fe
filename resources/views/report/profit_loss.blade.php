@@ -11,12 +11,8 @@
     <h2 class="text-lg font-medium mr-auto">
         
     </h2>
-    {{-- <div class="w-full sm:w-auto flex mt-4 sm:mt-0"> --}}
-        {{-- <div class="sm:ml-auto mr-3 mt-3 sm:mt-0 relative text-gray-700 dark:text-gray-300"> --}}
-            <select id="input-store-id" class="single-select input w-2/4 border mt-2 flex-1"></select>
-            <select id="input-user-id" class="single-select input w-2/4 border mt-2 flex-1"></select>
-        {{-- </div> --}}
-    {{-- </div> --}}
+	<select id="input-store-id" class="single-select input w-2/4 border mt-2 flex-1"></select>
+	<select id="input-user-id" class="single-select input w-2/4 border mt-2 flex-1"></select>
     <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
         <div class="sm:ml-auto mr-3 mt-3 sm:mt-0 relative text-gray-700 dark:text-gray-300">
             <i data-feather="calendar" class="w-4 h-4 z-10 absolute my-auto inset-y-0 ml-3 left-0"></i>
@@ -25,7 +21,7 @@
                 <input type="hidden" name="filter_start_date" id="filter-start-date">
                 <input type="hidden" name="filter_end_date" id="filter-end-date">
         </div>
-        {{-- <button class="button text-white bg-theme-1 shadow-md mr-2" id="pdf-button">PDF</button> --}}
+        <button class="button text-white bg-theme-1 shadow-md mr-2" id="pdf-button">PDF</button>
     </div>
 </div>
 <div class="intro-y box mt-5">
@@ -124,26 +120,29 @@
     getCashiers();
     initSelect2();
 
-    function initSelect2(){
+	function initSelect2(){
         $(".single-select").select2({
             
         });
     }
 
 	$('#daterangepicker').on('apply.daterangepicker', function(ev, picker) {
-		$('#filter-start-date').val(picker.startDate.format('YYYY-MM-DD'))
-		$('#filter-end-date').val(picker.endDate.format('YYYY-MM-DD'))
-		$('#main-table').DataTable().ajax.reload( function ( json ) {
-			feather.replace();
-		} );
+		let startDate = picker.startDate.format('YYYY-MM-DD')
+		let endDate = picker.endDate.format('YYYY-MM-DD')
+		$('#filter-start-date').val(startDate)
+		$('#filter-end-date').val(endDate)
+		getProfitLoss(startDate, endDate)
   	});
 
 	$('#daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
 		$(this).val('');
-		$('#main-table').DataTable().ajax.reload( function ( json ) {
-			feather.replace();
-		} );
+		getProfitLoss()
 	});
+
+	$(document).on('change', '#input-store-id, #input-user-id', function (e) {  
+		e.preventDefault()
+		getProfitLoss()
+	})
 
     function getStores() {
         $.ajax({
@@ -187,12 +186,27 @@
         })
     }
 
-    function getProfitLoss() {
+    function getProfitLoss(startDate = null, endDate = null) {
+		if (startDate == null) {
+			startDate = moment().startOf('month').format('YYYY-MM-DD')
+		}
+		if (endDate == null) {
+			endDate = moment().endOf('month').format('YYYY-MM-DD')
+		}
+		let data = {
+			start_date : startDate,
+			end_date : endDate,
+			store_id : $('#input-store-id').val() ? parseInt($('#input-store-id').val()) : 0,
+			created_by : $('#input-user-id').val() ? parseInt($('#input-user-id').val()) : 0,
+		}
+		
         $.ajax({
             url: API_URL+"/api/profit_loss",
-            type: 'GET',
+            type: 'POST',
             headers: { 'Authorization': 'Bearer '+TOKEN },
+			data : JSON.stringify(data),
             dataType: 'JSON',
+			contentType: 'application/json',
             success: function(res, textStatus, jqXHR){
                 $('#sales').text(formatRupiah(res.data.sales.toString()));
                 $('#total_cogs').text(formatRupiah(res.data.total_cogs.toString()));
@@ -232,5 +246,37 @@
             },
         })
     }
+
+	$(document).on('click', '#pdf-button', function (e) {  
+		e.preventDefault()
+		const data = {
+			'start_date' : $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD'),
+			'store_id' : $('#input-store-id').val() ? parseInt($('#input-store-id').val()) : 0,
+			'created_by' : $('#input-user-id').val() ? parseInt($('#input-user-id').val()) : 0,
+		}
+		$.ajax({
+            type: 'POST',
+            url: API_URL+"/api/profit_loss_pdf",
+            headers: { 'Authorization': 'Bearer '+TOKEN },
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            dataType: 'JSON',
+            beforeSend: function() {
+                
+            },
+            success: function(res) {
+				const link = document.createElement('a');
+				link.href = API_URL+"/api/download?path=" + res.data;
+				link.target = "_blank";
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+            },
+            error: function(jqXHR, textStatus, errorThrown){
+                console.log(jqXHR);
+            },
+        });
+	})
 </script>
 @endsection

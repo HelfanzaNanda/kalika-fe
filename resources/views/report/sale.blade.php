@@ -144,8 +144,8 @@
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
-					d.start_date = $('#filter-start-date').val()
-                  	d.end_date = $('#filter-end-date').val()
+					d.start_date = $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD')
+                  	d.end_date = $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
                   	d.store_id = $('#input-store-id').val()
                   	d.created_by = $('#input-created-by').val()
                   	d.payment_method_id = $('#input-payment-method-id').val()
@@ -199,8 +199,8 @@
 	$(document).on('click', '#pdf-button', function (e) {  
 		e.preventDefault()
 		const data = {
-			'start_date' : $('#filter-start-date').val(),
-			'end_date' : $('#filter-end-date').val(),
+			'start_date' : $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD'), 
 			'store_id' : parseInt($('#input-store-id').val()),
 			'created_by' : parseInt($('#input-created-by').val()),
 			'payment_method_id' : parseInt($('#input-payment-method-id').val())

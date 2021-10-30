@@ -101,8 +101,8 @@
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
-					d.start_date = $('#filter-start-date').val()
-                  	d.end_date = $('#filter-end-date').val()
+					d.start_date = $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD')
+                  	d.end_date = $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
                 },
             },
             "columns": [
@@ -124,8 +124,8 @@
 	$(document).on('click', '#pdf-button', function (e) {  
 		e.preventDefault()
 		const data = {
-			'start_date' : $('#filter-start-date').val(),
-			'end_date' : $('#filter-end-date').val()
+			'start_date' : $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
 		}
 		$.ajax({
             type: 'POST',

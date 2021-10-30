@@ -106,6 +106,7 @@
 			start_date : startDate,
 			end_date : endDate,
 		}
+		
         $.ajax({
             url: API_URL+"/api/report_expense_datatables",
             type: 'POST',
@@ -123,7 +124,6 @@
 					tr += '</tr>'
 					total += item.total
 				});
-				console.log(total);
 				$("table tbody").html(tr)
 				$("table tfoot tr").children().eq(1).html(formatRupiah(total.toString(), 'Rp. '))
             },

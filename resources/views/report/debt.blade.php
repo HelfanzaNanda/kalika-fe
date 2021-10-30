@@ -110,8 +110,8 @@
                 "dataType": "json",
                 "type": "POST",
                 "data":function(d) { 
-                  d.start_date = $('#filter-start-date').val()
-                  d.end_date = $('#filter-end-date').val()
+                  d.start_date = $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD')
+                  d.end_date = $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
                 },
             },
             "columns": [
@@ -125,32 +125,6 @@
                 // {data: 'action', name: 'action', orderable: false, className: 'border-b w-5'}
             ],
             "order": [0, 'desc'],
-			dom: 'Bfrtip',
-            // lengthChange: false,
-			buttons: [
-				'copy', 'csv', 'excel', 'pdf', 'print'
-				// {
-				// 	extend: 'pdf',
-				// 	customize: function(doc) {
-				// 		doc.content[1].table.widths =
-				// 			Array(doc.content[1].table.body[0].length + 1).join('*').split('');
-				// 	},
-				// 	footer: false,
-				// 	exportOptions: {
-				// 		modifier: {
-				// 			order: 'index',
-				// 			page: 'all',
-				// 			search: 'none'
-				// 		},
-				// 		columns: [1, 2, 3, 4]
-				// 	},
-				// 	action: newExportAction,
-				// 	title: 'Laporan Hutang'
-				// },
-			],
-            // "initComplete": function(settings, json) {
-            //     feather.replace();
-            // }
         });
     }
 
@@ -158,8 +132,8 @@
 	$(document).on('click', '#pdf-button', function (e) {  
 		e.preventDefault()
 		const data = {
-			'start_date' : $('#filter-start-date').val(),
-			'end_date' : $('#filter-end-date').val()
+			'start_date' : $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
 		}
 		$.ajax({
             type: 'POST',

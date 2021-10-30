@@ -62,29 +62,31 @@
 
 @section('additionalScriptJS')
 <script type="text/javascript">
-	let totalDebit = 0;
-	let totalCredit = 0;
 	getLedgerDebt();
 
 	$('#daterangepicker').on('apply.daterangepicker', function(ev, picker) {
-		$('#filter-start-date').val(picker.startDate.format('YYYY-MM-DD'))
-		$('#filter-end-date').val(picker.endDate.format('YYYY-MM-DD'))
+		let startDate = picker.startDate.format('YYYY-MM-DD')
+		let endDate = picker.endDate.format('YYYY-MM-DD')
+		$('#filter-start-date').val(startDate)
+		$('#filter-end-date').val(endDate)
+		getLedgerDebt(startDate, endDate);
   	});
 
 	$('#daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
-
+		$(this).val('');
+		getLedgerDebt();
 	});
 
 
 	$(document).on('click', '#pdf-button', function (e) {  
 		e.preventDefault()
 		const data = {
-			'start_date' : $('#filter-start-date').val(),
-			'end_date' : $('#filter-end-date').val()
+			'start_date' : $('#filter-start-date').val() || moment().startOf('month').format('YYYY-MM-DD'),
+			'end_date' : $('#filter-end-date').val() || moment().endOf('month').format('YYYY-MM-DD')
 		}
 		$.ajax({
             type: 'POST',
-            url: API_URL+"/api/debt_pdf",
+            url: API_URL+"/api/ledger_debt_pdf",
             headers: { 'Authorization': 'Bearer '+TOKEN },
             data: JSON.stringify(data),
             contentType: 'application/json',
@@ -106,14 +108,27 @@
         });
 	})
 	
-	function getLedgerDebt() {
+	function getLedgerDebt(startDate = null, endDate = null) {
+		if (startDate == null) {
+			startDate = moment().startOf('month').format('YYYY-MM-DD')
+		}
+		if (endDate == null) {
+			endDate = moment().endOf('month').format('YYYY-MM-DD')
+		}
+		let data = {
+			start_date : startDate,
+			end_date : endDate,
+		}
         $.ajax({
             url: API_URL+"/api/ledger_debts",
-            type: 'GET',
+            type: 'POST',
             headers: { 'Authorization': 'Bearer '+TOKEN },
             dataType: 'JSON',
+			data : JSON.stringify(data),
 			contentType: 'application/json',
             success: function(res, textStatus, jqXHR){
+				let totalDebit = 0;
+				let totalCredit = 0;
 				let html = ''
 				
 				res.data.forEach(item => {
